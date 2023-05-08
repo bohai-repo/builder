@@ -1,5 +1,5 @@
 FROM alpine:3.8
-LABEL maintainer="itan90.cn"
+LABEL maintainer="https://github.com/yaobohai/builder/tree/develop/frpc"
 
 ENV VERSION version_key
 ENV TZ=Asia/Shanghai

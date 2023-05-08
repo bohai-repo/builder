@@ -7,7 +7,6 @@ build_report="registry.cn-hangzhou.aliyuncs.com/bohai_repo"
 
 function envfile() {
   echo "start build: ${build_report}/${alias_app}:${build_version}"
-  echo "-------------------"
 }
 
 function frpc() {
@@ -18,7 +17,6 @@ function frpc() {
 }
 
 function main() {
-    echo "     "
     envfile
 }
 
