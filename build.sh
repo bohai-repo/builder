@@ -28,7 +28,7 @@ function github-runner() {
     tar xzf actions-runner-linux-arm64-${build_version}.tar.gz && rm -rf actions-runner-linux-arm64-${build_version}.tar.gz
     sed -i '3,9d' ./config.sh && sed -i '3,8d' ./run.sh
     tar -zcf actions-runner-linux-arm64-${build_version}.tar.gz *
-    cd ../ && mv actions-runner-linux-arm64-${build_version}.tar.gz ./
+    cd ../ && mv build/actions-runner-linux-arm64-${build_version}.tar.gz ./ && rm -rf build
     sed -i "s/docker_version/${docker_version}/g" Dockerfile
     sed -i "s/version_key/$build_version/g" Dockerfile
     docker build . -t ${build_report}/${alias_app}:${build_version}
