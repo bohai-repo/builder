@@ -1,7 +1,7 @@
 FROM alpine:3.8
 LABEL maintainer="itan90.cn"
 
-ENV VERSION 0.28.2
+ENV VERSION version_key
 ENV TZ=Asia/Shanghai
 WORKDIR /
 ADD entrypoint.sh entrypoint.sh
