@@ -19,7 +19,6 @@ function frpc() {
 function main() {
     echo "     "
     envfile
-    docker login --username=${ALIYUN_USERNAME} --password=${ALIYUN_PASSWORD} registry.cn-hangzhou.aliyuncs.com
     docker push ${build_report}/${alias_app}:${build_version}
 }
 

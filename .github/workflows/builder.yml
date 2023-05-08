@@ -8,4 +8,5 @@ jobs:
       - uses: actions/checkout@v2
       - name: Launch Builder
         run: |
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
           /bin/bash build.sh frpc frpc-demo1111 0.28.2
