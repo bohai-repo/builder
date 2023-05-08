@@ -5,21 +5,24 @@ alias_app=$2
 build_version=$3
 build_report="registry.cn-hangzhou.aliyuncs.com/bohai_repo"
 
-function envfile() {
+function launch() {
   echo "start build: ${build_report}/${alias_app}:${build_version}"
+  ${build_app}
+  if [[ $? == 0 ]];then
+    docker push ${build_report}/${alias_app}:${build_version}
+  fi
 }
 
 function frpc() {
     cd ./frpc
     sed -i "s/version_key/$build_version/g" Dockerfile
     docker build . -t ${build_report}/${alias_app}:${build_version}
-    docker push ${build_report}/${alias_app}:${build_version}
 }
 
 function main() {
-    envfile
+    launch
 }
 
-main;${build_app}
+main
 
 
