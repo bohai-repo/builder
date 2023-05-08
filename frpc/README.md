@@ -11,17 +11,10 @@
 ## 构建
 
 ```shell
-docker build . -t registry.cn-hangzhou.aliyuncs.com/bohai_repo/frpc-arm:0.28.2-auto
+docker build . -t frpc-arm:0.28.2-auto
 ```
 
 ## 启动
-
-```
-docker rm -f frpc-auto
-docker run -idt --restart=always -p 7800:7400 \
---name=frpc-hd-auto --env-file ./envfile \
-registry.cn-hangzhou.aliyuncs.com/bohai_repo/frpc-arm:0.28.2-auto
-```
 
 envfile
 
@@ -40,6 +33,11 @@ request_trynum='3'
 request_timeout='15'
 # 请求面板地址
 appurl='https://nat.itan90.cn'
+```
+
+```
+docker rm -f frpc-auto
+docker run -itd --restart=always --name=frpc-hd-auto --env-file ./envfile -p 7400:7400 frpc-arm:0.28.2-auto
 ```
 
 ## 日志
