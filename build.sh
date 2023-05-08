@@ -35,7 +35,12 @@ function github-runner() {
     cd ../ && mv build/actions-runner-linux-arm64-${build_version}.tar.gz ./ && rm -rf build
     sed -i "s/docker_version/${docker_version}/g" Dockerfile
     sed -i "s/version_key/$build_version/g" Dockerfile
-    build_report="registry.ap-northeast-1.aliyuncs.com/bohai_repo"
+    local build_report="registry.ap-northeast-1.aliyuncs.com/bohai_repo"
+    docker build . -t ${build_report}/${alias_app}:${build_version}
+}
+
+function consul-deregister() {
+    cd ./consul-deregister
     docker build . -t ${build_report}/${alias_app}:${build_version}
 }
 
