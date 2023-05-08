@@ -2,22 +2,22 @@ name: Builder
 on: [push]
 run-name: Build 🚀
 jobs:
-#  build-frpc-amd64:
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Launch Builder
-#        run: |
-#          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
-#          /bin/bash build.sh frpc frpc-auto 0.28.2
-#  build-frpc-armd64:
-#    runs-on: [self-hosted,ARM64]
-#    steps:
-#      - uses: actions/checkout@v2
-#      - name: Launch Builder
-#        run: |
-#          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
-#          /bin/bash build.sh frpc frpc-auto-arm 0.28.2
+  build-frpc-amd64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Launch Builder
+        run: |
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
+          /bin/bash build.sh frpc frpc-auto 0.28.2
+  build-frpc-armd64:
+    runs-on: [self-hosted,ARM64]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Launch Builder
+        run: |
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
+          /bin/bash build.sh frpc frpc-auto-arm 0.28.2
   build-actions-runner:
     runs-on: [self-hosted,ARM64]
     steps:

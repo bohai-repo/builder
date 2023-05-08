@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: github-runner
-        image: github-runner:latest
+        image: registry.cn-hangzhou.aliyuncs.com/bohai_repo/github-runner:2.278.0
         env:
         - name: GITHUB_OWNER
           value: your-organization
