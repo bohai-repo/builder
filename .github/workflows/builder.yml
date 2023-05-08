@@ -22,6 +22,6 @@ jobs:
         with:
           arch: aarch64
           distro: ubuntu18.04
-        run: |
-          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
-          /bin/bash build.sh frpc frpc-auto-arm64 0.28.2
+          run: |
+            docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
+            /bin/bash build.sh frpc frpc-auto-arm64 0.28.2
