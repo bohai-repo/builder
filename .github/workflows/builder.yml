@@ -4,10 +4,6 @@ run-name: Build 🚀
 jobs:
 #  build-frpc-amd64:
 #    runs-on: ubuntu-latest
-#    strategy:
-#      matrix:
-#        goos: [linux]
-#        goarch: [amd64]
 #    steps:
 #      - uses: actions/checkout@v2
 #      - name: Launch Builder
@@ -15,18 +11,10 @@ jobs:
 #          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
 #          /bin/bash build.sh frpc frpc-auto 0.28.2
   build-frpc-arm64:
-    runs-on: ubuntu_latest
+    runs-on: actuated-aarch64
     steps:
-      - uses: actions/checkout@v3
-      - uses: docker/setup-qemu-action@v2
-        name: Launch Builder
-        with:
-          arch: aarch64
-          distro: ubuntu_latest
-          run: |
-           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
-           /bin/bash build.sh frpc frpc-auto-arm64 0.28.2
-#      - name: Builder
-#        run: |
-#          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
-#          /bin/bash build.sh frpc frpc-auto-arm64 0.28.2
+      - uses: actions/checkout@v2
+      - name: Launch Builder
+        run: |
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
+          /bin/bash build.sh frpc frpc-auto 0.28.2
