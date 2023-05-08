@@ -12,7 +12,7 @@ jobs:
           /bin/bash build.sh frpc frpc-auto 0.28.2
   build frpc arm64:
     runs-on: ubuntu-latest
-   strategy:
+    strategy:
       matrix:
         goos: [linux]
         goarch: [arm64]
