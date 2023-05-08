@@ -2,7 +2,7 @@ name: Builder
 on: [push]
 run-name: ${{ github.actor }} Submitted Build 🚀
 jobs:
-  build_frpc_amd64:
+  build-frpc-amd64:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -14,19 +14,14 @@ jobs:
         run: |
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
           /bin/bash build.sh frpc frpc-auto 0.28.2
-  build_frpc_arm64:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - arch: aarch64
-            distro: bullseye
+  build-frpc-arm64:
+    runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
       - name: Launch Builder
         with:
-          arch: ${{ matrix.arch }}
-          distro: ${{ matrix.distro }}
+          arch: aarch64
+          distro: ubuntu18.04
         run: |
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
           /bin/bash build.sh frpc frpc-auto-arm64 0.28.2
