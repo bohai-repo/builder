@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: uraimo/run-on-arch-action@v2
+      - uses: docker/setup-qemu-action@v2
         name: Launch Builder
         with:
           arch: aarch64
