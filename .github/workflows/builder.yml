@@ -21,8 +21,8 @@ jobs:
       - uses: uraimo/run-on-arch-action@v2
         name: Launch Builder
         with:
-          arch: aarch64
-          distro: ubuntu-18.04
+          arch: arm64
+          distro: ubuntu-latest
           run: |
             docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
             /bin/bash build.sh frpc frpc-auto-arm64 0.28.2
