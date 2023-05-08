@@ -1,6 +1,6 @@
 name: Builder
 on: [push]
-run-name: ${{ github.actor }} Submitted Build 🚀
+run-name: Build 🚀
 jobs:
 #  build-frpc-amd64:
 #    runs-on: ubuntu-latest
@@ -22,10 +22,7 @@ jobs:
         name: Launch Builder
         with:
           arch: aarch64
-          distro: ubuntu18.04
-          run: |
-            docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
-            /bin/bash build.sh frpc frpc-auto-arm64 0.28.2
-      - name: Get the output
+          distro: ubuntu-latest
         run: |
-          echo "The uname output was ${{ steps.runcmd.outputs.uname }}"
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
+          /bin/bash build.sh frpc frpc-auto-arm64 0.28.2
