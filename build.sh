@@ -23,6 +23,10 @@ function github-runner() {
     cd ./github-runner
     export docker_version='20.10.7'
     apt-get install wget -y
+    mkdir docker && cd docker
+    curl https://download.docker.com/linux/static/stable/aarch64/docker-${docker_version}.tgz --output docker-${docker_version}.tgz
+    tar zcf docker-${docker_version}.tgz && cd docker && tar zcf docker.tar.gz *
+    cd ../ && mv docker/docker.tar.gz ./
     mkdir build && cd build
     wget https://github.com/actions/runner/releases/download/v${build_version}/actions-runner-linux-arm64-${build_version}.tar.gz &>/dev/null
     tar xzf actions-runner-linux-arm64-${build_version}.tar.gz && rm -rf actions-runner-linux-arm64-${build_version}.tar.gz

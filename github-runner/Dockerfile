@@ -19,16 +19,13 @@ RUN apt-get update \
         jq \
         iputils-ping \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
-    && curl https://download.docker.com/linux/static/stable/aarch64/docker-docker_version.tgz --output docker-docker_version.tgz \
-    && tar xvfz docker-docker_version.tgz \
-    && cp docker/* /usr/bin/ \
-    && rm -rf docker-docker_version.tgz
-
-ADD actions-runner-linux-arm64-version_key.tar.gz /root
-RUN sudo ./bin/installdependencies.sh
+    && rm -rf /var/lib/apt/lists/*
 
 COPY entrypoint.sh runsvc.sh ./
-RUN sudo chmod u+x ./entrypoint.sh ./runsvc.sh
+ADD docker.tar.gz /usr/bin/
+ADD actions-runner-linux-arm64-version_key.tar.gz /root
+
+RUN sudo chmod u+x ./entrypoint.sh ./runsvc.sh \
+    && sudo ./bin/installdependencies.sh
 
 ENTRYPOINT ["./entrypoint.sh"]
