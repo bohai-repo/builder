@@ -9,4 +9,4 @@ jobs:
       - name: Launch Builder
         run: |
           # 构建 frpc
-          sh build.sh frpc frpc-demo1111 0.28.2
+          /bin/sh build.sh frpc frpc-demo1111 0.28.2
