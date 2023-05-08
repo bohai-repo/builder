@@ -1,6 +1,6 @@
 name: Builder
-on:
-  workflow_dispatch:
+on: [push]
+run-name: ${{ github.actor }} Submitted Build 🚀
 jobs:
   build:
     runs-on: ubuntu-latest
