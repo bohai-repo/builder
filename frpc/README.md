@@ -26,7 +26,7 @@ appId='xxx'
 # 用户密码
 appSecretKey='xxxx'
 # 节点ID
-appServerId='7'
+appServerId='1'
 # 请求重试次数
 request_trynum='3'
 # 请求超时时间(秒)
@@ -37,7 +37,7 @@ appurl='https://nat.itan90.cn'
 
 ```
 docker rm -f frpc-auto
-docker run -itd --restart=always --name=frpc-hd-auto --env-file ./envfile -p 7400:7400 frpc-arm:0.28.2-auto
+docker run -itd --restart=always --name=frpc-auto --env-file ./envfile -p 7400:7400 frpc-arm:0.28.2-auto
 ```
 
 ## 日志
