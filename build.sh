@@ -9,7 +9,7 @@ function envfile() {
 }
 
 function frpc() {
-    cd ./${build_app}
+    cd ./frpc
     sed -i "s/version_key/$build_version/g" Dockerfile
     docker build . -t ${build_report}/${build_app}:${build_version}
 }
