@@ -20,8 +20,6 @@ function frpc() {
 }
 
 function github-runner() {
-    # 推送到日本仓
-    local build_report="registry.ap-northeast-1.aliyuncs.com/bohai_repo"
     cd ./github-runner
     export docker_version='20.10.7'
     apt-get install wget -y
@@ -37,7 +35,11 @@ function github-runner() {
     cd ../ && mv build/actions-runner-linux-arm64-${build_version}.tar.gz ./ && rm -rf build
     sed -i "s/docker_version/${docker_version}/g" Dockerfile
     sed -i "s/version_key/$build_version/g" Dockerfile
+    # 推送到日本仓
+    local build_report="registry.ap-northeast-1.aliyuncs.com/bohai_repo"
     docker build . -t ${build_report}/${alias_app}:${build_version}
+    docker push ${build_report}/${alias_app}:${build_version}
+    return 1
 }
 
 function consul-deregister() {
