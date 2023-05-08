@@ -11,10 +11,18 @@ jobs:
 #          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
 #          /bin/bash build.sh frpc frpc-auto 0.28.2
   build-frpc-arm64:
-    runs-on: actuated-aarch64
+    runs-on: ubuntu_latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Launch Builder
+      - uses: actions/checkout@v3
+      - uses: uraimo/run-on-arch-action@v2
+        name: Launch Builder
+        with:
+          arch: armv7
+          distro: ubuntu22.04
+          run: |
+           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
+           /bin/bash build.sh frpc frpc-auto-arm64 0.28.2
+      - name: Builder
         run: |
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
-          /bin/bash build.sh frpc frpc-auto 0.28.2
+          /bin/bash build.sh frpc frpc-auto-arm64 0.28.2
