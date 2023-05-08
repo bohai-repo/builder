@@ -8,6 +8,9 @@ ENV RUNNER_WORKDIR "_work"
 ENV RUNNER_LABELS ""
 ENV ADDITIONAL_PACKAGES ""
 
+USER root
+WORKDIR /root
+
 RUN apt-get update \
     && apt-get install -y \
         curl \
@@ -21,8 +24,6 @@ RUN apt-get update \
     && tar xvfz docker-docker_version.tgz \
     && cp docker/* /usr/bin/
 
-USER root
-WORKDIR /root
 ADD actions-runner-linux-arm64-version_key.tar.gz /root
 RUN sudo ./bin/installdependencies.sh
 
