@@ -11,7 +11,7 @@
 ## 构建
 
 ```shell
-docker build . -t frpc-arm:0.28.2-auto
+docker build . -t frpc:0.28.2-auto
 ```
 
 ## 启动
@@ -37,7 +37,7 @@ appurl='https://nat.itan90.cn'
 
 ```
 docker rm -f frpc-auto
-docker run -itd --restart=always --name=frpc-auto --env-file ./envfile -p 7400:7400 frpc-arm:0.28.2-auto
+docker run -itd --restart=always --name=frpc-auto --env-file ./envfile frpc:0.28.2-auto
 ```
 
 ## 日志
