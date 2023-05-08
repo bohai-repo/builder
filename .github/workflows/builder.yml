@@ -4,6 +4,10 @@ run-name: ${{ github.actor }} Submitted Build 🚀
 jobs:
   build_frpc_amd64:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        goos: [linux]
+        goarch: [amd64]
     steps:
       - uses: actions/checkout@v2
       - name: Launch Builder
