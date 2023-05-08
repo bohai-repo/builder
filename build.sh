@@ -14,12 +14,12 @@ function frpc() {
     cd ./frpc
     sed -i "s/version_key/$build_version/g" Dockerfile
     docker build . -t ${build_report}/${alias_app}:${build_version}
+    docker push ${build_report}/${alias_app}:${build_version}
 }
 
 function main() {
     echo "     "
     envfile
-    docker push ${build_report}/${alias_app}:${build_version}
 }
 
 main;${build_app}
