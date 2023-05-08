@@ -6,7 +6,6 @@ build_version=$3
 build_report="registry.cn-hangzhou.aliyuncs.com/bohai_repo"
 
 function envfile() {
-  echo "builder: ${{ secrets.ALIYUN_USERNAME }}"
   echo "start build: ${build_report}/${alias_app}:${build_version}"
   echo "-------------------"
 }
