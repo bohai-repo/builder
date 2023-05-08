@@ -15,7 +15,7 @@ jobs:
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
           /bin/bash build.sh frpc frpc-auto 0.28.2
   build_frpc_arm64:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     strategy:
       matrix:
         include:
