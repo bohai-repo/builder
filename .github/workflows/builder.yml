@@ -15,14 +15,14 @@ jobs:
 #          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
 #          /bin/bash build.sh frpc frpc-auto 0.28.2
   build-frpc-arm64:
-    runs-on: ubuntu-latest
+    runs-on: tonistiigi/binfmt:latest
     steps:
       - uses: actions/checkout@v3
       - uses: docker/setup-qemu-action@v2
         name: Launch Builder
         with:
           arch: aarch64
-          distro: ubuntu-latest
+          distro: tonistiigi/binfmt:latest
           run: |
            docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
            /bin/bash build.sh frpc frpc-auto-arm64 0.28.2
