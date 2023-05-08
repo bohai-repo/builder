@@ -14,15 +14,13 @@ function frpc() {
     cd ./frpc
     sed -i "s/version_key/$build_version/g" Dockerfile
     docker build . -t ${build_report}/${alias_app}:${build_version}
-    docker push ${build_report}/${alias_app}:${build_version}
 }
-
 
 function main() {
     echo "     "
-    docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
     envfile
-
+    docker login --username=${ALIYUN_USERNAME} --password=${ALIYUN_PASSWORD} registry.cn-hangzhou.aliyuncs.com
+    docker push ${build_report}/${alias_app}:${build_version}
 }
 
 main;${build_app}
