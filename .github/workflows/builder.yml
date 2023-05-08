@@ -13,8 +13,9 @@ jobs:
   build-frpc-arm64:
     runs-on: himself65/0506-linux-arm64
     steps:
-      - uses: actions/checkout@v2
-      - name: Launch Builder
-        run: |
+    - uses: actions/checkout@v2
+    - uses: pguyot/arm-runner-action@v2
+      with:
+        commands: |
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
           /bin/bash build.sh frpc frpc-auto 0.28.2
