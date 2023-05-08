@@ -23,6 +23,7 @@ jobs:
             distro: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: uraimo/run-on-arch-action@v2
       - name: Launch Builder
         with:
           arch: ${{ matrix.arch }}
