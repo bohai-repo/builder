@@ -1,29 +1,36 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: github-runner
+  name: github-actions-builder
   labels:
-    app: github-runner
+    app: github-actions-builder
 spec:
-  replicas: 1
+  replicas: 10
   selector:
     matchLabels:
-      app: github-runner
+      app: github-actions-builder
   template:
     metadata:
       labels:
-        app: github-runner
+        app: github-actions-builder
     spec:
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
+            type: Socket
       containers:
-      - name: github-runner
-        image: registry.cn-hangzhou.aliyuncs.com/bohai_repo/github-runner:2.278.0
-        env:
-        - name: GITHUB_OWNER
-          value: your-organization
-        - name: GITHUB_REPOSITORY
-          value: your-repository
-        - name: GITHUB_PAT # stored separately in a Kubernetes secret
-          valueFrom:
-            secretKeyRef:
-              name: my-secret
-              key: pat
+        - name: github-actions-builder
+          imagePullPolicy: Always
+          image: 'registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.278.0'
+          env:
+            - name: GITHUB_OWNER
+              value: "yaobohai"
+            - name: GITHUB_REPOSITORY
+              value: "builder"
+            - name: GITHUB_TOKEN
+              value: "xxxxxxx"
+          volumeMounts:
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
+              readOnly: false
