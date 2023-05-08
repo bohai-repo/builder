@@ -6,7 +6,7 @@ build_version=$3
 build_report="registry.cn-hangzhou.aliyuncs.com/bohai_repo"
 
 function launch() {
-  echo "start build: ${build_report}/${alias_app}:${build_version}"
+  echo "start build: ${build_report}/${alias_app}:${build_version} for $(uname -m)"
   ${build_app}
   if [[ $? == 0 ]];then
     docker push ${build_report}/${alias_app}:${build_version}
