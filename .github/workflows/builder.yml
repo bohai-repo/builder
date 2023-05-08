@@ -25,3 +25,6 @@ jobs:
           run: |
             docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
             /bin/bash build.sh frpc frpc-auto-arm64 0.28.2
+      - name: out
+        run: |
+          echo "build end for $(uname -m)"
