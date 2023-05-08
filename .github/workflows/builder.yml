@@ -19,12 +19,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Launch Builder
+        id: runcmd
         with:
           arch: aarch64
           distro: ubuntu18.04
           run: |
             docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
             /bin/bash build.sh frpc frpc-auto-arm64 0.28.2
-      - name: out
+      - name: Get the output
         run: |
-          echo "build end for $(uname -m)"
+          echo "The uname output was ${{ steps.runcmd.outputs.uname }}"
