@@ -34,6 +34,7 @@ function request_rules(){
 		echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] conf has been get \033[0m"
 	else
 		echo -e "\033[31m$(date '+%Y/%m/%d %H:%M:%S') [E] Failed to get conf\033[0m"
+		# 如果失败就退出 不触发服务重载接口
 		exit 1
 	fi
 }
