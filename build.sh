@@ -1,11 +1,12 @@
 #!/usr/bin/env sh
 
 build_app=$1
-build_version=$2
+alias_app=$2
+build_version=$3
 build_report="registry.cn-hangzhou.aliyuncs.com/bohai_repo"
 
 function envfile() {
-  echo "hello"
+  echo "start build: ${build_report}/${build_app}:${build_version}"
 }
 
 function frpc() {
