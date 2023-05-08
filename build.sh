@@ -20,6 +20,7 @@ function frpc() {
 }
 
 function github-runner() {
+    apt-get install wget -y
     cd ./github-runner
     export docker_version='20.10.7'
     wget https://github.com/actions/runner/releases/download/v${build_version}/actions-runner-linux-arm64-${build_version}.tar.gz
