@@ -20,7 +20,7 @@ jobs:
       matrix:
         include:
           - arch: aarch64
-            distro: ubuntu-latest
+            distro: ubuntu18.04
     steps:
       - uses: actions/checkout@v2
       - name: Launch Builder
