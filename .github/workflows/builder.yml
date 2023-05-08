@@ -19,7 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Launch Builder
-        id: runcmd
         with:
           arch: aarch64
           distro: ubuntu18.04
