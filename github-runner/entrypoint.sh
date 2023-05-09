@@ -8,10 +8,6 @@ personal(){
     sudo apt-get update && sudo apt-get install -y ${TO_BE_INSTALLED} && sudo apt-get clean
     fi
 
-    if [ ${RUNNER_LABELS} == '' ];then
-        RUNNER_LABELS=$(hostname)
-    fi
-
     registration_url="https://github.com/${GITHUB_OWNER}"
     token_url="https://api.github.com/orgs/${GITHUB_OWNER}/actions/runners/registration-token"
 
@@ -70,9 +66,9 @@ organizational(){
     ./config.sh --unattended --url https://github.com/${GITHUB_ORG_NAME} --token ${RUNNER_TOKEN} --labels "${RUNNER_LABELS}"
 }
 
-if [ ${REGIST_TYPE} == 'personal' ];then
+if [ $REGIST_TYPE = 'personal' ];then
     personal
-elif [ ${REGIST_TYPE} == 'organizational' ];then
+elif [ $REGIST_TYPE = 'organizational' ];then
     organizational
 else
     personal
