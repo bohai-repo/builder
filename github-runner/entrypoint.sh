@@ -70,9 +70,9 @@ organizational(){
     ./config.sh --unattended --url https://github.com/${GITHUB_ORG_NAME} --token ${RUNNER_TOKEN} --labels "${RUNNER_LABELS}"
 }
 
-if [[ ${REGIST_TYPE} == 'personal' ]];then
+if [ ${REGIST_TYPE} == 'personal' ];then
     personal
-elif [[ ${REGIST_TYPE} == 'organizational' ]];then
+elif [ ${REGIST_TYPE} == 'organizational' ];then
     organizational
 else
     personal
