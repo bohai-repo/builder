@@ -1,6 +1,7 @@
 #!/bin/sh
 
-function personal(){
+
+personal(){
     if [ -n "${ADDITIONAL_PACKAGES}" ]; then
     TO_BE_INSTALLED=$(echo ${ADDITIONAL_PACKAGES} | tr "," " " )
     echo "Installing additional packages: ${TO_BE_INSTALLED}"
@@ -52,7 +53,7 @@ function personal(){
         --replace
 }
 
-function organizational(){
+organizational(){
     export registration_url="https://github.com/${GITHUB_ORG_NAME}"
     export token_url="https://api.github.com/orgs/${GITHUB_ORG_NAME}/actions/runners/registration-token"
     export payload=$(curl -sX POST -H "Authorization: token ${GITHUB_PAT}" ${token_url})
