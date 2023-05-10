@@ -21,7 +21,7 @@ function frpc() {
 
 function github-runner() {
     export docker_version='20.10.7'
-    if [ "$(uname -m)" = "x86_64" ]; then export PLATFORM=amd64 ; else if [ "$(uname -m)" = "aarch64" ]; then export PLATFORM=arm64 ; fi fi
+    if [ "$(uname -m)" = "x86_64" ]; then export PLATFORM=x64 ; else if [ "$(uname -m)" = "aarch64" ]; then export PLATFORM=arm64 ; fi fi
     cd ./github-runner
     apt-get install wget -y
     mkdir docker && cd docker
