@@ -1,7 +1,7 @@
 #!/bin/sh
 
 base(){
-    if [ ${RUNNER_LABELS} == '' ];then
+    if [ -z ${RUNNER_LABELS} ];then
         RUNNER_LABELS=$(hostname)
     fi
 
@@ -38,7 +38,6 @@ personal(){
 
         payload=$(curl -sX POST -H "Authorization: token ${GITHUB_PAT}" ${token_url})
         export RUNNER_TOKEN=$(echo $payload | jq .token --raw-output)
-
     fi
 
     ./config.sh \
@@ -75,7 +74,7 @@ remove() {
     ./config.sh remove --unattended --token "${RUNNER_TOKEN}"
 }
 
-base_pack
+base
 
 if [ $REGIST_TYPE = 'personal' ];then
     personal
