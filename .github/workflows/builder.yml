@@ -25,7 +25,7 @@ jobs:
       - name: Launch Builder
         run: |
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.ap-northeast-1.aliyuncs.com
-          /bin/bash build.sh github-runner github-runner 2.278.0
+          /bin/bash build.sh github-runner github-runner 2.304.0
   build-consul-deregister:
     runs-on: ubuntu-latest
     steps:
