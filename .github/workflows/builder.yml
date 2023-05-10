@@ -34,7 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Launch Builder
-        if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'github-runner/') }}
+        if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'github-runner/*') }}
         run: |
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.ap-northeast-1.aliyuncs.com
           /bin/bash build.sh github-runner github-runner-arm64 2.304.0
