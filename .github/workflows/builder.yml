@@ -1,6 +1,6 @@
 name: Builder
 on: [push]
-run-name: Build 🚀
+run-name: ${{ github.event.commits[0].message }}
 jobs:
   build-frpc-amd64:
     runs-on: ubuntu-latest
