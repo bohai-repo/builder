@@ -43,7 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Launch Builder
-        if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'consul-deregister/') }}
+        if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'consul-deregister/**') }}
         run: |
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
           /bin/bash build.sh consul-deregister consul-deregister 1.0.0-SNAPSHOT
