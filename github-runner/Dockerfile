@@ -13,7 +13,7 @@ WORKDIR /root
 
 COPY entrypoint.sh runsvc.sh ./
 ADD docker.tar.gz /usr/bin/
-ADD actions-runner-linux-arm64-version_key.tar.gz /root
+ADD actions-runner-linux-version_key.tar.gz /root
 
 RUN apt-get update \
     && apt-get install -y curl sudo git jq iputils-ping \

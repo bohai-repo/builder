@@ -77,10 +77,13 @@ remove() {
 base
 
 if [ $REGIST_TYPE = 'personal' ];then
+    echo "regist type: personal"
     personal
 elif [ $REGIST_TYPE = 'organizational' ];then
+    echo "regist type: organizational"
     organizational
 else
+    echo "regist type: personal"
     personal
 fi
 

@@ -8,6 +8,7 @@
 * Organizational runners
 * Labels
 * Graceful shutdown
+* Supports arm64 and amd64
 * Support for installing additional debian packages
 * Auto-update after the release of a new version
 
@@ -17,6 +18,7 @@ Register a runner to a repository.
 
 ```sh
 docker run -itd --name github-runner \
+     -e REGIST_TYPE='personal' \
      -e GITHUB_OWNER=username-or-organization \
      -e GITHUB_REPOSITORY=my-repository \
      -e GITHUB_PAT=[PAT] \
@@ -39,7 +41,8 @@ Create an organization-wide runner.
 
 ```sh
 docker run -itd --name github-runner \
-    -e GITHUB_OWNER=username-or-organization \
+    -e REGIST_TYPE='organizational' \
+    -e GITHUB_ORG_NAME=username-or-organization \
     -e GITHUB_PAT=[PAT] \
      -v /var/run/docker.sock:/var/run/docker.sock \
     registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.304.0
@@ -48,13 +51,17 @@ docker run -itd --name github-runner \
 Set labels on the runner.
 
 ```sh
-docker run -itd --name github-runner \
-    -e GITHUB_OWNER=username-or-organization \
-    -e GITHUB_REPOSITORY=my-repository \
-    -e GITHUB_PAT=[PAT] \
-    -e RUNNER_LABELS=comma,separated,labels \
-     -v /var/run/docker.sock:/var/run/docker.sock \
-    registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.304.0
+add env:
+
+    -e RUNNER_LABELS='[you labels]' \
+```
+
+Use arm64 CPU
+
+```sh
+change image:
+
+registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner-arm64:2.304.0
 ```
 
 Install additional tools on the runner.
