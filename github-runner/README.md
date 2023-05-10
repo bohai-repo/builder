@@ -21,7 +21,7 @@ docker run -itd --name github-runner \
      -e GITHUB_REPOSITORY=my-repository \
      -e GITHUB_PAT=[PAT] \
      -v /var/run/docker.sock:/var/run/docker.sock \
-     registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.278.0
+     registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.304.0
 ```
 
 Register a runner with github token.
@@ -32,7 +32,7 @@ docker run -itd --name github-runner \
      -e GITHUB_REPOSITORY=my-repository \
      -e GITHUB_TOKEN=[github.token] \
      -v /var/run/docker.sock:/var/run/docker.sock \
-     registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.278.0
+     registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.304.0
 ```
 
 Create an organization-wide runner.
@@ -42,7 +42,7 @@ docker run -itd --name github-runner \
     -e GITHUB_OWNER=username-or-organization \
     -e GITHUB_PAT=[PAT] \
      -v /var/run/docker.sock:/var/run/docker.sock \
-    registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.278.0
+    registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.304.0
 ```
 
 Set labels on the runner.
@@ -54,7 +54,7 @@ docker run -itd --name github-runner \
     -e GITHUB_PAT=[PAT] \
     -e RUNNER_LABELS=comma,separated,labels \
      -v /var/run/docker.sock:/var/run/docker.sock \
-    registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.278.0
+    registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.304.0
 ```
 
 Install additional tools on the runner.
@@ -66,7 +66,7 @@ docker run -itd --name github-runner \
     -e GITHUB_PAT=[PAT] \
     -e ADDITIONAL_PACKAGES=firefox-esr,chromium \
      -v /var/run/docker.sock:/var/run/docker.sock \
-    registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.278.0
+    registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.304.0
 ```
 
 Running GitHub Actions on Kubernetes

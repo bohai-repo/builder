@@ -22,7 +22,7 @@ spec:
       containers:
         - name: github-actions-builder
           imagePullPolicy: Always
-          image: 'registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.278.0'
+          image: 'registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.304.0'
           env:
             - name: GITHUB_OWNER
               value: "yaobohai"
