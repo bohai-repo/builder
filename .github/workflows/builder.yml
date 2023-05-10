@@ -19,7 +19,7 @@ jobs:
         if: ${{ contains(github.event.head_commit.message, 'frpc') }}
         run: |
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
-          /bin/bash build.sh frpc frpc-auto-arm 0.28.3
+          /bin/bash build.sh frpc frpc-auto-arm 0.28.2
   build-actions-runner-amd64:
     runs-on: ubuntu-latest
     steps:
