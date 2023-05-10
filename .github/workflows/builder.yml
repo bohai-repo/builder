@@ -7,6 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Launch Builder
+        if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'frpc/') }}
         run: |
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
           /bin/bash build.sh frpc frpc-auto 0.28.2
@@ -15,6 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Launch Builder
+        if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'frpc/') }}
         run: |
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
           /bin/bash build.sh frpc frpc-auto-arm 0.28.2
@@ -23,6 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Launch Builder
+        if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'github-runner/') }}
         run: |
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.ap-northeast-1.aliyuncs.com
           /bin/bash build.sh github-runner github-runner 2.304.0
@@ -31,6 +34,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Launch Builder
+        if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'github-runner/') }}
         run: |
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.ap-northeast-1.aliyuncs.com
           /bin/bash build.sh github-runner github-runner-arm64 2.304.0
@@ -39,6 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Launch Builder
+        if: ${{ github.event_name == 'push' && contains(github.event.head_commit.modified, 'consul-deregister/') }}
         run: |
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
           /bin/bash build.sh consul-deregister consul-deregister 1.0.0-SNAPSHOT
