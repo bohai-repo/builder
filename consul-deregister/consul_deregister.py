@@ -1,4 +1,4 @@
-#!/usr/bin/env   python3
+#!/usr/bin/env  python3
 # -*- coding: utf-8 -*-
 
 import time
@@ -8,8 +8,7 @@ from configparser import ConfigParser
 
 conf = ConfigParser()
 conf.read('config.ini')
-# file_handler = logging.FileHandler(filename='./consul_deregister.log', encoding='utf-8')
-# , handlers={file_handler}
+
 logging.basicConfig(format="%(asctime)s [%(levelname)s] %(message)s", datefmt='%Y-%m-%d %H:%M:%S',level=logging.INFO)
 
 def http_request(url, methods):
@@ -48,10 +47,9 @@ def check_service(service_name):
 
 
 def main():
-    for service_name in [(conf['consul_deregister']['svc_names'])]:
-        service_name = service_name
+    svc = conf['consul_deregister']['svc_names'].split()
+    for service_name in svc:
         data = check_service(service_name)
-
         if isinstance(data, dict):
             service = data.get('critical')
             for serviceId in service:

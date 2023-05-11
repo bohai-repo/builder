@@ -18,8 +18,8 @@ config.ini
 consul_port=8500
 # consul的地址
 consul_host=1.1.1.1
-# 服务检测列表
-svc_names=linux
+# 服务检测列表 (多个服务以空格分割)
+svc_names=linux windows
 # 服务检测时间(秒)
 svc_detection_interval=300
 ```
