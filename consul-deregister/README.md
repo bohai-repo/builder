@@ -10,6 +10,11 @@ docker build . -t consul-deregister:1.0.0-SNAPSHOT
 
 ### 配置
 
+```
+mkdir /app/consul-deregister
+vim config.ini
+```
+
 config.ini
 
 ```ini
@@ -26,10 +31,19 @@ svc_detection_interval=300
 ### 启动
 
 ```shell
-docker rm -f consul-deregister
-docker run -itd --name=consul-deregister -v $PWD/config.ini:/config.ini consul-deregister:1.0.0-SNAPSHOT
-
+vim startup.sh
 ```
+
+startup.sh
+
+```shell
+docker pull registry.cn-hangzhou.aliyuncs.com/bohai_repo/consul-deregister:1.0.0-SNAPSHOT
+docker rm -f consul-deregister
+docker run -itd --name=consul-deregister -v $PWD/config.ini:/config.ini registry.cn-hangzhou.aliyuncs.com/bohai_repo/consul-deregister:1.0.0-SNAPSHOT
+```
+
+
+sh startup.sh
 
 ### 查看日志
 
