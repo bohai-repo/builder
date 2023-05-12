@@ -48,6 +48,11 @@ function consul-deregister() {
     docker build . -t ${build_report}/${alias_app}:${build_version}
 }
 
+function flask-demo() {
+    cd ./flask-demo
+    docker build . -t ${build_report}/${alias_app}:${build_version}
+}
+
 function main() {
     launch
 }
