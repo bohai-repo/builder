@@ -3,7 +3,7 @@
 build_app=$1
 alias_app=$2
 build_version=$3
-build_repo=${build_repo_server}/${build_repo_namespace}
+build_repo=${build_repo_addr}/${build_repo_name}
 
 function launch() {
   echo "start build: ${build_repo}/${alias_app}:${build_version} for $(uname -m)"
