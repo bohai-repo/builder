@@ -9,7 +9,7 @@ jobs:
       - name: Launch Builder
         if: ${{ contains(github.event.head_commit.message, 'frpc') }}
         run: |
-          export build_repo_name='bohai-repo'
+          export build_repo_name='bohai_repo'
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh frpc frpc-auto 0.28.2
@@ -20,7 +20,7 @@ jobs:
       - name: Launch Builder
         if: ${{ contains(github.event.head_commit.message, 'frpc') }}
         run: |
-          export build_repo_name='bohai-repo'
+          export build_repo_name='bohai_repo'
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh frpc frpc-auto-arm 0.28.2
@@ -31,7 +31,7 @@ jobs:
       - name: Launch Builder
         if: ${{ contains(github.event.head_commit.message, 'runner') }}
         run: |
-          export build_repo_name='bohai-repo'
+          export build_repo_name='bohai_repo'
           export build_repo_addr_server='registry.ap-northeast-1.aliyuncs.com'
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr} 
           /bin/bash build.sh github-runner github-runner 2.304.0
@@ -42,7 +42,7 @@ jobs:
       - name: Launch Builder
         if: ${{ contains(github.event.head_commit.message, 'runner') }}
         run: |
-          export build_repo_name='bohai-repo'
+          export build_repo_name='bohai_repo'
           export build_repo_addr_server='registry.ap-northeast-1.aliyuncs.com'
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr} 
           /bin/bash build.sh github-runner github-runner-arm64 2.304.0
@@ -53,7 +53,7 @@ jobs:
       - name: Launch Builder
         if: ${{ contains(github.event.head_commit.message, 'consul') }}
         run: |
-          export build_repo_name='bohai-repo'
+          export build_repo_name='bohai_repo'
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh consul-deregister consul-deregister 1.0.0-SNAPSHOT
@@ -64,7 +64,7 @@ jobs:
       - name: Launch Builder
         if: ${{ contains(github.event.head_commit.message, 'flask-demo') }}
         run: |
-          export build_repo_name='bohai-repo'
+          export build_repo_name='bohai_repo'
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh flask-demo flask-demo 1.0.0-SNAPSHOT
