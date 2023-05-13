@@ -32,7 +32,7 @@ jobs:
         if: ${{ contains(github.event.head_commit.message, 'runner') }}
         run: |
           export build_repo_name='bohai_repo'
-          export build_repo_addr_server='registry.ap-northeast-1.aliyuncs.com'
+          export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr} 
           /bin/bash build.sh github-runner github-runner 2.304.0
   build-actions-runner-armd64:
@@ -43,7 +43,7 @@ jobs:
         if: ${{ contains(github.event.head_commit.message, 'runner') }}
         run: |
           export build_repo_name='bohai_repo'
-          export build_repo_addr_server='registry.ap-northeast-1.aliyuncs.com'
+          export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr} 
           /bin/bash build.sh github-runner github-runner-arm64 2.304.0
   build-consul-deregister-amd64:
