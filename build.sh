@@ -3,20 +3,20 @@
 build_app=$1
 alias_app=$2
 build_version=$3
-build_report="registry.cn-hangzhou.aliyuncs.com/bohai_repo"
+build_repo=${build_repo_server}/${build_repo_namespace}
 
 function launch() {
-  echo "start build: ${build_report}/${alias_app}:${build_version} for $(uname -m)"
+  echo "start build: ${build_repo}/${alias_app}:${build_version} for $(uname -m)"
   ${build_app}
+  docker build . -t ${build_repo}/${alias_app}:${build_version}
   if [[ $? == 0 ]];then
-    docker push ${build_report}/${alias_app}:${build_version}
+    docker push ${build_repo}/${alias_app}:${build_version}
   fi
 }
 
 function frpc() {
     cd ./frpc
     sed -i "s/version_key/$build_version/g" Dockerfile
-    docker build . -t ${build_report}/${alias_app}:${build_version}
 }
 
 function github-runner() {
@@ -36,21 +36,14 @@ function github-runner() {
     cd ../ && mv build/actions-runner-linux-${build_version}.tar.gz ./ && rm -rf build
     sed -i "s/docker_version/${docker_version}/g" Dockerfile
     sed -i "s/version_key/$build_version/g" Dockerfile
-    # 推送到日本仓
-    local build_report="registry.ap-northeast-1.aliyuncs.com/bohai_repo"
-    docker build . -t ${build_report}/${alias_app}:${build_version}
-    docker push ${build_report}/${alias_app}:${build_version}
-    return 1
 }
 
 function consul-deregister() {
     cd ./consul-deregister
-    docker build . -t ${build_report}/${alias_app}:${build_version}
 }
 
 function flask-demo() {
     cd ./flask-demo
-    docker build . -t ${build_report}/${alias_app}:${build_version}
 }
 
 function main() {

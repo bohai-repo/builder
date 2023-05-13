@@ -9,7 +9,9 @@ jobs:
       - name: Launch Builder
         if: ${{ contains(github.event.head_commit.message, 'frpc') }}
         run: |
-          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
+          export build_repo_server_namespace='bohai-repo'
+          export build_repo_server='registry.cn-hangzhou.aliyuncs.com'
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_server}
           /bin/bash build.sh frpc frpc-auto 0.28.2
   build-frpc-armd64:
     runs-on: [self-hosted,kubernetes-arm64]
@@ -18,7 +20,9 @@ jobs:
       - name: Launch Builder
         if: ${{ contains(github.event.head_commit.message, 'frpc') }}
         run: |
-          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
+          export build_repo_server_namespace='bohai-repo'
+          export build_repo_server='registry.cn-hangzhou.aliyuncs.com'
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_server}
           /bin/bash build.sh frpc frpc-auto-arm 0.28.2
   build-actions-runner-amd64:
     runs-on: ubuntu-latest
@@ -27,7 +31,9 @@ jobs:
       - name: Launch Builder
         if: ${{ contains(github.event.head_commit.message, 'runner') }}
         run: |
-          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.ap-northeast-1.aliyuncs.com
+          export build_repo_server_namespace='bohai-repo'
+          export build_repo_server_server='registry.ap-northeast-1.aliyuncs.com'
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_server} 
           /bin/bash build.sh github-runner github-runner 2.304.0
   build-actions-runner-armd64:
     runs-on: [self-hosted,kubernetes-arm64]
@@ -36,7 +42,9 @@ jobs:
       - name: Launch Builder
         if: ${{ contains(github.event.head_commit.message, 'runner') }}
         run: |
-          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.ap-northeast-1.aliyuncs.com
+          export build_repo_server_namespace='bohai-repo'
+          export build_repo_server_server='registry.ap-northeast-1.aliyuncs.com'
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_server} 
           /bin/bash build.sh github-runner github-runner-arm64 2.304.0
   build-consul-deregister-amd64:
     runs-on: ubuntu-latest
@@ -45,7 +53,9 @@ jobs:
       - name: Launch Builder
         if: ${{ contains(github.event.head_commit.message, 'consul') }}
         run: |
-          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
+          export build_repo_server_namespace='bohai-repo'
+          export build_repo_server='registry.cn-hangzhou.aliyuncs.com'
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_server}
           /bin/bash build.sh consul-deregister consul-deregister 1.0.0-SNAPSHOT
   build-flask-demo-amd64:
     runs-on: ubuntu-latest
@@ -54,5 +64,7 @@ jobs:
       - name: Launch Builder
         if: ${{ contains(github.event.head_commit.message, 'flask-demo') }}
         run: |
-          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
+          export build_repo_server_namespace='bohai-repo'
+          export build_repo_server='registry.cn-hangzhou.aliyuncs.com'
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_server}
           /bin/bash build.sh flask-demo flask-demo 1.0.0-SNAPSHOT
