@@ -10,8 +10,7 @@ function launch() {
   ${build_app}
   docker build . -t ${build_repo}/${alias_app}:${build_version}
   if [[ $? == 0 ]];then
-    docker push ${build_repo}/${alias_app}:${build_version} \
-    && docker rmi ${build_repo}/${alias_app}:${build_version}
+    docker push ${build_repo}/${alias_app}:${build_version} && docker rmi ${build_repo}/${alias_app}:${build_version}
   fi
 }
 
