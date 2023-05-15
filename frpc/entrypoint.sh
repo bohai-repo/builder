@@ -52,12 +52,12 @@ function request_rules(){
 function main(){
 	request_rules
 	if [[ $? != 0 ]];then return 1;fi
-	admin_user=$(cat $rules_cache_file|grep admin_user|awk -F '=' '{print $2}'|sed 's/ //g')
-	admin_pwd=$(cat $rules_cache_file|grep admin_pwd|awk -F '=' '{print $2}'|sed 's/ //g')
 	procnum=$(ps -ef |grep frpc|grep -v grep|wc -l)
 	if [[ $procnum -le 0 ]];then
 		/app/frpc/frpc -c /app/frpc/frpc.ini &
 	else
+		admin_user=$(cat $rules_cache_file|grep admin_user|cut -d'=' -f2|awk '{print $1}')
+		admin_pwd=$(cat $rules_cache_file|grep admin_pwd|cut -d'=' -f2|awk '{print $1}')
 		curl -u "${admin_user}:${admin_pwd}" http://127.0.0.1:7400/api/reload
 		if [[ $? == 0 ]]; then
 			echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] success reload conf \033[0m"
