@@ -18,9 +18,8 @@ function launch() {
 }
 
 function frpc() {
-    cd ./frpc
+    cd ./frpc && apt-get install wget -y
     sed -i "s/version_key/$build_version/g" Dockerfile
-    apt-get install wget -y
     if [ "$(uname -m)" = "x86_64" ]; then export PLATFORM=amd64 ; else if [ "$(uname -m)" = "aarch64" ]; then export PLATFORM=arm64 ; fi fi
     wget --no-check-certificate https://github.com/fatedier/frp/releases/download/v${build_version}/frp_${build_version}_linux_${PLATFORM}.tar.gz
     mv frp_${build_version}_linux_${PLATFORM}.tar.gz frp_${build_version}.tar.gz
@@ -29,8 +28,7 @@ function frpc() {
 function github-runner() {
     export docker_version='20.10.7'
     if [ "$(uname -m)" = "x86_64" ]; then export PLATFORM=x64 ; else if [ "$(uname -m)" = "aarch64" ]; then export PLATFORM=arm64 ; fi fi
-    cd ./github-runner
-    apt-get install wget -y
+    cd ./github-runner && apt-get install wget -y
     mkdir docker && cd docker
     curl https://download.docker.com/linux/static/stable/$(uname -m)/docker-${docker_version}.tgz --output docker-${docker_version}.tgz
     tar xzf docker-${docker_version}.tgz && cd docker && tar zcf docker.tar.gz *
