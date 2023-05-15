@@ -30,16 +30,21 @@ function request_rules(){
 		for keys in $verify_keys;do
 			verify_ini $keys
 		done
-		diff $rules_cache_file /app/frpc/frpc.ini
+		if [[ ! -f /app/frpc/frpc.ini  ]];then
+			echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] first startup \033[0m"
+			cat $rules_cache_file > /app/frpc/frpc.ini
+			return 0
+		fi
+		diff $rules_cache_file /app/frpc/frpc.ini &>/dev/null
 		if [[ $? != 0 ]];then 
 			cat $rules_cache_file > /app/frpc/frpc.ini
 			echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] conf has been get \033[0m"
 		else
-			echo "config_file no change. wait for ${exec_sec} seconds and retrieve again"
+			echo -e "\033[31m$(date '+%Y/%m/%d %H:%M:%S') [I] conf has been get  but config no change. wait for ${exec_sec} seconds and retrieve again \033[0m"
 			return 1
 		fi
 	else
-		echo -e "\033[31m$(date '+%Y/%m/%d %H:%M:%S') [E] Failed to get conf\033[0m"
+		echo -e "\033[31m$(date '+%Y/%m/%d %H:%M:%S') [E] conf Failed to get\033[0m"
 		return 1
 	fi
 }
