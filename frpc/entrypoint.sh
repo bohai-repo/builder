@@ -52,8 +52,8 @@ function request_rules(){
 function main(){
 	request_rules
 	if [[ $? != 0 ]];then return 1;fi
-	admin_user=$(cat /app/frpc/frpc.ini|grep admin_user|awk -F '=' '{print $2}'|sed 's/ //g')
-	admin_pwd=$(cat /app/frpc/frpc.ini|grep admin_pwd|awk -F '=' '{print $2}'|sed 's/ //g')
+	admin_user=$(cat $rules_cache_file|grep admin_user|awk -F '=' '{print $2}'|sed 's/ //g')
+	admin_pwd=$(cat $rules_cache_file|grep admin_pwd|awk -F '=' '{print $2}'|sed 's/ //g')
 	procnum=$(ps -ef |grep frpc|grep -v grep|wc -l)
 	if [[ $procnum -le 0 ]];then
 		/app/frpc/frpc -c /app/frpc/frpc.ini &
