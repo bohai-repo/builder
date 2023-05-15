@@ -59,7 +59,7 @@ function main(){
 	if [[ $procnum -le 0 ]];then
 		/app/frpc/frpc -c /app/frpc/frpc.ini &
 	else
-		curl -u "${admin_user}:${admin_pwd}" http://127.0.0.1:${admin_port}/api/reload
+		curl -u "${admin_user}:${admin_pwd}" http://127.0.0.1:7400/api/reload
 		if [[ $? == 0 ]]; then
 			echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] success reload conf \033[0m"
 		fi
