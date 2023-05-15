@@ -40,7 +40,7 @@ function request_rules(){
 			cat $rules_cache_file > /app/frpc/frpc.ini
 			echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] conf has been get \033[0m"
 		else
-			echo -e "\033[31m$(date '+%Y/%m/%d %H:%M:%S') [I] conf has been get  but config no change. wait for ${exec_sec} seconds and retrieve again \033[0m"
+			echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] conf has been get  but config no change. wait for ${exec_sec} seconds and retrieve again \033[0m"
 			return 1
 		fi
 	else
