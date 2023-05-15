@@ -22,7 +22,7 @@ function verify_ini(){
 
 function request_rules(){
 	request_token
-	echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] starting auto get conf \033[0m"
+	echo -e "$(date '+%Y/%m/%d %H:%M:%S') \033[33m[I] conf starting request  \033[0m"
 	if [[ $appServerId == '' ]]; then echo "[ERROR] Please check if env [appServerId] is configured.";exit 1;fi
 	curl -s --connect-timeout ${request_timeout} --retry ${request_trynum} "${appurl}/?page=panel&module=configuration&server=${appServerId}" -H 'cookie: PHPSESSID='"${token}"''|grep -Ev '<|{|}|:|;|All' > ${rules_cache_file}
 	if [[ $? == 0 ]]; then
@@ -31,20 +31,20 @@ function request_rules(){
 			verify_ini $keys
 		done
 		if [[ ! -f /app/frpc/frpc.ini  ]];then
-			echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] first startup \033[0m"
+			echo -e "$(date '+%Y/%m/%d %H:%M:%S') \033[33m[I] frpc startup \033[0m"
 			cat $rules_cache_file > /app/frpc/frpc.ini
 			return 0
 		fi
 		diff $rules_cache_file /app/frpc/frpc.ini &>/dev/null
 		if [[ $? != 0 ]];then 
 			cat $rules_cache_file > /app/frpc/frpc.ini
-			echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] conf has been get \033[0m"
+			echo -e "$(date '+%Y/%m/%d %H:%M:%S') \033[33m[I] conf has been get \033[0m"
 		else
-			echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] conf has been get  but config no change. wait for ${exec_sec} seconds and retrieve again \033[0m"
+			echo -e "$(date '+%Y/%m/%d %H:%M:%S') \033[33m[I] conf no change. wait for ${exec_sec}s \033[0m"
 			return 1
 		fi
 	else
-		echo -e "\033[31m$(date '+%Y/%m/%d %H:%M:%S') [E] conf Failed to get\033[0m"
+		echo -e "$(date '+%Y/%m/%d %H:%M:%S') \033[31m[E] conf failed request\033[0m"
 		return 1
 	fi
 }
@@ -60,7 +60,7 @@ function main(){
 		admin_pwd=$(cat $rules_cache_file|grep admin_pwd|cut -d'=' -f2|awk '{print $1}')
 		curl -u "${admin_user}:${admin_pwd}" http://127.0.0.1:7400/api/reload
 		if [[ $? == 0 ]]; then
-			echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] success reload conf \033[0m"
+			echo -e "$(date '+%Y/%m/%d %H:%M:%S') \033[33m[I] conf success reload \033[0m"
 		fi
 	fi
 }
