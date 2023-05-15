@@ -46,7 +46,7 @@ function request_rules(){
 
 function main(){
 	request_rules
-	if [[ $? != 0 ]];then exit 1;fi
+	if [[ $? != 0 ]];then return 1;fi
 	admin_pwd=$(cat $rules_cache_file|grep admin_pwd|sed 's/ //g')
     admin_port=$(cat $rules_cache_file|grep admin_port|sed 's/ //g')
     admin_user=$(cat $rules_cache_file|grep admin_user|sed 's/ //g')
