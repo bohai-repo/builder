@@ -30,20 +30,26 @@ function request_rules(){
 		for keys in $verify_keys;do
 			verify_ini $keys
 		done
-		cat $rules_cache_file > /app/frpc/frpc.ini
-		echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] conf has been get \033[0m"
+		diff $rules_cache_file /app/frpc/frpc.ini
+		if [[ $? != 0 ]];then 
+			cat $rules_cache_file > /app/frpc/frpc.ini
+			echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] conf has been get \033[0m"
+		else
+			echo "config_file no change. wait for ${exec_sec} seconds and retrieve again"
+			return 1
+		fi
 	else
 		echo -e "\033[31m$(date '+%Y/%m/%d %H:%M:%S') [E] Failed to get conf\033[0m"
-		# 如果失败就退出 不触发服务重载接口
-		exit 1
+		return 1
 	fi
 }
 
 function main(){
 	request_rules
+	if [[ $? != 0 ]];then exit 1;fi
 	admin_pwd=$(cat $rules_cache_file|grep admin_pwd|sed 's/ //g')
-  admin_port=$(cat $rules_cache_file|grep admin_port|sed 's/ //g')
-  admin_user=$(cat $rules_cache_file|grep admin_user|sed 's/ //g')
+    admin_port=$(cat $rules_cache_file|grep admin_port|sed 's/ //g')
+    admin_user=$(cat $rules_cache_file|grep admin_user|sed 's/ //g')
 	procnum=$(ps -ef |grep frpc|grep -v grep|wc -l)
 	if [[ $procnum -le 0 ]];then
 		/app/frpc/frpc -c /app/frpc/frpc.ini &
