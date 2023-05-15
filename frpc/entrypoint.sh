@@ -1,6 +1,6 @@
 #!/bin/sh
 
-trap 'rm -f "$token_cache_file" /app/frpc/frpc.ini' EXIT
+trap 'rm -f "$token_cache_file" "$rules_cache_file"' EXIT
 token_cache_file=$(mktemp) rules_cache_file=$(mktemp)|| exit 1
 
 function request_token(){
@@ -13,7 +13,7 @@ function request_token(){
 
 function verify_ini(){
   key_name=$1
-  key_cont=$(cat /app/frpc/frpc.ini|grep -w "$key_name"|wc -l)
+  key_cont=$(cat $rules_cache_file|grep -w "$key_name"|wc -l)
   if [[ $key_cont -le 0 ]];then
 	echo -e "\033[31m$(date '+%Y/%m/%d %H:%M:%S') [E] Missing $key_name configuration\033[0m"
 	exit 1
@@ -32,12 +32,12 @@ function request_rules(){
 		done
 		if [[ ! -f /app/frpc/frpc.ini  ]];then
 			echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] first startup \033[0m"
-			cat /app/frpc/frpc.ini > /app/frpc/frpc.ini
+			cat $rules_cache_file > /app/frpc/frpc.ini
 			return 0
 		fi
-		diff /app/frpc/frpc.ini /app/frpc/frpc.ini &>/dev/null
+		diff $rules_cache_file /app/frpc/frpc.ini &>/dev/null
 		if [[ $? != 0 ]];then 
-			cat /app/frpc/frpc.ini > /app/frpc/frpc.ini
+			cat $rules_cache_file > /app/frpc/frpc.ini
 			echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] conf has been get \033[0m"
 		else
 			echo -e "\033[33m$(date '+%Y/%m/%d %H:%M:%S') [I] conf has been get  but config no change. wait for ${exec_sec} seconds and retrieve again \033[0m"
