@@ -21,8 +21,11 @@ function frpc() {
     cd ./frpc && apt-get install wget -y
     sed -i "s/version_key/$build_version/g" Dockerfile
     if [ "$(uname -m)" = "x86_64" ]; then export PLATFORM=amd64 ; else if [ "$(uname -m)" = "aarch64" ]; then export PLATFORM=arm64 ; fi fi
+    mkdir build && cd build
     wget --no-check-certificate https://github.com/fatedier/frp/releases/download/v${build_version}/frp_${build_version}_linux_${PLATFORM}.tar.gz
-    mv frp_${build_version}_linux_${PLATFORM}.tar.gz frp_${build_version}.tar.gz
+    tar xzf frp_${build_version}_linux_${PLATFORM}.tar.gz && rm -rf frp_${build_version}_linux_${PLATFORM}.tar.gz
+    mv frp_${build_version}_linux_${PLATFORM} frp_${build_version} && tar zcf frp_${build_version} frp_${build_version}.tar.gz
+    rm -rf frp_${build_version}
 }
 
 function github-runner() {
