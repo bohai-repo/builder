@@ -24,8 +24,9 @@ function frpc() {
     mkdir build && cd build
     wget --no-check-certificate https://github.com/fatedier/frp/releases/download/v${build_version}/frp_${build_version}_linux_${PLATFORM}.tar.gz
     tar xzf frp_${build_version}_linux_${PLATFORM}.tar.gz && rm -rf frp_${build_version}_linux_${PLATFORM}.tar.gz
-    mv frp_${build_version}_linux_${PLATFORM} frp_${build_version} && tar zcf frp_${build_version} frp_${build_version}.tar.gz
-    rm -rf frp_${build_version}
+    mv frp_${build_version}_linux_${PLATFORM} frp_${build_version} && tar zcf frp_${build_version}.tar.gz frp_${build_version}
+    rm -rf frp_${build_version} && mv frp_${build_version}.tar.gz ../
+    pwd
 }
 
 function github-runner() {
