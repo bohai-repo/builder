@@ -15,11 +15,10 @@ RUN apk add --no-cache tzdata \
     && echo ${TZ} > /etc/timezone \
     && chmod +x entrypoint.sh
 
-RUN tar xzf frp_${VERSION}.tar.gz \
-	&& cd frp_${VERSION} \
+RUN cd frp_${VERSION} \
 	&& mkdir -p /app/frpc \
 	&& mv frpc /app/frpc \
 	&& cd .. \
-	&& rm -rf *.tar.gz
+	&& rm -rf /frp_${VERSION}/
 
 CMD /entrypoint.sh
