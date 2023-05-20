@@ -20,6 +20,11 @@ function verify_ini(){
   fi
 }
 
+function extract_ini() {
+  key_name=$1
+  awk -F"=" "/${key_name}/ {print \$2}" "$rules_cache_file" | awk '{print $1}'
+}
+
 function request_rules(){
 	request_token
 	echo -e "$(date '+%Y/%m/%d %H:%M:%S') \033[33m[I] conf starting request  \033[0m"
@@ -56,9 +61,7 @@ function main(){
 	if [[ $procnum -le 0 ]];then
 		/app/frpc/frpc -c /app/frpc/frpc.ini &
 	else
-		admin_user=$(cat $rules_cache_file|grep admin_user|cut -d'=' -f2|awk '{print $1}')
-		admin_pwd=$(cat $rules_cache_file|grep admin_pwd|cut -d'=' -f2|awk '{print $1}')
-		curl -u "${admin_user}:${admin_pwd}" http://127.0.0.1:7400/api/reload
+		curl -u "$(extract_ini admin_user):$(extract_ini admin_pwd)" http://127.0.0.1:$(extract_ini admin_port)/api/reload
 		if [[ $? == 0 ]]; then
 			echo -e "$(date '+%Y/%m/%d %H:%M:%S') \033[33m[I] conf success reload \033[0m"
 		fi
