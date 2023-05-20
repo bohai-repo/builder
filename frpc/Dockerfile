@@ -6,19 +6,19 @@ ENV TZ=Asia/Shanghai
 
 WORKDIR /
 
-ADD entrypoint.sh entrypoint.sh
 ADD frp_version_key.tar.gz /
+ADD entrypoint.sh entrypoint.sh
 
 RUN apk add --no-cache tzdata \
-	&& apk add -U curl grep \
+    && apk add -U curl grep \
     && ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime \
     && echo ${TZ} > /etc/timezone \
     && chmod +x entrypoint.sh
 
 RUN cd frp_${VERSION} \
-	&& mkdir -p /app/frpc \
-	&& mv frpc /app/frpc \
-	&& cd .. \
-	&& rm -rf /frp_${VERSION}/
+    && mkdir -p /app/frpc \
+    && mv frpc /app/frpc \
+    && cd .. \
+    && rm -rf /frp_${VERSION}
 
 CMD /entrypoint.sh
