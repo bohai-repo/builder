@@ -2,14 +2,14 @@ FROM alpine:3.8
 LABEL maintainer="itan90.cn"
 
 ENV VERSION version_key
-ENV appId  = ''
-ENV appurl = ''
-ENV appSecretKey    =  ''
-ENV appServerId     =  ''
-ENV exec_sec        =  15
-ENV request_trynum  =  3
-ENV request_timeout =  15
-ENV TZ 	   = Asia/Shanghai
+ENV appId  ''
+ENV appurl ''
+ENV appSecretKey  ''
+ENV appServerId   ''
+ENV exec_sec       15
+ENV request_trynum  3
+ENV request_timeout 15
+ENV TZ 	Asia/Shanghai
 
 WORKDIR /
 ADD entrypoint.sh entrypoint.sh
