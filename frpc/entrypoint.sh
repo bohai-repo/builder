@@ -11,20 +11,6 @@ function request_token(){
 	token=$(grep PHPSESSID ${token_cache_file}|awk '{print $7}')
 }
 
-function verify_ini(){
-  key_name=$1
-  key_cont=$(cat $rules_cache_file|grep -w "$key_name"|wc -l)
-  if [[ $key_cont -le 0 ]];then
-	echo -e "\033[31m$(date '+%Y/%m/%d %H:%M:%S') [E] Missing $key_name configuration\033[0m"
-	exit 1
-  fi
-}
-
-function extract_ini() {
-  key_name=$1
-  awk -F"=" "/${key_name}/ {print \$2}" "$rules_cache_file" | awk '{print $1}'
-}
-
 function request_rules(){
 	request_token
 	echo -e "$(date '+%Y/%m/%d %H:%M:%S') \033[33m[I] conf starting request  \033[0m"
@@ -52,6 +38,20 @@ function request_rules(){
 		echo -e "$(date '+%Y/%m/%d %H:%M:%S') \033[31m[E] conf failed request\033[0m"
 		return 1
 	fi
+}
+
+function verify_ini(){
+  key_name=$1
+  key_cont=$(cat $rules_cache_file|grep -w "$key_name"|wc -l)
+  if [[ $key_cont -le 0 ]];then
+	echo -e "\033[31m$(date '+%Y/%m/%d %H:%M:%S') [E] Missing $key_name configuration\033[0m"
+	exit 1
+  fi
+}
+
+function extract_ini() {
+  key_name=$1
+  awk -F"=" "/${key_name}/ {print \$2}" "$rules_cache_file" | awk '{print $1}'
 }
 
 function main(){
