@@ -38,4 +38,4 @@ function main(){
         fi
 }
 
-main && star
+main && start
