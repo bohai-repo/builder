@@ -48,6 +48,10 @@ function flask-demo() {
     cd ./flask-demo
 }
 
+function remote-download() {
+    cd ./remote-download
+}
+
 function main() {
     launch
 }
