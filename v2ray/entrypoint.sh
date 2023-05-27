@@ -18,7 +18,6 @@ function main(){
     sed -i "s/v2ray_path/${v2ray_path}/g" /app/v2ray/config.json
     echo " "
     echo "----------Launch Testing----------"
-    echo " "
     if [[ -f /etc/nginx/ssl/ssl.cer ]] && [[ -f /etc/nginx/ssl/ssl.key ]];then
       echo "TLS Pass: [$(pass Pass)]"
     else
@@ -45,8 +44,7 @@ function main(){
     fi
 
     echo " "
-    echo "----------Launching----------"
-    echo " "
+    echo "----------Launching--------------"
     /etc/nginx/sbin/nginx
     if [[ $? == 0 ]];then
       echo "Launching NGINX Pass: [$(pass Pass)]"
@@ -65,22 +63,19 @@ function main(){
     fi
 
       echo " "
-      echo "----------CLENT CONFIGURE----------"
-      echo "v2ray_addr: $(info ${v2ray_domain})"
+      echo "----------CLENT CONFIGURE------------"
       echo "v2ray_port: $(info 443)"
+      echo "v2ray_alterid: $(info 64)"
+      echo "v2ray_protocol: $(info ws)"
+      echo "v2ray_security: $(info tls)"
+      echo "v2ray_addr: $(info ${v2ray_domain})"
       echo "v2ray_uuid: $(info ${v2ray_uuid})"
-      echo "alter_id: $(info 64)"
-      echo "protocol: $(info ws)"
-      echo "path: $(info ${v2ray_path})"
-      echo "transmission: $(info tls)"
-      echo "encryption: $(info aes-128-gcm)"
-
+      echo "v2ray_path: $(info ${v2ray_path})"
+      echo "v2ray_encryption: $(info aes-128-gcm)"
       echo " "
-      echo "----------CLIENT WEB LOG----------"
-      echo " "
+      echo "----------CLIENT WEB LOG------------"
 
       tail -f /tmp/access.log
-
 }
 
 main
