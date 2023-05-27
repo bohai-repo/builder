@@ -1,10 +1,10 @@
 FROM alpine:latest
 
-ENV v2ray_uuid ''
-ENV v2ray_path ''
-ENV v2ray_email ''
+ENV v2ray_uuid '39c84eb5-6a2b-42d3-ac13-6381a4cca529'
+ENV v2ray_path '68ad'
+ENV v2ray_email 'demo@gmail.com'
 ENV v2ray_domain ''
-ENV v2ray_version ''
+
 ENV V2RAY_VMESS_AEAD_FORCED false
 
 USER root
