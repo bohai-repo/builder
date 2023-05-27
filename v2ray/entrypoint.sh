@@ -16,31 +16,58 @@ function main(){
     sed -i "s/v2ray_uuid/${v2ray_uuid}/g" /app/v2ray/config.json
     sed -i "s/v2ray_email/${v2ray_email}/g" /app/v2ray/config.json
     sed -i "s/v2ray_path/${v2ray_path}/g" /app/v2ray/config.json
-
+    echo " "
+    echo "----------Launch Testing----------"
+    echo " "
     if [[ -f /etc/nginx/ssl/ssl.cer ]] && [[ -f /etc/nginx/ssl/ssl.key ]];then
-      echo "ssl pass: [$(pass pass)]"
+      echo "TLS Pass: [$(pass Pass)]"
     else
-      echo "nginx pass: [$(fail fail)]"
+      echo "TLS Pass: [$(fail Fail)]"
       exit 1
     fi
 
     # launching nginx
-    /etc/nginx/sbin/nginx &>/dev/null
+    /etc/nginx/sbin/nginx -t &>/dev/null
     if [[ $? == 0 ]];then
-      echo "nginx pass: [$(pass pass)]"
-      nginx
+      echo "NGINX Pass: [$(pass Pass)]"
     else
-      echo "nginx pass: [$(fail fail)]"
+      echo "NGINX pass: [$(fail Fail)]"
       exit 1
     fi
 
     # launching v2ray
     /app/v2ray/v2ray -config /app/v2ray/config.json -test &>/dev/null
     if [[ $? == 0 ]];then
-      echo "v2ray pass: [$(pass pass)]"
+      echo "V2RAY Pass: [$(pass Pass)]"
+    else
+      echo "V2RAY Pass: [$(fail Fail)]"
+      exit 1
+    fi
 
+    echo " "
+    echo "----------Launching----------"
+    echo " "
+    /etc/nginx/sbin/nginx
+    if [[ $? == 0 ]];then
+      echo "Launching NGINX Pass: [$(pass Pass)]"
+    else
+      echo "Launching NGINX Pass: [$(fail Fail)]"
+      exit 1
+    fi
+
+    export V2RAY_VMESS_AEAD_FORCED=false
+    nohup /app/v2ray/v2ray -config /app/v2ray/config.json &>/dev/null &
+    if [[ $? == 0 ]];then
+      echo "Launching V2RAY Pass: [$(pass Pass)]"
+    else
+      echo "Launching V2RAY Pass: [$(fail Fail)]"
+      exit 1
+    fi
+
+      echo " "
+      echo "----------CLENT CONFIGURE----------"
       echo "v2ray_addr: $(info ${v2ray_domain})"
-      echo "v2ray_port: 443"
+      echo "v2ray_port: $(info 443)"
       echo "v2ray_uuid: $(info ${v2ray_uuid})"
       echo "alter_id: $(info 64)"
       echo "protocol: $(info ws)"
@@ -48,12 +75,12 @@ function main(){
       echo "transmission: $(info tls)"
       echo "encryption: $(info aes-128-gcm)"
 
-      export V2RAY_VMESS_AEAD_FORCED=false
-      /app/v2ray/v2ray -config /app/v2ray/config.json
-    else
-      echo "v2ray pass: [$(fail fail)]"
-      exit 1
-    fi
+      echo " "
+      echo "----------CLIENT WEB LOG----------"
+      echo " "
+
+      tail -f /tmp/access.log
+
 }
 
 main
