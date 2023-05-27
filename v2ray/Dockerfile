@@ -41,4 +41,4 @@ RUN wget 'http://nginx.org/download/nginx-1.21.1.tar.gz' \
 ADD nginx.conf   /etc/nginx/conf/nginx.conf
 ADD config.json  /app/v2ray/config.json
 
-CMD /entrypoint.sh
+CMD /app/entrypoint.sh
