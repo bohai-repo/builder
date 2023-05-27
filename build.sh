@@ -52,6 +52,10 @@ function remote-download() {
     cd ./remote-download
 }
 
+function v2ray() {
+    cd ./v2ray
+}
+
 function main() {
     launch
 }
