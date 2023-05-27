@@ -23,7 +23,7 @@ function main(){
       echo "v2ray_uuid: ${v2ray_uuid}"
       echo "alter_id: 64"
       echo "protocol: ws"
-      echo "path: ${newpath}"
+      echo "path: ${v2ray_path}"
       echo "transmission: tls"
       echo "encryption: aes-128-gcm"
     
