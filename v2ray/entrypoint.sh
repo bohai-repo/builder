@@ -64,7 +64,7 @@ function main(){
 
       echo " "
       echo "----------CLENT CONFIGURE------------"
-      echo "v2ray_port: $(info 443)"
+      echo "v2ray_port: $(info ${v2ray_port})"
       echo "v2ray_alterid: $(info 64)"
       echo "v2ray_protocol: $(info ws)"
       echo "v2ray_security: $(info tls)"
