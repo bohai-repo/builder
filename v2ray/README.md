@@ -63,7 +63,7 @@ Sample:
 docker rm -f v2ray
 docker run -itd --name=v2ray \
 -p 443:443 \
--e v2ray_domain='443' \
+-e v2ray_port='443' \
 -e v2ray_domain='v2ray.demo.com'  \
 -e v2ray_uuid='d7af9bc2-67ac-4ca2-8320-93343bcb8086' \
 -e v2ray_path='693f'       \
