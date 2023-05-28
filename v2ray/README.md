@@ -47,9 +47,11 @@ docker run -itd --name=v2ray -p 443:443 \
 v2ray:latest
 ```
 
-Sample:
+Best Practices:
 
-```tree
+```
+$ tree /app
+
 /app/
 └── v2ray
     ├── ssl
@@ -59,7 +61,9 @@ Sample:
 ```
 
 
-```startup.sh
+```
+$ cat startup.sh
+
 docker rm -f v2ray
 docker run -itd --name=v2ray \
 -p 443:443 \
