@@ -75,3 +75,7 @@ docker run -itd --name=v2ray \
 -v /app/v2ray/ssl/:/etc/nginx/ssl  \
 v2ray:latest
 ```
+
+Using <v2rayu> client as an example:
+
+![](static/v2rayu.png)
