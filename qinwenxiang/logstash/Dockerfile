@@ -27,7 +27,8 @@ ADD server.xml /apps/tomcat/conf/server.xml
 ADD run_tomcat.sh /apps/tomcat/bin/run_tomcat.sh
 ADD filebeat.yml /etc/filebeat/filebeat.yml
 ADD myapp.tar.gz /data/tomcat/webapps/myapp/
-RUN chown -R tomcat.tomcat /data/ /apps/
+RUN chown -R tomcat.tomcat /data/ /apps/ \
+    && chmod +x /apps/tomcat/bin/run_tomcat.sh
 
 # 开放Tomcat的HTTP端口
 EXPOSE 8080
