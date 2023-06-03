@@ -1,0 +1,32 @@
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - /apps/tomcat/logs/catalina.out
+  fields:
+    type: filebeat-tomcat-catalina
+- type: log
+  enabled: true
+  paths:
+    - /apps/tomcat/logs/localhost_access_log.*.txt 
+  fields:
+    type: filebeat-tomcat-accesslog
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+setup.template.settings:
+  index.number_of_shards: 1
+setup.kibana:
+
+output.kafka:
+  hosts: ["172.31.2.107:9092","172.31.2.108:9092","172.31.2.109:9092"]
+  required_acks: 1
+  topic: "filebeat-magedu-app1"
+  compression: gzip
+  max_message_bytes: 1000000
+#output.redis:
+#  hosts: ["172.31.2.105:6379"]
+#  key: "k8s-magedu-app1"
+#  db: 1
+#  timeout: 5
+#  password: "123456"

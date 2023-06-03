@@ -56,6 +56,11 @@ function v2ray() {
     cd ./v2ray
 }
 
+function qwx_logstash() {
+    cd ./qinwenxiang/logstash
+}
+
+
 function main() {
     launch
 }
