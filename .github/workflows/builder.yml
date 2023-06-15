@@ -101,3 +101,14 @@ jobs:
           export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh qwx_logstash qwx_logstash latest
+  build-jenkins-slave-arm64:
+    runs-on: [self-hosted,kubernetes-arm64]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Launch Builder
+        if: ${{ contains(github.event.head_commit.message, 'jenkins-slave') }}
+        run: |
+          export build_repo_name='bohai_repo'
+          export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
+          /bin/bash build.sh jenkins-slave jenkins-slave 1.0.0-SNAPSHOT

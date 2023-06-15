@@ -1,0 +1,17 @@
+build_app:
+  # build frpc
+  frpc:
+    app_name: frpc
+    # set app version: x.y.z
+    app_version: 1.0.0
+    app_build: false
+    build_repo_name: bohai_repo
+    build_repo_addr: registry.cn-hangzhou.aliyuncs.com
+  # build frpc
+  v2ray:
+    app_name: v2ray
+    app_version: 1.1.1
+    app_build: false
+    build_repo_name: bohai_repo
+    build_repo_addr: registry.cn-hangzhou.aliyuncs.com
+    

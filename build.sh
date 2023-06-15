@@ -60,6 +60,10 @@ function qwx_logstash() {
     cd ./qinwenxiang/logstash
 }
 
+function jenkins-slave() {
+    cd ./jenkins-slave
+}
+
 
 function main() {
     launch
