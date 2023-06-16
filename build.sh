@@ -7,10 +7,21 @@ build_repo=${build_repo_addr}/${build_repo_name}
 
 function launch() {
   echo "start build: ${build_repo}/${alias_app}:${build_version} for $(uname -m)"
-  ${build_app}
+  # 兼容精简构建和定制构建
+  type ${build_app} &>/dev/null
+  if [[ $? == 0 ]];then 
+    ${build_app}
+  else 
+    if [[ -d ./${build_app} ]];then
+        cd ./${build_app}
+    else
+        echo "app ${build_app} does not exist.";exit 1
+    fi
+  fi
   docker build . -t ${build_repo}/${alias_app}:${build_version}
   if [[ $? == 0 ]];then
     docker push ${build_repo}/${alias_app}:${build_version}
+    # 构建残留清理
     if [[ $? == 0 && ${build_app} != 'github-runner' ]];then
         docker rmi ${build_repo}/${alias_app}:${build_version}
     fi
@@ -40,30 +51,9 @@ function github-runner() {
     sed -i "s/version_key/$build_version/g" Dockerfile
 }
 
-function consul-deregister() {
-    cd ./consul-deregister
-}
-
-function flask-demo() {
-    cd ./flask-demo
-}
-
-function remote-download() {
-    cd ./remote-download
-}
-
-function v2ray() {
-    cd ./v2ray
-}
-
 function qwx_logstash() {
     cd ./qinwenxiang/logstash
 }
-
-function jenkins-slave() {
-    cd ./jenkins-slave
-}
-
 
 function main() {
     launch
