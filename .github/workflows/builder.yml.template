@@ -6,7 +6,7 @@ jobs:
     # 构建节点
     ## amd x86、64
     runs-on: ubuntu-latest
-    ## amd aarch64
+    ## arm aarch64
     # runs-on: [self-hosted,kubernetes-arm64]
     steps:
       - uses: actions/checkout@v2
