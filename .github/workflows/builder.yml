@@ -3,15 +3,21 @@ on: [push]
 run-name: ${{ github.event.commits[0].message }}
 jobs:
   build-frpc-amd64:
+    # 构建节点
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Launch Builder
+        # 匹配关键字触发
         if: ${{ contains(github.event.head_commit.message, 'frpc') }}
         run: |
+          # 推送仓库空间
           export build_repo_name='bohai_repo'
+          # 推送镜像地址
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
+          # 仓库登录凭证
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
+          # 构建参数定义：/bin/bash build.sh 目录名 镜像名 镜像版本
           /bin/bash build.sh frpc frpc-auto 0.28.2
   build-frpc-armd64:
     runs-on: [self-hosted,kubernetes-arm64]
