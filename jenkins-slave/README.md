@@ -22,5 +22,7 @@ docker run --init -d --name=jenkins-slave \
 
 镜像列表
 
-|AMD64|registry.ap-northeast-1.aliyuncs.com/bohai_repo/jenkins-slave-amd64:1.0.0-SNAPSHOT|
-|ARM64|registry.ap-northeast-1.aliyuncs.com/bohai_repo/jenkins-slave-arm64:1.0.0-SNAPSHOT|
+| 架构  | 镜像                                                         |
+| ----- | ------------------------------------------------------------ |
+| AMD64 | registry.ap-northeast-1.aliyuncs.com/bohai_repo/jenkins-slave-amd64:1.0.0-SNAPSHOT |
+| ARM64 | registry.ap-northeast-1.aliyuncs.com/bohai_repo/jenkins-slave-arm64:1.0.0-SNAPSHOT |
