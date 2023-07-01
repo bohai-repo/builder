@@ -37,5 +37,10 @@ sleep_time    # 数据采集时间间隔(单位：秒)
 route_ip      # 路由器IP地址
 password      # 路由器后台管理密码(通过F12浏览器抓取login接口获取)
 ```
+密码获取：
 
-![](https://resource.static.tencent.itan90.cn/mac_pic/2023-07-01/eSpurp.jpg)
+![](./Passwd.jpg)
+
+监控面板：
+
+![](./Grafana.png)
