@@ -6,7 +6,11 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-RUN wget 'http://nginx.org/download/nginx-1.21.1.tar.gz' \
+RUN apk add --no-cache gcc libc-dev \
+    make openssl-dev linux-headers \
+    pcre-dev zlib-dev perl-dev \
+    curl gd-dev \
+    && wget 'http://nginx.org/download/nginx-1.21.1.tar.gz' \
     && wget 'https://file.init.ac/openssl-1.1.1a.tar.gz' \
     && tar xzf openssl-1.1.1a.tar.gz \
     && tar zxf nginx-1.21.1.tar.gz && cd nginx-1.21.1 \
