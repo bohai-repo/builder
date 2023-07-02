@@ -28,4 +28,4 @@ RUN apk add --no-cache gcc libc-dev \
 
 ADD nginx.conf  /app/nginx/conf/nginx.conf
 
-CMD ["/app/nginx/sbin/nginx"]
+CMD ["nginx", "-g", "daemon off;"]
