@@ -140,3 +140,14 @@ jobs:
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh route-exporter route-exporter 1.0.0-SNAPSHOT
+  build-nginx-armd64:
+    runs-on: [self-hosted,kubernetes-arm64]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Launch Builder
+        if: ${{ contains(github.event.head_commit.message, 'nginx') }}
+        run: |
+          export build_repo_name='bohai_repo'
+          export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
+          /bin/bash build.sh nginx nginx 1.21.1
