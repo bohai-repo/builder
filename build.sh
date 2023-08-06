@@ -12,13 +12,14 @@ function notice() {
     return
   fi
 
-  build_git_repo=$(git config --get remote.origin.url | cut -d'/' -f4)
+  # 元数据提取
   build_describe=$(curl -s -X GET https://api.github.com/repos/bohai-repo/builder/actions/runs|head -6|grep 'name'|cut -d'"' -f4)
   build_actionid=$(curl -s -X GET https://api.github.com/repos/bohai-repo/builder/actions/runs|head -6|grep 'id'|awk '{print $2}'|cut -d, -f1)
-  build_link="https://github.com/${build_git_repo}/actions/runs/${build_actionid}"
+
+  build_link="https://github.com/bohai-repo/builder/actions/runs/${build_actionid}"
 
   mail_title="来自Github Actions构建的 ${alias_app} ${build_result}通知"
-  mail_body="构建应用: ${build_app}\n\n发布名称: ${alias_app}\n\n构建版本: ${build_repo}:${build_version}\n\n本次构建描述: ${build_describe}\n\n本次构建地址: ${build_link}"
+  mail_body="构建应用: ${build_app}\n\n发布名称: ${alias_app}\n\n构建版本: ${build_repo}:${build_version}\n\n本次构建描述: ${build_describe}\n本次构建地址: ${build_link}"
 
   for mail_users in ${NOTICE_MAIL};do
     curl -s -X POST -H "Content-Type:application/json" -d '{"to":"'"${mail_users}"'","subject":"'"${mail_title}"'","body":"'"${mail_body}"'"}' https://notify.itan90.cn/mail/${NOTICE_PATH}
