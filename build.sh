@@ -12,13 +12,13 @@ function notice() {
     return
   fi
 
-  build_repo=$(git config --get remote.origin.url | cut -d'/' -f4)
+  build_git_repo=$(git config --get remote.origin.url | cut -d'/' -f4)
   build_describe=$(curl -s -X GET https://api.github.com/repos/bohai-repo/builder/actions/runs|head -6|grep 'name'|cut -d'"' -f4)
   build_actionid=$(curl -s -X GET https://api.github.com/repos/bohai-repo/builder/actions/runs|head -6|grep 'id'|awk '{print $2}'|cut -d, -f1)
-  build_link="https://github.com/${build_repo}/actions/runs/${build_actionid}"
+  build_link="https://github.com/${build_git_repo}/actions/runs/${build_actionid}"
 
   mail_title="来自Github Actions构建的 ${alias_app} ${build_result}通知"
-  mail_body="构建应用: ${build_app}\n\n发布名称: ${alias_app}\n\n构建版本: ${build_repo}:${build_version}\n\n本次构建描述: ${build_describe}\n\n本次构建地址: ${build_link}\n\n之所以收到此邮件可能是由于我们的管理员添加了您的邮箱到我们的通知列表,如果你认为或不想收到此邮件,可直接回复: '"'不需要收到构建通知'"' 则将从中去除你的邮件地址"
+  mail_body="构建应用: ${build_app}\n\n发布名称: ${alias_app}\n\n构建版本: ${build_repo}:${build_version}\n\n本次构建描述: ${build_describe}\n\n本次构建地址: ${build_link}"
 
   for mail_users in ${NOTICE_MAIL};do
     curl -s -X POST -H "Content-Type:application/json" -d '{"to":"'"${mail_users}"'","subject":"'"${mail_title}"'","body":"'"${mail_body}"'"}' https://notify.itan90.cn/mail/${NOTICE_PATH}
