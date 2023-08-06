@@ -12,8 +12,12 @@ function notice() {
     return
   fi
 
+  build_num=$(git rev-parse --short HEAD)
+  build_repo=$(git config --get remote.origin.url | cut -d'/' -f3)
+  build_link="https://github.com/$build_repo/actions/runs/$build_number"
+
   mail_title="来自Github Actions构建的 ${alias_app} ${build_result}通知"
-  mail_body="构建应用: ${build_app}     发布名称: ${alias_app}     构建版本: ${build_repo}:${build_version}"
+  mail_body="构建应用: ${build_app}\n\n发布名称: ${alias_app}\n\n构建版本: ${build_repo}:${build_version}\n\n之所以收到此邮件可能是由于我们的管理员添加了您的邮箱到我们的通知列表,如果你认为或不想收到此邮件,可直接回复: '"'不需要收到构建通知'"' 则将从中去除你的邮件地址\n\n本次构建地址: ${build_link}"
 
   for mail_users in ${NOTICE_MAIL};do
     curl -s -X POST -H "Content-Type:application/json" -d '{"to":"'"${mail_users}"'","subject":"'"${mail_title}"'","body":"'"${mail_body}"'"}' https://notify.itan90.cn/mail/${NOTICE_PATH}

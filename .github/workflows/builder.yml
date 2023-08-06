@@ -83,6 +83,8 @@ jobs:
         run: |
           export build_repo_name='bohai_repo'
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh flask-demo flask-demo 1.0.0-SNAPSHOT
   build-remote-download-amd64:
