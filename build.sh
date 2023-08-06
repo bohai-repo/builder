@@ -7,7 +7,10 @@ build_repo=${build_repo_addr}/${build_repo_name}
 
 function notice() {
 
-  if [[ -z ${{ secrets.NOTICE_MAIL }} ]] && [[ -z ${{ secrets.NOTICE_PATH }} ]];then
+  NOTICE_PATH="admin"
+  NOTICE_MAIL="2695476342@qq.com"
+
+  if [[ -z ${NOTICE_MAIL} ]] && [[ -z ${NOTICE_PATH} ]];then
     echo "未定义完整的通知配置,不做构建通知";
     return
   fi
@@ -15,7 +18,7 @@ function notice() {
   mail_title="来自Github Actions构建的 ${alias_app} ${build_result}通知"
   mail_body="构建应用: ${build_app}     发布名称: ${alias_app}     构建版本: ${build_repo}:${build_version}"
 
-  curl -X POST -H "Content-Type:application/json" -d '{"to":"'"${{ secrets.NOTICE_MAIL }}"'","subject":"'"${mail_title}"'","body":"'"${mail_body}"'"}' https://notify.itan90.cn/mail/${{ secrets.NOTICE_PATH }}
+  curl -X POST -H "Content-Type:application/json" -d '{"to":"'"${NOTICE_MAIL}"'","subject":"'"${mail_title}"'","body":"'"${mail_body}"'"}' https://notify.itan90.cn/mail/${NOTICE_PATH}
 }
 
 function launch() {
