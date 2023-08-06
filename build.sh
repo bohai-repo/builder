@@ -7,9 +7,6 @@ build_repo=${build_repo_addr}/${build_repo_name}
 
 function notice() {
 
-  NOTICE_PATH="admin"
-  NOTICE_MAIL="2695476342@qq.com"
-
   if [[ -z ${NOTICE_MAIL} ]] && [[ -z ${NOTICE_PATH} ]];then
     echo "未定义完整的通知配置,不做构建通知";
     return
