@@ -31,6 +31,8 @@ jobs:
         run: |
           export build_repo_name='bohai_repo'
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh frpc frpc-auto-arm 0.28.2
   build-actions-runner-amd64:
@@ -55,6 +57,8 @@ jobs:
         run: |
           export build_repo_name='bohai_repo'
           export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr} 
           /bin/bash build.sh github-runner github-runner-arm64 2.304.0
   build-consul-deregister-amd64:
@@ -66,6 +70,8 @@ jobs:
         run: |
           export build_repo_name='bohai_repo'
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh consul-deregister consul-deregister 1.0.0-SNAPSHOT
   build-flask-demo-amd64:
@@ -77,8 +83,6 @@ jobs:
         run: |
           export build_repo_name='bohai_repo'
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
-          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
-          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh flask-demo flask-demo 1.0.0-SNAPSHOT
   build-remote-download-amd64:
@@ -90,6 +94,8 @@ jobs:
         run: |
           export build_repo_name='bohai_repo'
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh remote-download remote_download 1.0.0-SNAPSHOT
   build-v2ray-amd64:
@@ -101,6 +107,8 @@ jobs:
         run: |
           export build_repo_name='bohai_repo'
           export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh v2ray v2ray 1.0.0-SNAPSHOT
   build-qwx-logstash:
@@ -112,6 +120,8 @@ jobs:
         run: |
           export build_repo_name='bohai_repo'
           export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh qwx_logstash qwx_logstash latest
   build-jenkins-slave-arm64:
@@ -123,6 +133,8 @@ jobs:
         run: |
           export build_repo_name='bohai_repo'
           export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh jenkins-slave jenkins-slave-arm64 1.0.0-SNAPSHOT
   build-jenkins-slave-amd64:
@@ -134,6 +146,8 @@ jobs:
         run: |
           export build_repo_name='bohai_repo'
           export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh jenkins-slave jenkins-slave-amd64 1.0.0-SNAPSHOT
   build-route-exporter-amd64:
@@ -145,6 +159,8 @@ jobs:
         run: |
           export build_repo_name='bohai_repo'
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh route-exporter route-exporter 1.0.0-SNAPSHOT
   build-nginx-armd64:
@@ -156,5 +172,7 @@ jobs:
         run: |
           export build_repo_name='bohai_repo'
           export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh nginx nginx 1.21.1
