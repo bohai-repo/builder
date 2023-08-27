@@ -178,19 +178,6 @@ jobs:
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh nginx nginx 1.21.1
-  build-nginx-amd64:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Launch Builder
-        if: ${{ contains(github.event.head_commit.message, 'nginx-amd64') }}
-        run: |
-          export build_repo_name='bohai_repo'
-          export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
-          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
-          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
-          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
-          /bin/bash build.sh nginx nginx 1.21.1-amd
   build-php72-amd64:
     runs-on: ubuntu-latest
     steps:
@@ -204,3 +191,16 @@ jobs:
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh php72 php 7.2
+  build-php72-arm64:
+    runs-on: [self-hosted,kubernetes-arm64]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Launch Builder
+        if: ${{ contains(github.event.head_commit.message, 'php72') }}
+        run: |
+          export build_repo_name='bohai_repo'
+          export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
+          /bin/bash build.sh php72 php-arm 7.2
