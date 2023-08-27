@@ -190,4 +190,4 @@ jobs:
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
-          /bin/bash build.sh php php 7.2
+          /bin/bash build.sh php72 php 7.2
