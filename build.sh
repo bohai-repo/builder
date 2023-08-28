@@ -46,6 +46,8 @@ function launch() {
     if [[ $? == 0 && ${build_app} != 'github-runner' ]];then
         docker rmi ${build_repo}/${alias_app}:${build_version}
     fi
+  else
+    return 1
   fi
 }
 

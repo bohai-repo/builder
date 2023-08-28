@@ -121,4 +121,4 @@ EXPOSE 9000
 COPY conf.d/php.ini /usr/local/php/etc/
 COPY conf.d/php-fpm.conf /usr/local/php/etc/
 
-CMD ["php-fpm --nodaemonize"]
+CMD ["php-fpm" "--nodaemonize;"]
