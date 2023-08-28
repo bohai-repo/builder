@@ -2,9 +2,6 @@ FROM alpine:3.7
 
 ENV PHP_VERSION=7.3.29 PHP_DIR=/usr/local/php/ PATH=$PATH:/usr/local/php/bin/:/usr/local/php/sbin/ TZ=Asia/Shanghai LANG=C.UTF-8
 
-# RUN  sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
-# RUN  sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
-
 RUN  CONFIG="\
 		--prefix=/usr/local/php \
 		--with-config-file-path=/usr/local/php/etc \
@@ -124,6 +121,4 @@ EXPOSE 9000
 COPY conf.d/php.ini /usr/local/php/etc/
 COPY conf.d/php-fpm.conf /usr/local/php/etc/
 
-# ADD start.sh /start.sh
-# RUN chmod +x /start.sh
-# CMD ["/start.sh"]
+CMD ["php-fpm --nodaemonize"]
