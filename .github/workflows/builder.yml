@@ -217,3 +217,29 @@ jobs:
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh php73 php-arm 7.3
+  build-nginx-amd64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Launch Builder
+        if: ${{ contains(github.event.head_commit.message, 'php73') }}
+        run: |
+          export build_repo_name='bohai_repo'
+          export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
+          /bin/bash build.sh nginx nginx-amd 1.21.1
+  build-php73-amd64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Launch Builder
+        if: ${{ contains(github.event.head_commit.message, 'php73') }}
+        run: |
+          export build_repo_name='bohai_repo'
+          export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
+          /bin/bash build.sh php73 php-amd 7.3
