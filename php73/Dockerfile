@@ -81,7 +81,6 @@ RUN  CONFIG="\
 	&& wget -c --tries=0 --no-check-certificate https://file.init.ac/libzip-1.2.0.tar.gz -O /tmp/libzip-1.2.0.tar.gz \
 	&& wget -c --tries=0 --no-check-certificate http://pecl.php.net/get/mcrypt-1.0.2.tgz -O /tmp/mcrypt-1.0.2.tgz \
 	&& wget -c --tries=0 --no-check-certificate https://ftp.openssl.org/source/old/1.0.2/openssl-1.0.2q.tar.gz -O /tmp/openssl-1.0.2q.tar.gz \
-	&& wget -c --tries=0 --no-check-certificate https://pecl.php.net/get/solr-2.4.0.tgz -O /tmp/solr-2.4.0.tgz \
 	&& wget -c --tries=0 --no-check-certificate http://pecl.php.net/get/memcached-3.1.3.tgz -O /tmp/memcached-3.1.3.tgz \
 	&& cd /tmp \
 	&& for tar in *.tar.gz;  do tar xvf $tar -C /tmp; done \
@@ -110,12 +109,7 @@ RUN  CONFIG="\
 	&& ./configure --with-php-config=/usr/local/php/bin/php-config \
 	&& make \
 	&& make install \
-	&& cd /tmp/solr-2.4.0 \
-	&& /usr/local/php/bin/phpize \
-	&& ./configure --with-php-config=/usr/local/php/bin/php-config \
-	&& make \
-	&& make install \
-	&& cd /tmp/pecl-memcache \
+	&& cd /tmp/memcached-3.1.3 \
 	&& /usr/local/php/bin/phpize \
 	&& ./configure --with-php-config=/usr/local/php/bin/php-config \
 	&& make \
