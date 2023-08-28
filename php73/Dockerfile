@@ -75,14 +75,14 @@ RUN  CONFIG="\
 		gmp-dev \
 		gdbm-dev \
 		icu-dev \
-	&& wget -c --tries=0 https://www.php.net/distributions/php-7.3.29.tar.gz -O /tmp/php-7.3.29.tar.gz \
-	&& wget -c --tries=0 https://pecl.php.net/get/redis-4.2.0.tgz -O /tmp/redis-4.2.0.tgz \
-	&& wget -c --tries=0 http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz -O /tmp/libiconv-1.15.tar.gz \
-	&& wget -c --tries=0 https://nih.at/libzip/libzip-1.2.0.tar.gz -O /tmp/libzip-1.2.0.tar.gz \
-	&& wget -c --tries=0 http://pecl.php.net/get/mcrypt-1.0.2.tgz -O /tmp/mcrypt-1.0.2.tgz \
-	&& wget -c --tries=0 https://ftp.openssl.org/source/old/1.0.2/openssl-1.0.2q.tar.gz -O /tmp/openssl-1.0.2q.tar.gz \
-	&& wget -c --tries=0 https://pecl.php.net/get/solr-2.4.0.tgz -O /tmp/solr-2.4.0.tgz \
-	&& wget -c --tries=0 http://pecl.php.net/get/memcached-3.1.3.tgz -O /tmp/memcached-3.1.3.tgz \
+	&& wget -c --tries=0 --no-check-certificate https://www.php.net/distributions/php-7.3.29.tar.gz -O /tmp/php-7.3.29.tar.gz \
+	&& wget -c --tries=0 --no-check-certificate https://pecl.php.net/get/redis-4.2.0.tgz -O /tmp/redis-4.2.0.tgz \
+	&& wget -c --tries=0 --no-check-certificate http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz -O /tmp/libiconv-1.15.tar.gz \
+	&& wget -c --tries=0 --no-check-certificate https://nih.at/libzip/libzip-1.2.0.tar.gz -O /tmp/libzip-1.2.0.tar.gz \
+	&& wget -c --tries=0 --no-check-certificate http://pecl.php.net/get/mcrypt-1.0.2.tgz -O /tmp/mcrypt-1.0.2.tgz \
+	&& wget -c --tries=0 --no-check-certificate https://ftp.openssl.org/source/old/1.0.2/openssl-1.0.2q.tar.gz -O /tmp/openssl-1.0.2q.tar.gz \
+	&& wget -c --tries=0 --no-check-certificate https://pecl.php.net/get/solr-2.4.0.tgz -O /tmp/solr-2.4.0.tgz \
+	&& wget -c --tries=0 --no-check-certificate http://pecl.php.net/get/memcached-3.1.3.tgz -O /tmp/memcached-3.1.3.tgz \
 	&& cd /tmp \
 	&& for tar in *.tar.gz;  do tar xvf $tar -C /tmp; done \
 	&& for tar in *.tgz;  do tar xvf $tar -C /tmp; done \
