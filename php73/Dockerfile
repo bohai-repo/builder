@@ -109,11 +109,6 @@ RUN  CONFIG="\
 	&& ./configure --with-php-config=/usr/local/php/bin/php-config \
 	&& make \
 	&& make install \
-	&& cd /tmp/memcached-3.1.3 \
-	&& /usr/local/php/bin/phpize \
-	&& ./configure --with-php-config=/usr/local/php/bin/php-config \
-	&& make \
-	&& make install \
 	&& cd /tmp/mcrypt-1.0.2 \
 	&& /usr/local/php/bin/phpize \
 	&& ./configure --with-php-config=/usr/local/php/bin/php-config \
