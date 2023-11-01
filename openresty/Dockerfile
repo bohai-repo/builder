@@ -10,6 +10,8 @@ ARG RESTY_IMAGE_BASE="alpine"
 ARG RESTY_IMAGE_TAG="3.18"
 ARG RESTY_VERSION="1.21.4.2"
 ARG NGINX_VERSION="1.21.4"
+# see https://github.com/chobits/ngx_http_proxy_connect_module#select-patch
+ARG PROXY_CONNECT_REWRITE_VERSION='102101'
 ARG RESTY_OPENSSL_VERSION="1.1.1w"
 ARG RESTY_OPENSSL_PATCH_VERSION="1.1.1f"
 ARG RESTY_OPENSSL_URL_BASE="https://www.openssl.org/source"
@@ -148,7 +150,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && cd /tmp/openresty-${RESTY_VERSION} \
     && if [ -n "${RESTY_EVAL_POST_DOWNLOAD_PRE_CONFIGURE}" ]; then eval $(echo ${RESTY_EVAL_POST_DOWNLOAD_PRE_CONFIGURE}); fi \
     && eval ./configure -j${RESTY_J} ${_RESTY_CONFIG_DEPS} ${RESTY_CONFIG_OPTIONS} ${RESTY_CONFIG_OPTIONS_MORE} ${RESTY_LUAJIT_OPTIONS} ${RESTY_PCRE_OPTIONS} \
-    && patch -d /tmp/openresty-${RESTY_VERSION}/build/nginx-${NGINX_VERSION}/ -p 1 < /tmp/ngx_http_proxy_connect_module/patch/proxy_connect_rewrite_102101.patch \
+    && patch -d /tmp/openresty-${RESTY_VERSION}/build/nginx-${NGINX_VERSION}/ -p 1 < /tmp/ngx_http_proxy_connect_module/patch/proxy_connect_rewrite_${PROXY_CONNECT_REWRITE_VERSION}.patch \
     && make -j${RESTY_J} \
     && make -j${RESTY_J} install \
     && cd /tmp \
