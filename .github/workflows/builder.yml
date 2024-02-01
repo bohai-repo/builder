@@ -179,7 +179,7 @@ jobs:
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh openresty openresty 1.21.4
   build-openresty-arm64:
-    runs-on: [self-hosted,kubernetes-arm64]
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v2
       - name: Launch Builder
