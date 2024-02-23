@@ -153,13 +153,18 @@ RUN apk add --no-cache --virtual .build-deps \
     && patch -d /tmp/openresty-${RESTY_VERSION}/build/nginx-${NGINX_VERSION}/ -p 1 < /tmp/ngx_http_proxy_connect_module/patch/proxy_connect_rewrite_${PROXY_CONNECT_REWRITE_VERSION}.patch \
     && make -j${RESTY_J} \
     && make -j${RESTY_J} install \
+    # add lua-resty-core
+    && curl -fSL https://github.com/openresty/lua-resty-core/archive/refs/tags/v0.1.28.tar.gz -o v0.1.28.tar.gz \
+    && tar zxvf v0.1.28.tar.gz \
+    && cd lua-resty-core-0.1.28 \
+    && make install PREFIX=/usr/local/openresty/nginx \
     && cd /tmp \
     && if [ -n "${RESTY_EVAL_POST_MAKE}" ]; then eval $(echo ${RESTY_EVAL_POST_MAKE}); fi \
     && rm -rf \
         openssl-${RESTY_OPENSSL_VERSION}.tar.gz openssl-${RESTY_OPENSSL_VERSION} \
         pcre-${RESTY_PCRE_VERSION}.tar.gz pcre-${RESTY_PCRE_VERSION} \
         openresty-${RESTY_VERSION}.tar.gz openresty-${RESTY_VERSION} \
-        ngx_http_proxy_connect_module* \
+        ngx_http_proxy_connect_module* v0.1.28.tar.gz\
     && apk del .build-deps \
     && mkdir -p /var/run/openresty \
     && ln -sf /dev/stdout /usr/local/openresty/nginx/logs/access.log \

@@ -177,17 +177,17 @@ jobs:
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
-          /bin/bash build.sh openresty openresty 1.21.4
-  build-openresty-arm64:
-    runs-on: macos-14
-    steps:
-      - uses: actions/checkout@v2
-      - name: Launch Builder
-        if: ${{ contains(github.event.head_commit.message, 'openresty-arm') }}
-        run: |
-          export build_repo_name='bohai_repo'
-          export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
-          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
-          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
-          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
-          /bin/bash build.sh openresty openresty-arm 1.21.4
+          /bin/bash build.sh openresty openresty 1.21.4-waf
+  # build-openresty-arm64:
+  #   runs-on: macos-14
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Launch Builder
+  #       if: ${{ contains(github.event.head_commit.message, 'openresty-arm') }}
+  #       run: |
+  #         export build_repo_name='bohai_repo'
+  #         export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
+  #         export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+  #         export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+  #         docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
+  #         /bin/bash build.sh openresty openresty-arm 1.21.4
