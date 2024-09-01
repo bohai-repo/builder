@@ -22,14 +22,21 @@ registry.cn-hangzhou.aliyuncs.com/bohai_repo/wrest-webhook-python:1.0.0-SNAPSHOT
 docker logs -f --tail=200 wrest-webhook
 ```
 
+## 测试
+
+```
+curl "http://127.0.0.1:8872/api?receiver=你的微信ID&msg=test"
+```
+
 ## 对接Server酱
 
 打开 `https://sct.ftqq.com/forward`,进入 `通道配置` --> `其他通道` --> `自定义` --> 填入以下内容
 
 ```
 {
-    "url":"http://42.192.186.124:8872/api?receiver=47719964397@chatroom&msg={{desp}}"
+    "url":"http://服务器公网地址:8872/api?receiver=收信群或收信人&msg={{desp}}"
 }
 ```
 
-
+- 服务器公网地址: 部署接口服务的公网地址
+- receiver: 收信群聊的ID;如: xxxxx@chatroom或收信人微信ID
