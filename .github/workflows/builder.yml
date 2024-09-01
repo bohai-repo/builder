@@ -191,3 +191,16 @@ jobs:
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh openresty openresty-arm 1.21.4
+  build-wrest-webhook-python-amd64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Launch Builder
+        if: ${{ contains(github.event.head_commit.message, 'wrest-webhook-python') }}
+        run: |
+          export build_repo_name='bohai_repo'
+          export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
+          /bin/bash build.sh wrest-webhook-python wrest-webhook-python 1.0.0-SNAPSHOT
