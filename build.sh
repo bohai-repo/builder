@@ -27,6 +27,7 @@ function notice() {
   
   if [[ ${notice_wechat} ]];then
     curl -s -G "http://42.192.186.124:8872/api" --data-urlencode "receiver=47719964397@chatroom" --data-urlencode "msg=${mail_body}"
+  fi 
 }
 
 function launch() {
