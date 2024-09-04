@@ -40,3 +40,7 @@ curl "http://127.0.0.1:8872/api?receiver=你的微信ID&msg=test"
 
 - 服务器公网地址: 部署接口服务的公网地址
 - receiver: 收信群聊的ID;如: xxxxx@chatroom或收信人微信ID
+
+## 对接RSSPUSH 
+
+TODO...
