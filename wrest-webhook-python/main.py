@@ -25,7 +25,7 @@ def api():
     headers = {'Content-Type': 'application/json;charset=utf-8'}
     payload = {
         "receiver": receiver,
-        "msg": f"{task_title}的更新: {title}\t文章地址: {link}"
+        "msg": f"{task_title}的更新: {title}\n文章地址: {link}"
     }
 
     try:
