@@ -7,8 +7,8 @@ app.config['JSON_AS_ASCII'] = False
 
 wrest_url = os.environ.get('wrest_url') or 'http://127.0.0.1:7600'
 
-@app.route('/api/<receiver>', methods=['POST'])
-def api(receiver):
+@app.route('/api', methods=['POST'])
+def api():
     # Extract form data
     title = request.form.get('title')
     desp = request.form.get('desp')
@@ -16,19 +16,14 @@ def api(receiver):
     task_id = request.form.get('task_id')
     task_title = request.form.get('task_title')
 
-    if not receiver or not title or not desp or not link or not task_id or not task_title:
-        return jsonify({'error': 'Missing one or more parameters'}), 400
+    if not title or not desp or not link or not task_id or not task_title:
+        return jsonify({'error': 'Missing one or more required parameters'}), 400
 
-    # Prepare payload for the downstream API
     url = f'{wrest_url}/wcf/send_txt'
     headers = {'Content-Type': 'application/json;charset=utf-8'}
     payload = {
-        "receiver": receiver,
-        "title": title,
-        "desp": desp,
-        "link": link,
-        "task_id": task_id,
-        "task_title": task_title
+        "receiver": '47719964397@chatroom',  # Hardcoded receiver
+        "msg": f"Title: {title}\nDescription: {desp}\nLink: {link}\nTask ID: {task_id}\nTask Title: {task_title}"
     }
 
     try:
