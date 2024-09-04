@@ -24,6 +24,9 @@ function notice() {
   for mail_users in ${NOTICE_MAIL};do
     curl -s -X POST -H "Content-Type:application/json" -d '{"to":"'"${mail_users}"'","subject":"'"${mail_title}"'","body":"'"${mail_body}"'"}' https://notify.itan90.cn/mail/${NOTICE_PATH}
   done
+  
+  if [[ ${notice_wechat} ]];then
+    curl -s -G "http://42.192.186.124:8872/api" --data-urlencode "receiver=47719964397@chatroom" --data-urlencode "msg=${mail_body}"
 }
 
 function launch() {
