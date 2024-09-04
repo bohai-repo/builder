@@ -7,25 +7,34 @@ app.config['JSON_AS_ASCII'] = False
 
 wrest_url = os.environ.get('wrest_url') or 'http://127.0.0.1:7600'
 
-@app.route('/api', methods=['POST'])
+@app.route('/api', methods=['POST', 'GET'])
 def api():
-    # 接收方
+    # 消息接收方
     receiver = request.args.get('receiver', '47719964397@chatroom')
     
-    title = request.form.get('title')
-    desp = request.form.get('desp')
-    link = request.form.get('link')
-    task_id = request.form.get('task_id')
-    task_title = request.form.get('task_title')
+    # 处理从RssPush发送过来的Post请求
+    if request.method == 'POST':
+        title = request.form.get('title')
+        desp = request.form.get('desp')
+        link = request.form.get('link')
+        task_id = request.form.get('task_id')
+        task_title = request.form.get('task_title')
 
-    if not title or not desp or not link or not task_id or not task_title:
-        return jsonify({'error': 'Missing one or more required parameters'}), 400
+        if not title or not desp or not link or not task_id or not task_title:
+            return jsonify({'error': 'Missing one or more required parameters'}), 400
+
+        msg = f"{task_title}：{title}\n\n{link}"
+    # 处理直接请求的消息发送
+    elif request.method == 'GET':
+        msg = request.args.get('msg')
+        if not msg:
+            return jsonify({'error': 'Missing "msg" parameter'}), 400
 
     url = f'{wrest_url}/wcf/send_txt'
     headers = {'Content-Type': 'application/json;charset=utf-8'}
     payload = {
         "receiver": receiver,
-        "msg": f"{task_title}的更新: {title}\n文章地址: {link}"
+        "msg": msg
     }
 
     try:
