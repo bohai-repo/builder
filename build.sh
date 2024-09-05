@@ -28,7 +28,7 @@ function notice() {
   if [[ ${NOTICE_WECHAT} ]];then
     message_title=$(printf "来自Github Actions构建的 %s %s通知" "$alias_app" "$build_result")
     message_body=$(printf "\n\n\n构建应用: %s for %s\n\n发布名称: %s\n\n构建版本: %s/%s:%s\n\n本次构建描述: %s\n本次构建地址: %s" "$build_app" "$(uname -m)" "$alias_app" "$build_repo" "$alias_app" "$build_version" "$build_describe" "$build_link")
-    curl -s -G "http://42.192.186.124:8872/api" --data-urlencode "receiver=47719964397@chatroom" --data-urlencode "msg=${message_title} ${message_body}"
+    curl -s -G "http://42.192.186.124:8872/api" --data-urlencode "receiver=24798348812@chatroom" --data-urlencode "msg=${message_title} ${message_body}"
   fi 
 }
 

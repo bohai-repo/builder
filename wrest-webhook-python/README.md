@@ -41,6 +41,10 @@ curl "http://127.0.0.1:8872/api?receiver=你的微信ID&msg=test"
 - 服务器公网地址: 部署接口服务的公网地址
 - receiver: 收信群聊的ID;如: xxxxx@chatroom或收信人微信ID
 
-## 对接RSSPUSH 
+## 对接RSSPush
 
-TODO...
+在RSSPush的任务配置的选项里,可以直接在`Sendkey`中,填入接口服务的地址,如:
+
+```
+http://服务器公网地址:8872/api?receiver=收信群或收信人
+```
