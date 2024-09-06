@@ -23,6 +23,13 @@ def api():
         if not title or not desp or not link or not task_id or not task_title:
             return jsonify({'error': 'Missing one or more required parameters'}), 400
 
+        # 优化来源标题
+        if task_title == 'V2EX-programmer':
+            task_title = 'v2ex-程序员'
+        if task_title == 'V2EX-qna':
+            task_title = 'v2ex-问与答'
+        elif task_title == 'Kubernetes' and 'v2ex' in link:
+            task_title = 'v2ex-k8s'
         msg = f"{task_title}：{title}\n\n{link}"
     # 处理直接请求的消息发送
     elif request.method == 'GET':
