@@ -26,8 +26,14 @@ def api():
         # 优化来源标题
         if task_title == 'V2EX-programmer':
             task_title = 'v2ex-程序员'
-        if task_title == 'V2EX-qna':
+        elif task_title == 'V2EX-qna':
             task_title = 'v2ex-问与答'
+        elif task_title == 'yuyao-101210404未来三天天气':
+            task_title = '余姚未来三天天气'
+        elif task_title == 'yuyao-101210404实时天气':
+            task_title = '余姚实时天气'
+        elif task_title == 'pudong-101020600实时天气':
+            task_title = '浦东实时天气'
         elif task_title == 'Kubernetes' and 'v2ex' in link:
             task_title = 'v2ex-k8s'
         msg = f"{task_title}：{title}\n\n{link}"
