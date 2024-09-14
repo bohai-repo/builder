@@ -217,7 +217,7 @@ jobs:
             docker pull  ${app_version}
             docker rm -f ${app_name}
             docker run -itd --name ${app_name} \
-            --restart=always 
+            --restart=always \
             -p 8872:8872 \
             -e wrest_url=${{ secrets.WREST_URL }} \
             ${app_version}
