@@ -202,6 +202,22 @@ jobs:
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
-          export NOTICE_WECHAT=true
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh wrest-webhook-python wrest-webhook-python 1.0.0-SNAPSHOT
+      - name: Launch Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          port: ${{ secrets.SSH_PORT }}
+          key:  ${{ secrets.SSH_KEY }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          script: |
+            export app_name="wrest-webhook"
+            export app_version="${build_repo}/${alias_app}:${build_version}"
+            docker pull  ${app_version}
+            docker rm -f ${app_name}
+            docker run -itd --name ${app_name} \
+            --restart=always 
+            -p 8872:8872 \
+            -e wrest_url=${{ secrets.WREST_URL }} \
+            ${app_version}
