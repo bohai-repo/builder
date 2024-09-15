@@ -213,11 +213,11 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           script: |
             export app_name="wrest-webhook"
-            export app_version="${build_repo}/${alias_app}:${build_version}"
+            export app_version="registry.cn-hangzhou.aliyuncs.com/bohai_repo/wrest-webhook-python:1.0.0-SNAPSHOT"
             docker pull  ${app_version}
             docker rm -f ${app_name}
             docker run -itd --name ${app_name} \
             --restart=always \
             -p 8872:8872 \
-            -e wrest_url=${{ secrets.WREST_URL }} \
+            -e wrest_url="http://47.115.209.237:7600 \
             ${app_version}
