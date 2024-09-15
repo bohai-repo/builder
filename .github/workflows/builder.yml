@@ -219,5 +219,5 @@ jobs:
             docker run -itd --name ${app_name} \
             --restart=always \
             -p 8872:8872 \
-            -e wrest_url="http://47.115.209.237:7600 \
+            -e wrest_url="http://47.115.209.237:7600" \
             ${app_version}
