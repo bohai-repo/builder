@@ -1,4 +1,5 @@
 import os
+import re
 import requests
 from flask import Flask, request, jsonify
 
@@ -22,7 +23,7 @@ def api():
 
         if not title or not desp or not link or not task_id or not task_title:
             return jsonify({'error': 'Missing one or more required parameters'}), 400
-
+        link = [re.sub(r'/en/', '/', link)]
         # 优化来源标题
         if task_title == 'V2EX-programmer':
             task_title = 'v2ex-程序员'
