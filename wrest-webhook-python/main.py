@@ -35,6 +35,8 @@ def api():
             task_title = '余姚实时天气'
         elif task_title == 'pudong-101020600实时天气':
             task_title = '浦东实时天气'
+        elif task_title == 'luoyang-101180901实时天气':
+            task_title = '洛阳实时天气'
         elif task_title == 'Kubernetes' and 'v2ex' in link:
             task_title = 'v2ex-k8s'
         msg = f"{task_title}：{title}\n\n{link}"
