@@ -74,19 +74,6 @@ jobs:
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh consul-deregister consul-deregister 1.0.0-SNAPSHOT
-  build-remote-download-amd64:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Launch Builder
-        if: ${{ contains(github.event.head_commit.message, 'remote-download') }}
-        run: |
-          export build_repo_name='bohai_repo'
-          export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
-          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
-          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
-          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
-          /bin/bash build.sh remote-download remote_download 1.0.0-SNAPSHOT
   build-v2ray-amd64:
     runs-on: ubuntu-latest
     steps:
@@ -221,3 +208,29 @@ jobs:
             -p 8872:8872 \
             -e wrest_url="http://47.115.209.237:7600" \
             ${app_version}
+  build-remote-download-service-amd64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Launch Builder
+        if: ${{ contains(github.event.head_commit.message, 'remote-download-service') }}
+        run: |
+          export build_repo_name='bohai_repo'
+          export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
+          /bin/bash build.sh remote-download-service remote-download-service 1.0.0-SNAPSHOT
+  build-remote-download-service-arm64:
+    runs-on: [self-hosted,kubernetes-arm64]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Launch Builder
+        if: ${{ contains(github.event.head_commit.message, 'remote-download-service') }}
+        run: |
+          export build_repo_name='bohai_repo'
+          export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
+          /bin/bash build.sh remote-download-service remote-download-service 1.0.0-SNAPSHOT-ARM64

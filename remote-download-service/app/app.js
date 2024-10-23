@@ -11,6 +11,8 @@ const app = express()
 const path = require('path')
 const axios = require('axios').default
 const {decode} = require('urlencode')
+const client =require("prom-client")
+const register = new client.Registry()
 
 // 在这里储存任务信息
 const tasks = new Map()
@@ -18,6 +20,22 @@ const tasks = new Map()
 const salts = new Map()
 // 在这里储存access key
 let keys = []
+
+// 接口：监控接入
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics({
+    register
+});
+
+app.get("/health", async (req, res) => {
+  res.json({ code: 200 ,health: true})
+});
+app.get("/metrics", async (req, res) => {
+    res.setHeader("Content-Type", client.register.contentType);
+    let metrics = await register.metrics();
+    res.send(metrics);
+});
+
 
 // 读取配置文件，设置常量
 require('dotenv').config()
@@ -71,10 +89,10 @@ app.use((req, res, next) => {
   }
 })
 
-// 限流文件操作（读取列表、删除文件）十分钟十次
+// 限流文件操作（读取列表、删除文件）十分钟1000次
 const fileOperationLimit = rateLimit({
-  windowMs: 10 * 60 * 1000,
-  max: 10
+  windowMs: 5 * 60 * 1000,
+  max: 1000
 })
 app.use('/files', fileOperationLimit)
 

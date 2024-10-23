@@ -1,7 +1,7 @@
 {
-  "name": "remote-downloader-server",
+  "name": "remote-download-service",
   "version": "1.0.0",
-  "description": "An application offering simple GUI and download service to boost file download from China",
+  "description": "",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
@@ -9,9 +9,8 @@
   "keywords": [
     "download"
   ],
-  "author": "OrdosX",
-  "license": "MIT",
   "dependencies": {
+    "@midwayjs/prometheus": "^3.18.2",
     "axios": "^0.21.2",
     "csurf": "^1.11.0",
     "dotenv": "^8.2.0",

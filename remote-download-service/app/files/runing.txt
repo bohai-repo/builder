@@ -1,0 +1,4 @@
+Hallo,The remote-download-service runing...
+
+service health url: 127.0.0.1:8080/health 
+service monitor url: 127.0.0.1:8080/metrics 
