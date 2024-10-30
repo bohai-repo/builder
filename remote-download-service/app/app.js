@@ -171,7 +171,7 @@ app.get('/tasks/:id', (req, res) => {
     }
     res.json({ code: t.code, progress: t.progress, errmsg: t.errmsg })
   } else {
-    res.json({ code: CODE_NOT_FOUND, progress: 0, errmsg: '任务不存在' })
+    res.json({ code: CODE_NOT_FOUND, progress: 0, errmsg: '任务不存在,或刷新页面核查是否转存成功' })
   }
 })
 
