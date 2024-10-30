@@ -144,8 +144,9 @@ app.post('/tasks', (req, res) => {
     })
     downloader.on('end', () => {
       const t = tasks.get(id)
-      if (t.code === CODE_CANCELING) {
-        tasks.delete(req.params.id)
+      if (t && t.code === CODE_CANCELING) {
+        // 确保 t 不为 undefined
+        tasks.delete(id)
         fs.unlinkSync(tempDir + '/' + body.name)
         logger.fail(body.name, body.URL, 'Canceled.')
       } else {
