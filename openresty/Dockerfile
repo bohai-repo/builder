@@ -155,9 +155,6 @@ RUN apk add --no-cache --virtual .build-deps \
     && patch -d /tmp/openresty-${RESTY_VERSION}/build/nginx-${NGINX_VERSION}/ -p 1 < /tmp/ngx_http_proxy_connect_module/patch/proxy_connect_rewrite_${PROXY_CONNECT_REWRITE_VERSION}.patch \
     && make -j${RESTY_J} \
     && make -j${RESTY_J} install \
-    # add http module
-    && curl -fSL https://github.com/ledgetech/lua-resty-http/archive/refs/tags/v0.17.2.tar.gz -o v0.17.2.tar.gz \
-    && mv lua-resty-http-0.17.2/lib/resty/* /usr/local/openresty/lualib/resty/ \
     # add lua-resty-core
     && curl -fSL https://github.com/openresty/lua-resty-core/archive/refs/tags/v0.1.28.tar.gz -o v0.1.28.tar.gz \
     && tar zxvf v0.1.28.tar.gz \
