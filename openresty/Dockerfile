@@ -155,6 +155,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && patch -d /tmp/openresty-${RESTY_VERSION}/build/nginx-${NGINX_VERSION}/ -p 1 < /tmp/ngx_http_proxy_connect_module/patch/proxy_connect_rewrite_${PROXY_CONNECT_REWRITE_VERSION}.patch \
     && make -j${RESTY_J} \
     && make -j${RESTY_J} install \
+    && ln -sv /usr/local/openresty/lualib/resty/ /usr/local/openresty/nginx/conf/waf/ \
     && cd /tmp \
     && if [ -n "${RESTY_EVAL_POST_MAKE}" ]; then eval $(echo ${RESTY_EVAL_POST_MAKE}); fi \
     && rm -rf \
