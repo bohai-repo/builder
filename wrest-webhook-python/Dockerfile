@@ -8,5 +8,5 @@ ADD main.py /app
 EXPOSE 8872
 ENV wrest_url=http://127.0.0.1:7600
 
-RUN pip install --no-cache-dir Flask requests
+RUN pip install --no-cache-dir Flask requests openai
 CMD ["python3", "main.py"]
