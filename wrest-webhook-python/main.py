@@ -22,7 +22,7 @@ def summarize_text(text):
         response = client.chat.completions.create(
             model="deepseek-chat",
             messages=[
-                {"role": "system", "content": "你是一个信息提取总结的助手，我需要你对我给你的信息进行分析和总结，并返回简短的、35字以内的总结"},
+                {"role": "system", "content": "你是一个信息提取总结的助手，我需要你对我给你的信息进行分析和总结，并返回简短的、50字以内的总结"},
                 {"role": "user", "content": text},
             ],
             stream=False
@@ -31,7 +31,7 @@ def summarize_text(text):
         return response.choices[0].message.content
 
     except (OpenAIError, ValueError) as e:
-        return "Ai 分析繁忙中,请稍后再试"
+        return "系统繁忙,请稍后再试"
 
 @app.route('/api', methods=['POST', 'GET'])
 def api():

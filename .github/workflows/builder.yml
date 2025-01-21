@@ -204,8 +204,8 @@ jobs:
             docker pull  ${app_version}
             docker rm -f ${app_name}
             docker run -itd --name ${app_name} \
-            -e ai_api_enable='true'
-            -e ai_api_key='2058d3a63aa541ab88574f045fc019b5' \
+            -e ai_api_enable='true' \
+            -e ai_api_key='sk-2058d3a63aa541ab88574f045fc019b5' \
             --restart=always \
             -p 8872:8872 \
             -e wrest_url="http://47.115.209.237:7600" \
