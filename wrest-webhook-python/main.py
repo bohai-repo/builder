@@ -33,7 +33,7 @@ def init_db():
                 title TEXT NOT NULL,
                 link TEXT,
                 summary TEXT,
-                UNIQUE (task_title, title)
+                UNIQUE (link)
             )
         ''')
         conn.commit()
@@ -42,8 +42,11 @@ def init_db():
 def check_duplicate(link):
     with get_db_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT 1 FROM webhook_message_push WHERE link = ?", link)
-        return cursor.fetchone() is not None
+        cursor.execute("SELECT 1 FROM webhook_message_push WHERE link = ?", (link,)) # 修改SQL查询语句
+        result = cursor.fetchone()
+        if result:
+            logger.info(f"推送跳过,重复推送：{link}")
+        return result is not None
 
 
 def insert_message(task_title, title, link, summary):
