@@ -48,3 +48,7 @@ curl "http://127.0.0.1:8872/api?receiver=你的微信ID&msg=test"
 ```
 http://服务器公网地址:8872/api?receiver=收信群或收信人
 ```
+
+## 结构图
+
+<img src="./结构图.svg" width="400px">
