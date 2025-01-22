@@ -190,7 +190,7 @@ jobs:
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
-          /bin/bash build.sh wrest-webhook-python wrest-webhook-python 1.1.0-SNAPSHOT
+          /bin/bash build.sh wrest-webhook-python wrest-webhook-python 1.1.1-SNAPSHOT
       - name: Launch Deploy
         uses: appleboy/ssh-action@master
         with:
@@ -200,7 +200,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           script: |
             export app_name="wrest-webhook"
-            export app_version="registry.cn-hangzhou.aliyuncs.com/bohai_repo/wrest-webhook-python:1.1.0-SNAPSHOT"
+            export app_version="registry.cn-hangzhou.aliyuncs.com/bohai_repo/wrest-webhook-python:1.1.1-SNAPSHOT"
             docker pull  ${app_version}
             docker rm -f ${app_name}
             docker run -itd --name ${app_name} \
