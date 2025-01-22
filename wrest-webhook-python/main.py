@@ -1,5 +1,7 @@
 import os
 import re
+import sqlite3
+import logging
 import requests
 from openai import OpenAI, OpenAIError
 from flask import Flask, request, jsonify
@@ -7,9 +9,52 @@ from flask import Flask, request, jsonify
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
+webhook_database_file = '/app/data/data.db'
 ai_api_key = os.environ.get('ai_api_key') or 'xxxxx'
 ai_api_enable = os.environ.get('ai_api_enable') or 'false'
 wrest_url = os.environ.get('wrest_url') or 'http://127.0.0.1:7600'
+
+logging.basicConfig(filename='/app/data/main.log', level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+def get_db_connection():
+    conn = sqlite3.connect(webhook_database_file)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+def init_db():
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS webhook_message_push (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                task_title TEXT NOT NULL,
+                title TEXT NOT NULL,
+                link TEXT,
+                summary TEXT,
+                UNIQUE (task_title, title)
+            )
+        ''')
+        conn.commit()
+
+
+def check_duplicate(task_title, title):
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT 1 FROM webhook_message_push WHERE task_title = ? AND title = ?", (task_title, title))
+        return cursor.fetchone() is not None
+
+
+def insert_message(task_title, title, link, summary):
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        try:
+            cursor.execute("INSERT INTO webhook_message_push (task_title, title, link, summary) VALUES (?, ?, ?, ?)",
+                           (task_title, title, link, summary))
+            conn.commit()
+        except sqlite3.IntegrityError:
+            pass
 
 def summarize_text(text):
     try:
@@ -47,6 +92,7 @@ def api():
 
         if not title or not desp or not link or not task_id or not task_title:
             return jsonify({'error': 'Missing one or more required parameters'}), 400
+
         link = re.sub(r'/en/', '/', link)
         # 优化来源标题
         if task_title == 'V2EX-programmer':
@@ -64,11 +110,18 @@ def api():
         elif task_title == 'Kubernetes' and 'v2ex' in link:
             task_title = 'v2ex-k8s'
 
+        # 检测重复消息
+        if check_duplicate(task_title, title):
+            log_message = f"推送失败 原因：重复推送：task_title={task_title}, title={title}"
+            logger.info(log_message)
+
         if ai_api_enable:
             summary = summarize_text(desp)
             msg = f"{task_title}：{title}\n\n{link} \n\n\nAi总结(deepseek): {summary}"
         else:
             msg = f"{task_title}：{title}\n\n{link}"
+        insert_message(task_title, title, link, summary)
+
     # 处理直接请求的消息发送
     elif request.method == 'GET':
         msg = request.args.get('msg')
@@ -90,4 +143,5 @@ def api():
         return jsonify({'status': 'error', 'message': str(e)}), 500
 
 if __name__ == '__main__':
+    init_db()
     app.run(port=8872, host='0.0.0.0')
