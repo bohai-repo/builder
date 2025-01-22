@@ -115,15 +115,14 @@ def api():
 
         # 检测重复消息
         if check_duplicate(link):
-            log_message = f"推送失败,原因：重复推送: {task_title}:{title}  {link}"
-            logger.info(log_message)
-
-        if ai_api_enable:
-            summary = summarize_text(desp)
-            msg = f"{task_title}：{title}\n\n{link} \n\n\nAi总结(deepseek): {summary}"
+            return jsonify({'status': 'skip', 'msg': '重复推送'})
         else:
-            msg = f"{task_title}：{title}\n\n{link}"
-        insert_message(task_title, title, link, summary)
+            if ai_api_enable:
+                summary = summarize_text(desp)
+                msg = f"{task_title}：{title}\n\n{link} \n\n\nAi总结(deepseek): {summary}"
+            else:
+                msg = f"{task_title}：{title}\n\n{link}"
+            insert_message(task_title, title, link, summary)
 
     # 处理直接请求的消息发送
     elif request.method == 'GET':
