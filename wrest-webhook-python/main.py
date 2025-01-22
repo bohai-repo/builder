@@ -39,10 +39,10 @@ def init_db():
         conn.commit()
 
 
-def check_duplicate(task_title, title):
+def check_duplicate(link):
     with get_db_connection() as conn:
         cursor = conn.cursor()
-        cursor.execute("SELECT 1 FROM webhook_message_push WHERE task_title = ? AND title = ?", (task_title, title))
+        cursor.execute("SELECT 1 FROM webhook_message_push WHERE link = ?", link)
         return cursor.fetchone() is not None
 
 
@@ -111,8 +111,8 @@ def api():
             task_title = 'v2ex-k8s'
 
         # 检测重复消息
-        if check_duplicate(task_title, title):
-            log_message = f"推送失败 原因：重复推送：task_title={task_title}, title={title}"
+        if check_duplicate(link):
+            log_message = f"推送失败,原因：重复推送: {task_title}:{title}  {link}"
             logger.info(log_message)
 
         if ai_api_enable:
