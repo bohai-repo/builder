@@ -209,6 +209,7 @@ jobs:
             --restart=always \
             -p 8872:8872 \
             -e wrest_url="http://47.115.209.237:7600" \
+            -v /app/wrest-webhook:/app/data \
             ${app_version}
   build-remote-download-service-amd64:
     runs-on: ubuntu-latest

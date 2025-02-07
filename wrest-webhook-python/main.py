@@ -60,6 +60,8 @@ def insert_message(task_title, title, link, summary):
             pass
 
 def summarize_text(text):
+    if not text:
+        return "获取的文章描述为空,无法进行总结。"
     try:
         api_key = os.getenv("ai_api_key")
         if not api_key:
@@ -93,8 +95,8 @@ def api():
         task_id = request.form.get('task_id')
         task_title = request.form.get('task_title')
 
-        if not title or not desp or not link or not task_id or not task_title:
-            return jsonify({'error': 'Missing one or more required parameters'}), 400
+        if not title or not link or not task_id or not task_title:
+            return jsonify({'error': '缺少必要参数'}), 400
 
         link = re.sub(r'/en/', '/', link)
         # 优化来源标题
