@@ -72,7 +72,7 @@ def summarize_text(text):
         response = client.chat.completions.create(
             model="deepseek-chat",
             messages=[
-                {"role": "system", "content": "你是一个信息提取总结的助手，我需要你对我给你的信息进行分析和总结，并返回简短的、50字以内的总结"},
+                {"role": "system", "content": "你是一个信息提取总结的助手，我需要你对我给你的信息进行分析和总结，并返回简短的、150字以内的总结，如果遇到比较麻烦的内容，允许你爆粗口说脏话来表达总结"},
                 {"role": "user", "content": text},
             ],
             stream=False
