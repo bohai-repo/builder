@@ -190,27 +190,7 @@ jobs:
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
-          /bin/bash build.sh wrest-webhook-python wrest-webhook-python 1.1.1-SNAPSHOT
-      - name: Launch Deploy
-        uses: appleboy/ssh-action@master
-        with:
-          port: ${{ secrets.SSH_PORT }}
-          key:  ${{ secrets.SSH_KEY }}
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          script: |
-            export app_name="wrest-webhook"
-            export app_version="registry.cn-hangzhou.aliyuncs.com/bohai_repo/wrest-webhook-python:1.1.1-SNAPSHOT"
-            docker pull  ${app_version}
-            docker rm -f ${app_name}
-            docker run -itd --name ${app_name} \
-            -e ai_api_enable='true' \
-            -e ai_api_key='sk-2058d3a63aa541ab88574f045fc019b5' \
-            --restart=always \
-            -p 8872:8872 \
-            -e wrest_url="http://47.115.209.237:7600" \
-            -v /app/wrest-webhook:/app/data \
-            ${app_version}
+          /bin/bash build.sh wrest-webhook-python wrest-webhook-python 1.1.2-SNAPSHOT
   build-remote-download-service-amd64:
     runs-on: ubuntu-latest
     steps:
@@ -237,3 +217,16 @@ jobs:
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh remote-download-service remote-download-service 1.0.0-ARM64
+#  build-rss-manager-amd64:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Launch Builder
+#        if: ${{ contains(github.event.head_commit.message, 'rss-manager') }}
+#        run: |
+#          export build_repo_name='bohai_repo'
+#          export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
+#          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+#          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+#          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
+#          /bin/bash build.sh rss-manager rss-manager 1.0.0-SNAPSHOT

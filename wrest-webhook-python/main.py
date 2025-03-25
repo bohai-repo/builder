@@ -14,8 +14,7 @@ ai_api_key = os.environ.get('ai_api_key') or 'xxxxx'
 ai_api_enable = os.environ.get('ai_api_enable') or 'false'
 wrest_url = os.environ.get('wrest_url') or 'http://127.0.0.1:7600'
 
-logging.basicConfig(filename='/app/data/main.log', level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s  %(levelname)s  %(message)s')
 logger = logging.getLogger(__name__)
 
 def get_db_connection():
@@ -44,8 +43,6 @@ def check_duplicate(link):
         cursor = conn.cursor()
         cursor.execute("SELECT 1 FROM webhook_message_push WHERE link = ?", (link,)) # 修改SQL查询语句
         result = cursor.fetchone()
-        if result:
-            logger.info(f"推送跳过,重复推送：{link}")
         return result is not None
 
 
@@ -59,9 +56,9 @@ def insert_message(task_title, title, link, summary):
         except sqlite3.IntegrityError:
             pass
 
-def summarize_text(text):
+def summarize_text(text,link):
     if not text:
-        return "获取的文章描述为空,无法进行总结。"
+        logger.info(f"{link} 获取的文章描述为空,无法进行总结。")
     try:
         api_key = os.getenv("ai_api_key")
         if not api_key:
@@ -72,7 +69,7 @@ def summarize_text(text):
         response = client.chat.completions.create(
             model="deepseek-chat",
             messages=[
-                {"role": "system", "content": "你是一个信息提取总结的助手，我需要你对我给你的信息进行分析和总结，并返回简短的、150字以内的总结，此外我还需要通过你爆粗口说脏话来表达总结"},
+                {"role": "system", "content": "你是一个信息提取总结的助手，我需要你对我给你的信息进行分析和总结，并返回简短的、150字以内的总结"},
                 {"role": "user", "content": text},
             ],
             stream=False
@@ -81,7 +78,7 @@ def summarize_text(text):
         return response.choices[0].message.content
 
     except (OpenAIError, ValueError) as e:
-        return "系统繁忙,请稍后再试"
+        logger.error(f"{link} 分析内容出错,错误原因: {e}")
 
 @app.route('/api', methods=['POST', 'GET'])
 def api():
@@ -117,10 +114,11 @@ def api():
 
         # 检测重复消息
         if check_duplicate(link):
-            return jsonify({'status': 'skip', 'msg': '重复推送'})
+            logger.warn(f"{link} 推送消息重复")
+            return jsonify({'status': 'fail', 'msg': 'duplicate message'})
         else:
             if ai_api_enable:
-                summary = summarize_text(desp)
+                summary = summarize_text(desp,link)
                 msg = f"{task_title}：{title}\n\n{link} \n\n\nAi总结(deepseek): {summary}"
             else:
                 msg = f"{task_title}：{title}\n\n{link}"
@@ -129,8 +127,10 @@ def api():
     # 处理直接请求的消息发送
     elif request.method == 'GET':
         msg = request.args.get('msg')
+        wechat_id = request.args.get('wechat_id')
+
         if not msg:
-            return jsonify({'error': 'Missing "msg" parameter'}), 400
+            return jsonify({'error': '缺少msg参数'}), 400
 
     url = f'{wrest_url}/wcf/send_txt'
     headers = {'Content-Type': 'application/json;charset=utf-8'}
@@ -138,13 +138,23 @@ def api():
         "receiver": receiver,
         "msg": msg
     }
+    if 'wechat_id' in request.args:
+        logger.info(f"包含艾特: {wechat_id}")
+        payload = {
+            "receiver": receiver,
+            "msg": f"{msg}",
+            "aters": [
+                wechat_id
+            ]
+        }
 
     try:
         response = requests.post(url, json=payload, headers=headers)
         response.raise_for_status()
-        return jsonify({'status': 'success', 'response': response.json()})
+        return jsonify({'status': 'success'})
     except requests.exceptions.RequestException as e:
-        return jsonify({'status': 'error', 'message': str(e)}), 500
+        logger.error(f"{e}")
+        return jsonify({'status': 'fail', 'message': "system is busy,please try again later."}), 500
 
 if __name__ == '__main__':
     init_db()
