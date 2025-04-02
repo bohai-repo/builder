@@ -169,8 +169,6 @@ RUN apk add --no-cache --virtual .build-deps \
        -DOPENSSL_INCLUDE_DIR=/usr/local/openresty/openssl/include \
        -DOPENSSL_CRYPTO_LIBRARY=/usr/local/openresty/openssl/lib/libcrypto.so \
        -DOPENSSL_SSL_LIBRARY=/usr/local/openresty/openssl/lib/libssl.so \
-       -DPCRE_INCLUDE_DIR=/usr/local/openresty/pcre/include \
-       -DPCRE_LIBRARY=/usr/local/openresty/pcre/lib/libpcre.so \
        .. \
     && make -j${RESTY_J} \
     && cp -rf ngx_otel_module.so /usr/local/openresty/nginx/modules \
