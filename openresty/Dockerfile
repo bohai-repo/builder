@@ -161,7 +161,6 @@ RUN apk add --no-cache --virtual .build-deps \
     && make -j${RESTY_J} install \
     && ln -sv /usr/local/openresty/lualib/resty/ /usr/local/openresty/nginx/conf/waf/ \
     && cd /tmp \
-    && ls -la /tmp/openresty-${RESTY_VERSION}/build/nginx-${NGINX_VERSION}/ \
     && git clone https://github.com/nginxinc/nginx-otel.git nginx-otel \
     && cd nginx-otel \
     && mkdir build ;cd build \
@@ -177,6 +176,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && if [ -n "${RESTY_EVAL_POST_MAKE}" ]; then eval $(echo ${RESTY_EVAL_POST_MAKE}); fi \
     && rm -rf \
         openssl-${RESTY_OPENSSL_VERSION}.tar.gz openssl-${RESTY_OPENSSL_VERSION} \
+        nginx-otel \
         pcre-${RESTY_PCRE_VERSION}.tar.gz pcre-${RESTY_PCRE_VERSION} \
         openresty-${RESTY_VERSION}.tar.gz openresty-${RESTY_VERSION} \
         ngx_http_proxy_connect_module* v0.1.28.tar.gz v0.17.2.tar.gz \
