@@ -161,13 +161,14 @@ RUN apk add --no-cache --virtual .build-deps \
     && git clone https://github.com/nginxinc/nginx-otel.git nginx-otel \
     && cd nginx-otel \
     && echo -e 'if(PCRE_INCLUDE_DIR AND PCRE_LIBRARY)\n    include_directories(${PCRE_INCLUDE_DIR})\n    target_link_libraries(ngx_otel_module ${PCRE_LIBRARY})\nelse()\n    message(FATAL_ERROR "PCRE not found.")\nendif()' >> CMakeLists.txt \
-    && mkdir buill ;cd buill \
+    && mkdir build ;cd build \
     && cmake -DNGX_OTEL_NGINX_BUILD_DIR=/tmp/openresty-${RESTY_VERSION}/build/nginx-${NGINX_VERSION}/objs \
       -DOPENSSL_INCLUDE_DIR=/usr/local/openresty/openssl/include \
       -DOPENSSL_CRYPTO_LIBRARY=/usr/local/openresty/openssl/lib/libcrypto.so \
       -DOPENSSL_SSL_LIBRARY=/usr/local/openresty/openssl/lib/libssl.so \
       -DPCRE_INCLUDE_DIR=/usr/local/openresty/pcre/include \
       -DPCRE_LIBRARY=/usr/local/openresty/pcre/lib/libpcre.so \
+      .. \
     && make \
     && cp -rf ngx_otel_module.so /usr/local/openresty/nginx/modules \
     && cd /tmp \
