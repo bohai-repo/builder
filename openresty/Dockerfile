@@ -18,7 +18,7 @@ ARG RESTY_OPENSSL_URL_BASE="https://www.openssl.org/source"
 ARG RESTY_PCRE_VERSION="8.45"
 ARG RESTY_PCRE_BUILD_OPTIONS="--enable-jit"
 ARG RESTY_PCRE_SHA256="4e6ce03e0336e8b4a3d6c2b70b1c5e18590a5673a98186da90d4f33c23defc09"
-ARG RESTY_J="1"
+ARG RESTY_J="2"
 ARG RESTY_CONFIG_OPTIONS="\
     --with-compat \
     --with-file-aio \
@@ -103,6 +103,7 @@ RUN apk add --no-cache --virtual .build-deps \
         git \
         cmake \
         pcre \
+        pcre-dev \
         c-ares-dev \
         ${RESTY_ADD_PACKAGE_BUILDDEPS} \
     && apk add --no-cache \
@@ -164,14 +165,14 @@ RUN apk add --no-cache --virtual .build-deps \
     && git clone https://github.com/nginxinc/nginx-otel.git nginx-otel \
     && cd nginx-otel \
     && mkdir build ;cd build \
-    && cmake -DNGX_OTEL_NGINX_BUILD_DIR=/tmp/openresty-${RESTY_VERSION}/build/nginx-${NGINX_VERSION}/objs \
+    && cmake -j${RESTY_J} -DNGX_OTEL_NGINX_BUILD_DIR=/tmp/openresty-${RESTY_VERSION}/build/nginx-${NGINX_VERSION}/objs \
        -DOPENSSL_INCLUDE_DIR=/usr/local/openresty/openssl/include \
        -DOPENSSL_CRYPTO_LIBRARY=/usr/local/openresty/openssl/lib/libcrypto.so \
        -DOPENSSL_SSL_LIBRARY=/usr/local/openresty/openssl/lib/libssl.so \
        -DPCRE_INCLUDE_DIR=/usr/local/openresty/pcre/include \
        -DPCRE_LIBRARY=/usr/local/openresty/pcre/lib/libpcre.so \
        .. \
-    && make \
+    && make -j${RESTY_J} \
     && cp -rf ngx_otel_module.so /usr/local/openresty/nginx/modules \
     && cd /tmp \
     && if [ -n "${RESTY_EVAL_POST_MAKE}" ]; then eval $(echo ${RESTY_EVAL_POST_MAKE}); fi \
