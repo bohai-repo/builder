@@ -102,7 +102,9 @@ RUN apk add --no-cache --virtual .build-deps \
         unzip \
         git \
         cmake \
-        pcre pcre-dev c-ares-dev libstdc++ c-ares \
+        c-ares-dev \
+        pcre \
+        pcre-dev \
         ${RESTY_ADD_PACKAGE_BUILDDEPS} \
     && apk add --no-cache \
         gd \
@@ -110,6 +112,9 @@ RUN apk add --no-cache --virtual .build-deps \
         libgcc \
         libxslt \
         zlib \
+        c-ares-dev \
+        libstdc++ \
+        c-ares \
         ${RESTY_ADD_PACKAGE_RUNDEPS} \
     && cd /tmp \
     && if [ -n "${RESTY_EVAL_PRE_CONFIGURE}" ]; then eval $(echo ${RESTY_EVAL_PRE_CONFIGURE}); fi \
@@ -168,7 +173,6 @@ RUN apk add --no-cache --virtual .build-deps \
        -DOPENSSL_SSL_LIBRARY=/usr/local/openresty/openssl/lib/libssl.so \
        .. \
     && make -j${RESTY_J} \
-    && ls -la \
     && cp -rf ngx_otel_module.so /usr/local/openresty/nginx/modules \
     && cd /tmp \
     && if [ -n "${RESTY_EVAL_POST_MAKE}" ]; then eval $(echo ${RESTY_EVAL_POST_MAKE}); fi \
