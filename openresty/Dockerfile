@@ -102,7 +102,7 @@ RUN apk add --no-cache --virtual .build-deps \
         unzip \
         git \
         cmake \
-        libc-ares-dev \
+        c-ares-dev \
         ${RESTY_ADD_PACKAGE_BUILDDEPS} \
     && apk add --no-cache \
         gd \
