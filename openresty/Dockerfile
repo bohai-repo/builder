@@ -101,6 +101,7 @@ RUN apk add --no-cache --virtual .build-deps \
         zlib-dev \
         unzip \
         git \
+        cmake \
         ${RESTY_ADD_PACKAGE_BUILDDEPS} \
     && apk add --no-cache \
         gd \
