@@ -157,11 +157,11 @@ RUN apk add --no-cache --virtual .build-deps \
     && make -j${RESTY_J} \
     && make -j${RESTY_J} install \
     && ln -sv /usr/local/openresty/lualib/resty/ /usr/local/openresty/nginx/conf/waf/ \
-    # otel
     && cd /tmp \
     && git clone https://github.com/nginxinc/nginx-otel.git nginx-otel \
     && cd nginx-otel \
     && echo -e 'if(PCRE_INCLUDE_DIR AND PCRE_LIBRARY)\n    include_directories(${PCRE_INCLUDE_DIR})\n    target_link_libraries(ngx_otel_module ${PCRE_LIBRARY})\nelse()\n    message(FATAL_ERROR "PCRE not found.")\nendif()' >> CMakeLists.txt \
+    && mkdir buill ;cd buill \
     && cmake -DNGX_OTEL_NGINX_BUILD_DIR=/tmp/openresty-${RESTY_VERSION}/build/nginx-${NGINX_VERSION}/objs \
       -DOPENSSL_INCLUDE_DIR=/usr/local/openresty/openssl/include \
       -DOPENSSL_CRYPTO_LIBRARY=/usr/local/openresty/openssl/lib/libcrypto.so \
@@ -170,7 +170,6 @@ RUN apk add --no-cache --virtual .build-deps \
       -DPCRE_LIBRARY=/usr/local/openresty/pcre/lib/libpcre.so \
     && make \
     && cp -rf ngx_otel_module.so /usr/local/openresty/nginx/modules \
-    # otel
     && cd /tmp \
     && if [ -n "${RESTY_EVAL_POST_MAKE}" ]; then eval $(echo ${RESTY_EVAL_POST_MAKE}); fi \
     && rm -rf \
