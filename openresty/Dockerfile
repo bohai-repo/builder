@@ -102,6 +102,7 @@ RUN apk add --no-cache --virtual .build-deps \
         unzip \
         git \
         cmake \
+        pcre \
         c-ares-dev \
         ${RESTY_ADD_PACKAGE_BUILDDEPS} \
     && apk add --no-cache \
@@ -159,7 +160,7 @@ RUN apk add --no-cache --virtual .build-deps \
     && make -j${RESTY_J} install \
     && ln -sv /usr/local/openresty/lualib/resty/ /usr/local/openresty/nginx/conf/waf/ \
     && cd /tmp \
-    && ls -la /tmp/openresty-${RESTY_VERSION}/ \
+    && ls -la /tmp/openresty-${RESTY_VERSION}/build/nginx-${NGINX_VERSION}/ \
     && git clone https://github.com/nginxinc/nginx-otel.git nginx-otel \
     && cd nginx-otel \
     && mkdir build ;cd build \
