@@ -8,8 +8,8 @@ LABEL maintainer="bohai <dalao.sea@gmail.com>"
 # Docker Build Arguments
 ARG RESTY_IMAGE_BASE="alpine"
 ARG RESTY_IMAGE_TAG="3.18"
-ARG RESTY_VERSION="1.21.4.2"
-ARG NGINX_VERSION="1.21.4"
+ARG RESTY_VERSION="1.25.3.2"
+ARG NGINX_VERSION="1.25.3"
 # see https://github.com/chobits/ngx_http_proxy_connect_module#select-patch
 ARG PROXY_CONNECT_REWRITE_VERSION='102101'
 ARG RESTY_OPENSSL_VERSION="1.1.1w"

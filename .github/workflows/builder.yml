@@ -164,7 +164,7 @@ jobs:
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
-          /bin/bash build.sh openresty openresty 1.21.4-waf-otel
+          /bin/bash build.sh openresty openresty 1.25.3
 #  build-openresty-arm64:
 #    runs-on: [self-hosted,kubernetes-arm64]
 #    steps:
