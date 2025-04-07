@@ -3,7 +3,7 @@ FROM python:3.9-slim
 WORKDIR /app
 
 ADD main.py /app
-ADD static /app
+ADD static /app/static/
 
 EXPOSE 8872
 ENV wrest_url=http://127.0.0.1:7600
