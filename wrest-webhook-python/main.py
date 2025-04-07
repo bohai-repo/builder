@@ -58,7 +58,7 @@ def insert_message(task_title, title, link, summary):
 
 def summarize_text(text,link):
     if not text:
-        logger.info(f"{link} 获取的文章描述为空,无法进行总结。")
+        pass
     try:
         api_key = os.getenv("ai_api_key")
         if not api_key:
@@ -78,11 +78,10 @@ def summarize_text(text,link):
         return response.choices[0].message.content
 
     except (OpenAIError, ValueError) as e:
-        logger.error(f"{link} 分析内容出错,错误原因: {e}")
+        logger.error(f"分析内容: {link} 出错,错误原因: {e}")
 
 @app.route('/api', methods=['POST', 'GET'])
 def api():
-    # 消息接收方
     receiver = request.args.get('receiver', '47719964397@chatroom')
     # 处理从RssPush发送过来的Post请求
     if request.method == 'POST':
@@ -114,7 +113,6 @@ def api():
 
         # 检测重复消息
         if check_duplicate(link):
-            logger.warn(f"{link} 推送消息重复")
             return jsonify({'status': 'fail', 'msg': 'duplicate message'})
         else:
             if ai_api_enable:
@@ -127,10 +125,12 @@ def api():
     # 处理直接请求的消息发送
     elif request.method == 'GET':
         msg = request.args.get('msg')
+        img = request.args.get('img')
+        file = request.args.get('file')
         wechat_id = request.args.get('wechat_id')
 
-        if not msg:
-            return jsonify({'error': '缺少msg参数'}), 400
+        if not msg and not img and not file:
+            return jsonify({'error': 'need values for {file} or {msg} or img {parameters}'}), 400
 
     url = f'{wrest_url}/wcf/send_txt'
     headers = {'Content-Type': 'application/json;charset=utf-8'}
@@ -138,8 +138,22 @@ def api():
         "receiver": receiver,
         "msg": msg
     }
+
+    if 'img' in request.args:
+        payload = {
+            "receiver": receiver,
+            "path": f"{img}",
+        }
+        url = f'{wrest_url}/wcf/send_img'
+
+    if 'file' in request.args:
+        payload = {
+            "receiver": receiver,
+            "path": f"{file}",
+        }
+        url = f'{wrest_url}/wcf/send_file'
+
     if 'wechat_id' in request.args:
-        logger.info(f"包含艾特: {wechat_id}")
         payload = {
             "receiver": receiver,
             "msg": f"{msg}",
