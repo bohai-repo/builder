@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎使用微信推送接口 by 博海</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .param-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .input-group {
+            margin: 10px 0;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 5px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 5px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        #response {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Webhook API 调试页面</h1>
+        
+        <div class="param-section">
+            <h2>接口参数说明</h2>
+            <p><strong>msg</strong>: string - 推送的文本消息到机器人，例如：hallo,world</p>
+            <p><strong>img</strong>: string - 推送的图片地址， 例如：http://xxx.com/xxx.png</p>
+            <p><strong>file</strong>: string - 推送的文件地址，例如：http://xxx.com/xxx.zip</p>
+            <p><strong>receiver</strong>: string - 消息接收人，wxid 或者 roomid，例如：xxxx@roomid </p>
+        </div>
+
+        <div class="param-section">
+            <h2>接口调试</h2>
+            
+            <div class="input-group">
+                <label>Receiver:</label><br>
+                <input type="text" id="receiver" value="47719964397@chatroom">
+            </div>
+
+            <div class="input-group">
+                <h3>推送文本</h3>
+                <input type="text" id="msg" placeholder="请输入文本消息">
+                <button onclick="sendRequest('msg')">发送文本</button>
+                <pre id="msg-example">GET /api?receiver={{receiver}}&msg={{msg}}</pre>
+            </div>
+
+            <div class="input-group">
+                <h3>推送图片</h3>
+                <input type="text" id="img" placeholder="请输入图片URL">
+                <button onclick="sendRequest('img')">发送图片</button>
+                <pre id="img-example">GET /api?receiver={{receiver}}&img={{img}}</pre>
+            </div>
+
+            <div class="input-group">
+                <h3>推送文件</h3>
+                <input type="text" id="file" placeholder="请输入文件URL">
+                <button onclick="sendRequest('file')">发送文件</button>
+                <pre id="file-example">GET /api?receiver={{receiver}}&file={{file}}</pre>
+            </div>
+
+            <div id="response">
+                <h3>响应结果:</h3>
+                <pre id="response-text"></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateExamples() {
+            const receiver = document.getElementById('receiver').value;
+            const msgText = document.getElementById('msg').value || '{{msg}}';
+            const imgUrl = document.getElementById('img').value || '{{img}}';
+            const fileUrl = document.getElementById('file').value || '{{file}}';
+            
+            document.getElementById('msg-example').textContent = 
+                `GET ${window.location.origin}/api?receiver=${encodeURIComponent(receiver)}&msg=${encodeURIComponent(msgText)}`;
+            document.getElementById('img-example').textContent = 
+                `GET ${window.location.origin}/api?receiver=${encodeURIComponent(receiver)}&img=${encodeURIComponent(imgUrl)}`;
+            document.getElementById('file-example').textContent = 
+                `GET ${window.location.origin}/api?receiver=${encodeURIComponent(receiver)}&file=${encodeURIComponent(fileUrl)}`;
+        }
+
+        async function sendRequest(type) {
+            const receiver = document.getElementById('receiver').value;
+            let url = `${window.location.origin}/api?receiver=${encodeURIComponent(receiver)}`;
+            
+            if (type === 'msg') {
+                const msg = document.getElementById('msg').value;
+                if (!msg) {
+                    alert('请输入文本消息');
+                    return;
+                }
+                url += `&msg=${encodeURIComponent(msg)}`;
+            } else if (type === 'img') {
+                const img = document.getElementById('img').value;
+                if (!img) {
+                    alert('请输入图片URL');
+                    return;
+                }
+                url += `&img=${encodeURIComponent(img)}`;
+            } else if (type === 'file') {
+                const file = document.getElementById('file').value;
+                if (!file) {
+                    alert('请输入文件URL');
+                    return;
+                }
+                url += `&file=${encodeURIComponent(file)}`;
+            }
+
+            try {
+                const response = await fetch(url, { method: 'GET' });
+                const data = await response.json();
+                document.getElementById('response-text').textContent = JSON.stringify(data, null, 2);
+                updateExamples(); // 更新示例URL
+            } catch (error) {
+                document.getElementById('response-text').textContent = `请求失败: ${error.message}`;
+            }
+        }
+
+        // 页面加载时和输入变化时更新示例
+        document.addEventListener('DOMContentLoaded', updateExamples);
+        document.getElementById('receiver').addEventListener('input', updateExamples);
+        document.getElementById('msg').addEventListener('input', updateExamples);
+        document.getElementById('img').addEventListener('input', updateExamples);
+        document.getElementById('file').addEventListener('input', updateExamples);
+    </script>
+</body>
+</html>

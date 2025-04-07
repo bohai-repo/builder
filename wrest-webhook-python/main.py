@@ -4,12 +4,12 @@ import sqlite3
 import logging
 import requests
 from openai import OpenAI, OpenAIError
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
-webhook_database_file = '/app/data/data.db'
+webhook_database_file = './data/data.db'
 ai_api_key = os.environ.get('ai_api_key') or 'xxxxx'
 ai_api_enable = os.environ.get('ai_api_enable') or 'false'
 wrest_url = os.environ.get('wrest_url') or 'http://127.0.0.1:7600'
@@ -80,8 +80,13 @@ def summarize_text(text,link):
     except (OpenAIError, ValueError) as e:
         logger.error(f"分析内容: {link} 出错,错误原因: {e}")
 
+@app.route('/', methods=['GET'])
+def api_ui():
+    return send_from_directory('static', 'index.html')
+
 @app.route('/api', methods=['POST', 'GET'])
 def api():
+    # param receiver string 消息接收人，wxid 或者 roomid
     receiver = request.args.get('receiver', '47719964397@chatroom')
     # 处理从RssPush发送过来的Post请求
     if request.method == 'POST':
@@ -92,7 +97,7 @@ def api():
         task_title = request.form.get('task_title')
 
         if not title or not link or not task_id or not task_title:
-            return jsonify({'error': '缺少必要参数'}), 400
+            return jsonify({'status': 'fail', 'msg': 'no param'}), 400
 
         link = re.sub(r'/en/', '/', link)
         # 优化来源标题
@@ -113,7 +118,7 @@ def api():
 
         # 检测重复消息
         if check_duplicate(link):
-            return jsonify({'status': 'fail', 'msg': 'duplicate message'})
+            return jsonify({'status': 'fail', 'msg': 'duplicate'})
         else:
             if ai_api_enable:
                 summary = summarize_text(desp,link)
@@ -130,8 +135,9 @@ def api():
         wechat_id = request.args.get('wechat_id')
 
         if not msg and not img and not file:
-            return jsonify({'error': 'need values for {file} or {msg} or img {parameters}'}), 400
+            return jsonify({'status': 'fail', 'msg': 'need param values {file} or {msg} or {img}'}), 400
 
+    # param msg string 要发送的消息，\n使用 `\\\\n` （单杠）；如果 @ 人的话，需要带上跟 `aters` 里数量相同的 @
     url = f'{wrest_url}/wcf/send_txt'
     headers = {'Content-Type': 'application/json;charset=utf-8'}
     payload = {
@@ -139,20 +145,7 @@ def api():
         "msg": msg
     }
 
-    if 'img' in request.args:
-        payload = {
-            "receiver": receiver,
-            "path": f"{img}",
-        }
-        url = f'{wrest_url}/wcf/send_img'
-
-    if 'file' in request.args:
-        payload = {
-            "receiver": receiver,
-            "path": f"{file}",
-        }
-        url = f'{wrest_url}/wcf/send_file'
-
+    # param wechat_id string 要 @ 的 wxid，多个用逗号分隔；`@所有人` 只需要 `notify@all`
     if 'wechat_id' in request.args:
         payload = {
             "receiver": receiver,
@@ -161,6 +154,26 @@ def api():
                 wechat_id
             ]
         }
+
+    # 发送图片，非线程安全
+    # param path string 图片路径，如：`C:/Projs/WeChatRobot/TEQuant.jpeg` 或 url，如：`http://xxx.com/xxx.png`
+    # param receiver string 消息接收人，wxid 或者 roomid
+    if 'img' in request.args:
+        payload = {
+            "receiver": receiver,
+            "path": f"{img}",
+        }
+        url = f'{wrest_url}/wcf/send_img'
+
+    # 发送文件，非线程安全
+    # param path string 本地文件路径，如：`C:/Projs/WeChatRobot/README.MD` 或 url，如：`http://xxx.com/xxx.zip`
+    # param receiver string 消息接收人，wxid 或者 roomid
+    if 'file' in request.args:
+        payload = {
+            "receiver": receiver,
+            "path": f"{file}",
+        }
+        url = f'{wrest_url}/wcf/send_file'
 
     try:
         response = requests.post(url, json=payload, headers=headers)
@@ -172,4 +185,4 @@ def api():
 
 if __name__ == '__main__':
     init_db()
-    app.run(port=8872, host='0.0.0.0')
+    app.run(debug=False, host='0.0.0.0', port=8872)
