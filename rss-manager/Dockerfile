@@ -8,6 +8,7 @@ ENV TZ=Asia/Shanghai
 
 COPY app /app/rss-manager/
 ADD docker-entrypoint.sh /app/rss-manager/
-RUN npm install --production
+RUN npm install --production \
+    && echo "* * * * * /usr/local/bin/node /app/rss-manager/api/cron.js > /app/rss-manager/api/data/cron.txt" > /var/spool/cron/crontabs/root
 
 CMD [ "/bin/sh", "docker-entrypoint.sh" ]
