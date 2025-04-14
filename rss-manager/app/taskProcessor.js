@@ -45,7 +45,7 @@ async function processTask(task, isTest = false) {
         }
 
         if (isTest || (old_content && old_content != last_content)) {
-            console.log("Processing task", task.title);
+            console.log("[INFO] 开始测试任务", task.title);
 
             const last_title = last.title?.toLowerCase();
 
@@ -56,7 +56,7 @@ async function processTask(task, isTest = false) {
                     if (last_title.indexOf(keyword) >= 0) found = true;
                 }
                 if (!found) {
-                    console.log(`白名单跳过，${task['keyword']}`);
+                    console.log(`[INFO] 白名单跳过，${task['keyword']}`);
                     return;
                 }
             }
@@ -68,7 +68,7 @@ async function processTask(task, isTest = false) {
                     if (last_title.indexOf(bad_keyword) >= 0) found = true;
                 }
                 if (found) {
-                    console.log(`黑名单跳过，${task['bad_keyword']}`);
+                    console.log(`[INFO] 黑名单跳过，${task['bad_keyword']}`);
                     return;
                 }
             }
@@ -156,11 +156,11 @@ async function processTask(task, isTest = false) {
             return { success: true, sendResults };
 
         } else {
-            console.log("没有新内容", task.title);
+            console.log("[INFO] 没有新内容", task.title);
             return { success: false, message: "没有新内容" };
         }
     } catch (error) {
-        console.error("处理任务出错", task.title, error);
+        console.error("[ERROR] 处理任务出错", task.title, error);
         return { success: false, error: error.message };
     }
 }
