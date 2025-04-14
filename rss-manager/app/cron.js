@@ -56,7 +56,8 @@ async function do_action()
         fs.writeFileSync(path.join(__dirname, "data", "tasks.json"), JSON.stringify(tasks));
         
 
-        console.log(  "OLD LAST" , old_content , last_content );
+        // console.log(  "OLD LAST" , old_content , last_content );
+        console.log(  "源地址:" , old_content , "目标地址:", last_content );
         if( old_content &&  old_content != last_content )
         {
             console.log( "Feed唯一值有变动" );
