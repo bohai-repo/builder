@@ -41,7 +41,7 @@ async function do_action()
 
         
 
-        console.log(  "源地址:" , old_content , "目标地址:", last_content );
+        console.log(  "[INFO] 轮训中... 旧文章地址:" , old_content , "新文章地址:", last_content );
         if( old_content &&  old_content != last_content )
         {
             // 如果设置了关键字，而文章标题不匹配关键字，那么跳过

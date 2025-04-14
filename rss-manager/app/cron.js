@@ -57,7 +57,7 @@ async function do_action()
         
 
         // console.log(  "OLD LAST" , old_content , last_content );
-        console.log(  "源地址:" , old_content , "目标地址:", last_content );
+        console.log(  "[INFO] 轮训中... 旧文章地址:" , old_content , "新文章地址:", last_content );
         if( old_content &&  old_content != last_content )
         {
             console.log( "Feed唯一值有变动" );

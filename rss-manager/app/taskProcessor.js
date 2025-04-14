@@ -148,7 +148,7 @@ async function processTask(task, isTest = false) {
                     });
                 }
 
-                console.log("发送结果", ret);
+                console.log(  "[INFO] 轮训中... 旧文章地址:" , old_content , "新文章地址:", last_content );
 
                 sendResults.push({ skey, result: ret });
             }
