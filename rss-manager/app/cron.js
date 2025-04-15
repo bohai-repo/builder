@@ -62,7 +62,7 @@ async function do_action()
         if( old_content &&  old_content != last_content )
         {
             // console.log( "Feed唯一值有变动" );
-            console.log(  "[INFO] " task.title, "文章内容有更新" );
+            console.log(  "[INFO]", task.title,"文章内容有更新" );
             // 如果白名单关键词检测，文章标题不匹配关键字，那么跳过
             const last_title = last.title?.toLowerCase();
             

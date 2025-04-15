@@ -45,7 +45,7 @@ async function processTask(task, isTest = false) {
         }
 
         if (isTest || (old_content && old_content != last_content)) {
-            console.log("[INFO] 开始测试任务", task.title);
+            // console.log("[INFO] 开始测试任务", task.title);
 
             const last_title = last.title?.toLowerCase();
 
