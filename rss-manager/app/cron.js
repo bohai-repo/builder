@@ -57,10 +57,11 @@ async function do_action()
         
 
         // console.log(  "OLD LAST" , old_content , last_content );
-        console.log(  "[INFO] 轮训中... 旧文章地址:" , old_content , "新文章地址:", last_content );
+        // console.log(  "[INFO] 轮训中... 旧文章地址:" , old_content , "新文章地址:", last_content );
+        console.log("[INFO] 轮训中... 共计 " + unique_keys.length + " 条任务，目前处理第" + (index + 1) + "个。旧文章地址:", old_content, "新文章地址:", last_content);
         if( old_content &&  old_content != last_content )
         {
-            console.log( "Feed唯一值有变动" );
+            console.log( `[INFO ] ${tasks[index].title} 更新了` );
             // 如果白名单关键词检测，文章标题不匹配关键字，那么跳过
             const last_title = last.title?.toLowerCase();
             
@@ -155,7 +156,7 @@ async function do_action()
                         form.append( 'title',last.title );
                         form.append( 'link',last.link );
                         form.append( 'desp',last.content );
-                        console.log( form );
+                        /// console.log( form );
                         try {
                             const response = await fetch( skey, {
                                 method: 'POST', 
@@ -183,10 +184,10 @@ async function do_action()
                                 return;
                             }
                             if (stderr) {
-                                console.log(`stderr: ${stderr}`);
+                                // console.log(`stderr: ${stderr}`);
                                 return;
                             }
-                            console.log(`stdout: ${stdout}`);
+                            // console.log(`stdout: ${stdout}`);
                         }
                         );   
                     }
@@ -203,16 +204,16 @@ async function do_action()
                                 return;
                             }
                             if (stderr) {
-                                console.log(`stderr: ${stderr}`);
+                                // console.log(`stderr: ${stderr}`);
                                 return;
                             }
-                            console.log(`stdout: ${stdout}`);
+                            // console.log(`stdout: ${stdout}`);
                         }
                         );   
                     }
                 }
 
-                console.log( "send ret" , ret );
+                console.log( "[INFO] 推送信息结果" , ret );
             }
         }
     }
