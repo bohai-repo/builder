@@ -57,8 +57,8 @@ async function do_action()
         
 
         // console.log(  "OLD LAST" , old_content , last_content );
-        // console.log(  "[INFO] 轮训中... 旧文章地址:" , old_content , "新文章地址:", last_content );
-        console.log("[INFO] 轮训中... 共计 " + unique_keys.length + " 条任务，目前处理第" + (index + 1) + "个。旧文章地址:", old_content, "新文章地址:", last_content);
+         console.log(  "[INFO] 轮训中... 旧文章地址:" , old_content , "新文章地址:", last_content );
+        // console.log("[INFO] 轮训中... 共计 " + unique_keys.length + " 条任务，目前处理第" + (index + 1) + "个。旧文章地址:", old_content, "新文章地址:", last_content);
         if( old_content &&  old_content != last_content )
         {
             console.log( `[INFO ] ${tasks[index].title} 更新了` );
