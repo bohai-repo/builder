@@ -201,5 +201,5 @@ app.use(function (err, req, res, next) {
   });
   
   app.listen(8000, () => {
-    console.log(`start on http://localhost:8000`);
+    console.log(`[INFO] start on http://localhost:8000`);
 });

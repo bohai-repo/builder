@@ -224,10 +224,10 @@ jobs:
       - name: Launch Builder
         if: ${{ contains(github.event.head_commit.message, 'rss-manager') }}
         run: |
-          export NOTICE_WECHAT=true
           export build_repo_name='bohai_repo'
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          export NOTICE_WECHAT=true          
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh rss-manager rss-manager 1.0.0-SNAPSHOT
