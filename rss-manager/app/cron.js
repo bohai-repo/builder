@@ -156,7 +156,7 @@ async function do_action()
                         form.append( 'title',last.title );
                         form.append( 'link',last.link );
                         form.append( 'desp',last.content );
-                        /// console.log( form );
+                        console.log( form );
                         try {
                             const response = await fetch( skey, {
                                 method: 'POST', 
@@ -184,10 +184,10 @@ async function do_action()
                                 return;
                             }
                             if (stderr) {
-                                // console.log(`stderr: ${stderr}`);
+                                console.log(`stderr: ${stderr}`);
                                 return;
                             }
-                            // console.log(`stdout: ${stdout}`);
+                            console.log(`stdout: ${stdout}`);
                         }
                         );   
                     }
@@ -204,10 +204,10 @@ async function do_action()
                                 return;
                             }
                             if (stderr) {
-                                // console.log(`stderr: ${stderr}`);
+                                 console.log(`stderr: ${stderr}`);
                                 return;
                             }
-                            // console.log(`stdout: ${stdout}`);
+                             console.log(`stdout: ${stdout}`);
                         }
                         );   
                     }
