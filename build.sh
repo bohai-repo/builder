@@ -12,22 +12,16 @@ function notice() {
     return
   fi
 
-  # 元数据提取
-  build_describe=$(curl -s -X GET https://api.github.com/repos/bohai-repo/builder/actions/runs|head -6|grep 'name'|cut -d'"' -f4)
-  build_actionid=$(curl -s -X GET https://api.github.com/repos/bohai-repo/builder/actions/runs|head -6|grep 'id'|awk '{print $2}'|cut -d, -f1)
-
-  build_link="https://github.com/bohai-repo/builder/actions/runs/${build_actionid}"
-
   mail_title="来自Github Actions构建的 ${alias_app} ${build_result}通知"
-  mail_body="构建应用: ${build_app} for $(uname -m)\n\n发布名称: ${alias_app}\n\n构建版本: ${build_repo}/${alias_app}:${build_version}\n\n本次构建描述: ${build_describe}\n本次构建地址: ${build_link}"
+  mail_body="构建应用: ${build_app} for $(uname -m)\n\n发布名称: ${alias_app}\n\n构建版本: ${build_repo}/${alias_app}:${build_version}"
 
   for mail_users in ${NOTICE_MAIL};do
-    curl -s -X POST -H "Content-Type:application/json" -d '{"to":"'"${mail_users}"'","subject":"'"${mail_title}"'","body":"'"${mail_body}"'"}' https://notify.itan90.cn/mail/${NOTICE_PATH}
+    curl -s -X POST -H "Content-Type:application/json" -d '{"to":"'"${mail_users}"'","subject":"'"${mail_title}"'","body":"'"${mail_body}"'"}' https://webhook-mail.init.ac/api/${NOTICE_PATH}
   done
   
   if [[ ${NOTICE_WECHAT} ]];then
     message_title=$(printf "来自Github Actions构建的 %s %s通知" "$alias_app" "$build_result")
-    message_body=$(printf "\n\n\n构建应用: %s for %s\n\n发布名称: %s\n\n构建版本: %s/%s:%s\n\n本次构建描述: %s\n本次构建地址: %s" "$build_app" "$(uname -m)" "$alias_app" "$build_repo" "$alias_app" "$build_version" "$build_describe" "$build_link")
+    message_body=$(printf "\n\n\n构建应用: %s for %s\n\n发布名称: %s\n\n构建版本: %s/%s:%s" "$build_app" "$(uname -m)" "$alias_app" "$build_repo" "$alias_app" "$build_version")
     curl -s -G "https://webhook-wrest.init.ac/api" --data-urlencode "receiver=47719964397@chatroom" --data-urlencode "msg=${message_title} ${message_body}"
   fi 
 }
