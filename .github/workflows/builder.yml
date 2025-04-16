@@ -231,3 +231,17 @@ jobs:
           export NOTICE_WECHAT=true          
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh rss-manager rss-manager 1.0.0-SNAPSHOT
+  build-shell-builder-amd64:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Launch Builder
+        if: ${{ contains(github.event.head_commit.message, 'shell-builder') }}
+        run: |
+          export build_repo_name='bohai_repo'
+          export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
+          export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
+          export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          export NOTICE_WECHAT=false          
+          docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
+          /bin/bash build.sh shell-builder shell-builder 1.0.0-SNAPSHOT
