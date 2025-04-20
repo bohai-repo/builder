@@ -57,12 +57,10 @@ async function do_action()
         
 
         // console.log(  "OLD LAST" , old_content , last_content );
-         console.log(  "[INFO] 轮训中... 旧文章地址:" , old_content , "新文章地址:", last_content );
-        // console.log("[INFO] 轮训中... 共计 " + unique_keys.length + " 条任务，目前处理第" + (index + 1) + "个。旧文章地址:", old_content, "新文章地址:", last_content);
+        console.log(  "[INFO] 轮训中... 旧文章地址:" , old_content , "新文章地址:", last_content );
         if( old_content &&  old_content != last_content )
         {
-            // console.log( "Feed唯一值有变动" );
-            console.log(  "[INFO]", task.title,"文章内容有更新" );
+            console.log( "Feed唯一值有变动" );
             // 如果白名单关键词检测，文章标题不匹配关键字，那么跳过
             const last_title = last.title?.toLowerCase();
             
@@ -214,7 +212,7 @@ async function do_action()
                     }
                 }
 
-                console.log( "[INFO] 推送信息结果" , ret );
+                console.log( "send ret" , ret );
             }
         }
     }
