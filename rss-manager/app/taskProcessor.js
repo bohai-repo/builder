@@ -45,7 +45,7 @@ async function processTask(task, isTest = false) {
         }
 
         if (isTest || (old_content && old_content != last_content)) {
-            // console.log("[INFO] 开始测试任务", task.title);
+            console.log("[INFO] 开始测试任务", task.title);
 
             const last_title = last.title?.toLowerCase();
 
@@ -148,8 +148,7 @@ async function processTask(task, isTest = false) {
                     });
                 }
 
-                console.log("[INFO] 开始测试任务", task.title, "获取的文章地址:", last_content);
-                // console.log("[INFO] 轮训中... 共计 " + unique_keys.length + " 条任务，目前处理第" + (index + 1) + "个。旧文章地址:", old_content, "新文章地址:", last_content);
+                console.log(  "[INFO] 轮训中... 旧文章地址:" , old_content , "新文章地址:", last_content );
 
                 sendResults.push({ skey, result: ret });
             }
