@@ -69,7 +69,7 @@ def summarize_text(text,link):
         response = client.chat.completions.create(
             model="deepseek-chat",
             messages=[
-                {"role": "system", "content": "你是一个信息提取总结的助手，我需要你对我给你的信息进行分析和总结，并返回简短的、150字以内的总结.如果你发现内容里包含媒体文件地址(图片或视频)，那么请将媒体文件的地址输出，格式为: 文章内容包含x张图片/视频 (换行符) 地址: x (请点击查看)。请将x替换为实际地址。请注意,如果内容中包含了多张媒体文件地址，那么只需要输出一次“地址:“ 这个标题即可，文件地址你只需要分割好格式"},
+                {"role": "system", "content": "你是一个信息提取总结的助手，我需要你对我给你的信息进行分析和总结，并返回简短的、100字以内的总结."},
                 {"role": "user", "content": text},
             ],
             stream=False
