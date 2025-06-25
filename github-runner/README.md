@@ -1,6 +1,11 @@
 ## Building the container
 
-`docker build -t github-runner .`
+
+```
+sh build.sh
+
+docker build -t github-runner .
+```
 
 ## Features
 
@@ -79,12 +84,12 @@ docker run -itd --name github-runner \
 Running GitHub Actions on Kubernetes
 
 ```shell
-kubectl create ns actions-builder
-kubectl apply -f deployment.yml -n actions-builder
+kubectl create ns ops
+kubectl apply -f deployment.yml -n ops
 ```
 
 ```shell
-kubectl get po -n actions-builder
+kubectl get po -n ops
 
 NAME                                      READY   STATUS    RESTARTS   AGE
 github-actions-builder-68f989b844-2gf7z   1/1     Running   0          70s
@@ -92,11 +97,4 @@ github-actions-builder-68f989b844-2lnv6   1/1     Running   0          70s
 github-actions-builder-68f989b844-8zhpl   1/1     Running   0          70s
 github-actions-builder-68f989b844-fzmwm   1/1     Running   0          66s
 github-actions-builder-68f989b844-n95gj   1/1     Running   0          65s
-github-actions-builder-68f989b844-npmvd   1/1     Running   0          67s
-github-actions-builder-68f989b844-p9l9b   1/1     Running   0          70s
-github-actions-builder-68f989b844-s6gvj   1/1     Running   0          66s
-github-actions-builder-68f989b844-vhfhq   1/1     Running   0          70s
-github-actions-builder-68f989b844-vrhjh   1/1     Running   0          65s
 ```
-
-![](https://resource.static.tencent.itan90.cn/mac_pic/2023-05-08/PihTM1.png)

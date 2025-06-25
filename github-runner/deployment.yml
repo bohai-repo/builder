@@ -1,36 +1,44 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: github-actions-builder
+  name: github-runner
   labels:
-    app: github-actions-builder
+    app: github-runner
 spec:
-  replicas: 10
+  replicas: 5
   selector:
     matchLabels:
-      app: github-actions-builder
+      app: github-runner
   template:
     metadata:
       labels:
-        app: github-actions-builder
+        app: github-runner
     spec:
-      volumes:
-        - name: docker-sock
-          hostPath:
-            path: /var/run/docker.sock
-            type: Socket
       containers:
-        - name: github-actions-builder
+        - name: github-runner
           imagePullPolicy: Always
-          image: 'registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.304.0'
+          volumeMounts:
+            - name: docker-socket
+              mountPath: /var/run/
+          image: 'registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner-arm64:2.304.0'
           env:
+            - name: REGIST_TYPE
+              value: "personal"
             - name: GITHUB_OWNER
-              value: "yaobohai"
+              value: "bohai-repo"
             - name: GITHUB_REPOSITORY
               value: "builder"
-            - name: GITHUB_TOKEN
+            - name: RUNNER_LABELS
+              value: "kubernetes-arm64"
+            - name: GITHUB_PAT
               value: "xxxxxxx"
+        - name: docker-build
+          image: 'docker:24.0.5-dind'
+          securityContext:
+            privileged: true
           volumeMounts:
-            - mountPath: /var/run/docker.sock
-              name: docker-sock
-              readOnly: false
+            - mountPath: /var/run/
+              name: docker-socket
+      volumes:
+      - name: docker-socket
+        emptyDir: {}
