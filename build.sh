@@ -35,8 +35,8 @@ function launch() {
   else 
     if [[ -d ./${build_app} ]];then
         cd ./${build_app}
-        if [[ -f build.sh ]];then
-          sh build.sh
+        if [[ -f actions.sh ]];then
+          sh actions.sh
         fi
     else
         echo "app ${build_app} does not exist.";exit 1

@@ -2,7 +2,7 @@
 
 ```shell
 # 修改基础镜像的CPU平台
-sh build.sh
+sh actions.sh
 
 # 构建并运行
 docker build -t registry.cn-hangzhou.aliyuncs.com/bohai_repo/remote-download-service:1.0.0-SNAPSHOT .

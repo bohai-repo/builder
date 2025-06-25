@@ -2,7 +2,7 @@
 
 
 ```
-sh build.sh
+sh actions.sh
 
 docker build -t github-runner .
 ```
