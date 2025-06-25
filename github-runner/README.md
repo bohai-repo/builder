@@ -66,7 +66,7 @@ Use arm64 CPU
 ```sh
 change image:
 
-registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner-arm64:2.304.0
+registry.ap-northeast-1.aliyuncs.com/bohai_repo/github-runner:2.304.0-arm64
 ```
 
 Install additional tools on the runner.

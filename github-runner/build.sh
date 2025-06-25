@@ -22,7 +22,7 @@ set_github_runner() {
     && tar xzf actions-runner-linux-${cpu_platform}-${runner_version}.tar.gz \
     && sed -i '3,9d' ./config.sh \
     && sed -i '3,8d' ./run.sh \
-    && tar -zcvf actions-runner.tar.gz *
+    && tar zcvf actions-runner.tar.gz *
 }
 
 # 清理遗留软件包
