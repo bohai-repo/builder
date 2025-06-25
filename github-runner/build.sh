@@ -3,6 +3,7 @@
 docker_version='20.10.7'
 runner_version='2.304.0'
 
+apt install -y wget
 mkdir build && cd build
 
 # 配置docker客户端
