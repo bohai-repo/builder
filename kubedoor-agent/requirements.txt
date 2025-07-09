@@ -1,0 +1,8 @@
+kubernetes
+kubernetes_asyncio
+loguru
+asyncio
+aiohttp
+fastapi
+uvicorn
+pytz

@@ -1,0 +1,5 @@
+loguru
+asyncio
+aiohttp
+requests
+clickhouse_driver

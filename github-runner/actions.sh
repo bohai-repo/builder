@@ -20,8 +20,10 @@ set_github_runner() {
     echo "start download runner......"
     wget https://github.com/actions/runner/releases/download/v${runner_version}/actions-runner-linux-${cpu_platform}-${runner_version}.tar.gz \
     && tar xzf actions-runner-linux-${cpu_platform}-${runner_version}.tar.gz \
+    # 这里删除了两个文件中判断是否 root 用户的部分
     && sed -i '3,9d' ./config.sh \
     && sed -i '3,8d' ./run.sh \
+    # 重新打包
     && tar zcvf actions-runner.tar.gz *
 }
 

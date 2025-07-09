@@ -1,0 +1,228 @@
+title: 花折 - KubeDoor
+buttons:
+  pureLoginOut: LoginOut
+  pureLogin: Login
+  pureOpenSystemSet: Open System Configs
+  pureReload: Reload
+  pureRefresh: Refresh
+  pureReset: Reset
+  pureCloseCurrentTab: Close CurrentTab
+  pureCloseLeftTabs: Close LeftTabs
+  pureCloseRightTabs: Close RightTabs
+  pureCloseOtherTabs: Close OtherTabs
+  pureCloseAllTabs: Close AllTabs
+  pureFullScreen: FullScreen
+  pureExitFullScreen: ExitFullScreen
+  pureContentFullScreen: Content FullScreen
+  pureContentExitFullScreen: Content ExitFullScreen
+  pureClickCollapse: Collapse
+  pureClickExpand: Expand
+  pureCancel: Cancel
+  pureConfirm: Confirm
+  pureSave: Save
+  pureSwitch: Switch
+  pureClose: Close
+  pureBackTop: BackTop
+  pureOpenText: Open
+  pureCloseText: Close
+  pureColumnSettings: Column
+  pureMore: More
+  pureCancelSelected: Cancel Selected
+search:
+  pureTotal: Total
+  pureHistory: History
+  pureCollect: Collect
+  pureDragSort: （Drag Sort）
+  pureEmpty: Empty
+  purePlaceholder: Search Menu
+panel:
+  pureSystemSet: System Configs
+  pureCloseSystemSet: Close System Configs
+  pureClearCacheAndToLogin: Clear cache and return to login page
+  pureClearCache: Clear Cache
+  pureOverallStyle: Overall Style
+  pureOverallStyleLight: Light
+  pureOverallStyleLightTip: Set sail freshly and light up the comfortable work interface
+  pureOverallStyleDark: Dark
+  pureOverallStyleDarkTip: Moonlight Overture, indulge in the tranquility and elegance of the night
+  pureOverallStyleSystem: Auto
+  pureOverallStyleSystemTip: Synchronize time, the interface naturally responds to morning and dusk
+  pureThemeColor: Theme Color
+  pureLayoutModel: Layout Model
+  pureVerticalTip: The menu on the left is familiar and friendly
+  pureHorizontalTip: Top menu, concise overview
+  pureMixTip: Mixed menu, flexible
+  pureStretch: Stretch Page
+  pureStretchFixed: Fixed
+  pureStretchFixedTip: Compact pages make it easy to find the information you need
+  pureStretchCustom: Custom
+  pureStretchCustomTip: Minimum 1280, maximum 1600
+  pureTagsStyle: Tags Style
+  pureTagsStyleSmart: Smart
+  pureTagsStyleSmartTip: Smart tags add fun and brilliance
+  pureTagsStyleCard: Card
+  pureTagsStyleCardTip: Card tags for efficient browsing
+  pureTagsStyleChrome: Chrome
+  pureTagsStyleChromeTip: Chrome style is classic and elegant
+  pureInterfaceDisplay: Interface Display
+  pureGreyModel: Grey Model
+  pureWeakModel: Weak Model
+  pureHiddenTags: Hidden Tags
+  pureHiddenFooter: Hidden Footer
+  pureMultiTagsCache: MultiTags Cache
+  purePrompt: Prompt
+menus:
+  pureHome: Home
+  pureLogin: Login
+  pureAbnormal: Abnormal Page
+  alarm: Alarm
+  alarmStatistics: Alarm Statistics
+  alarmDetail: Alarm Detail
+  peakResources: Peak Resources
+  resourceManagement: Resource Management
+  resourceCollection: Resource Collection
+  resourceStatistics: Resource Statistics
+  resourceMonit: Resource Monit
+  RealtimeResource: Realtime Resource
+  resourceMonitk8s: Resource K8S
+  resourceMonitnode: Resource Node
+  resourceWorkbench: Workbench
+  pureFourZeroFour: "404"
+  pureFourZeroOne: "403"
+  pureFive: "500"
+  purePermission: Permission Manage
+  purePermissionPage: Page Permission
+  purePermissionButton: Button Permission
+  purePermissionButtonRouter: Route return button permission
+  purePermissionButtonLogin: Login interface return button permission
+status:
+  pureLoad: Loading...
+  pureMessage: Message
+  pureNotify: Notify
+  pureTodo: Todo
+  pureNoMessage: No Message
+  pureNoNotify: No Notify
+  pureNoTodo: No Todo
+  pureSelected: Selected
+message:
+  pureInterfaceError: Interface Error
+login:
+  pureUsername: Username
+  purePassword: Password
+  pureLogin: Login
+  pureLoginSuccess: Login Success
+  pureLoginFail: Login Fail
+  pureUsernameReg: Please enter username
+  purePassWordReg: Please enter password
+  purePassWordRuleReg: The password format should be any combination of 8-18 digits
+resource:
+  add: Add Resource
+  edit: Operator
+  keyword: Keyword
+  keywordPlaceholder: Namespace or Deployment
+  placeholder: Please select
+  search: Search
+  reset: Reset
+  scale: Deployment Scale
+  reboot: Deployment Restart
+  column:
+    operation: Operation
+    k8s: K8S
+    namespace: Namespace
+    deployment: Deployment
+    podCountInit: PodCountInit
+    podCount: PodCount
+    podCountAi: PodCountAI
+    podCountManual: PodCountManual
+    podQps: PodQPS
+    podQpsAi: PodQPSAI
+    # podLoad: PodLoad
+    podLoadAi: PodLoadAI
+    podG1gcQps: PodG1GCQPS
+    podG1gcQpsAi: PodG1GCQPSAI
+    podCpuPct: PodCPU%
+    podMemPct: PodMem%
+    podMemUsedMb: PodMemUsedMB
+    podMemSavedMb: PodMemSavedMB
+    requestCpuM: RequestCPUm
+    requestMemMb: RequestMemMB
+    limitCpuM: LimitCPUm
+    limitMemMb: LimitMemMB
+    date: Date
+    env: Env
+    update: Update
+    envPct: EnvPCT
+    updateAi: UpdateAI
+    p95PodQps: P95PodQPS
+    p95PodMemPct: P95PodMemPCT
+    p95PodQpsAi: P95PodQPSAI
+    p95PodCpuPct: P95PodCPUPCT
+    p95PodWssPct: P95PodWSSPCT
+    p95PodG1gcQps: P95PodG1GCQPS
+    p95PodG1gcQpsAi: P95PodG1GCQPSAI
+    p95PodLoad: P95PodLoad
+    p95PodWssMb: P95PodWssMB
+    podJvmMaxMb: PodJVMMaxMB
+    limitPodCpu: LimitPodCPUM
+    limitPodMemMb: LimitPodMemMB
+    requestPodCpuM: RequestPodCPUM
+    requestPodMemMb: RequestPodMemMB
+  rules:
+    namespace: Namespace is required
+    deployment: Deployment is required
+    podCountManual: PodCountManual is required
+    limitCpuM: LimitCPUm is required
+    limitMemMb: LimitMemMB is required
+    requestCpuM: RequestCPUm is required
+    requestMemMb: RequestMemMB is required
+    type: Type is required
+    time: Time is required
+    futureTime: Select a time in the future
+    cron: Cron is required
+    greaterThanZero: Must be greater than or equal -1
+  message:
+    createSuccess: Created successfully
+    createFailed: Created failed
+    editSuccess: Operator successfully
+    editFailed: Operator failed
+    dateAndEnvIsNecessary: Please select a env and date
+    isExecute: Confirm to execute?
+    isExecuteScale: Is execute scale?
+    isExecuteReboot: Is execute reboot?
+  operation:
+    saveAndScale: Save&Scale
+    saveAndReboot: Save&Reboot
+    scale: Scale
+    reboot: Restart
+  form:
+    addLabel: Add Label
+    ExecuteImmediately: Immediately Execution
+    ScheduledExecution: Scheduled Execution
+    PeriodicExecution: Periodic Execution
+    interval: Interval Time
+    type: Type
+    time: Time
+    cronPlaceholder: Please input cron expression
+workbench:
+  environment: Environment
+  currentEnvironment: Current Environment
+  switchEnvConfirm: Switch to
+  switchEnvSuccess: Switch successfully
+  controlSwitchConfirmEnable: Is enable K8S control?
+  controlSwitchConfirmDisable: Is disable K8S control?
+  controlSwitch: K8S Control Switch
+  controlStatus: Control Status
+  controlEnable: Control Enabled
+  controlDisable: Control Disabled
+  switchEnableSuccess: Control already enabled
+  switchDisableSuccess: Control already disabled
+  init: Init
+  days: days
+  daysLable: Init days
+  daysPlaceholder: Please input init days
+  greaterThanZero: Must be greater than 0
+  confirm: Confirm to init?
+  confirm1: ⚠️默认会从Prometheus采集10天数据(建议采集1个月)，并将10天内最大资源消耗日的数据写入到管控表，如果耗时较长，请等待采集完成或缩短采集时长。
+  confirm2: ⚠️重复执行采集并更新不会导致重复写入数据，请放心使用，每次采集后都会自动将10天内最大资源消耗日的数据写入到管控表。
+  confirm3: ⚠️每日凌晨1点会自动采集前一天的数据，并将10天内最大资源消耗日的数据更新到管控表，可在K8S的CronJobs中修改。
+  initSuccess: Init success!
