@@ -21,7 +21,7 @@ RUN apk add --no-cache gcc libc-dev \
     curl gd-dev jq
 
 # Nginx
-RUN wget 'https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz' \
+RUN wget https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
     && wget 'https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1a/openssl-1.1.1a.tar.gz' \
     && tar xzf openssl-1.1.1a.tar.gz \
     && tar zxf nginx-${NGINX_VERSION}.tar.gz && cd nginx-${NGINX_VERSION} \
