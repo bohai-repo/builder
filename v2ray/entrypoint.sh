@@ -17,63 +17,46 @@ function main(){
     sed -i "s/v2ray_email/${v2ray_email}/g" /app/v2ray/config.json
     sed -i "s/v2ray_path/${v2ray_path}/g" /app/v2ray/config.json
     echo " "
-    echo "----------Launch Testing----------"
+    echo "----------Start Verification----------"
     if [[ -f /etc/nginx/ssl/ssl.cer ]] && [[ -f /etc/nginx/ssl/ssl.key ]];then
-      echo "TLS Pass: [$(pass Pass)]"
+      echo "Nginx HTTPS certificate file: [$(pass OK)]"
     else
-      echo "TLS Pass: [$(fail Fail)]"
+      echo "Nginx HTTPS certificate file: [$(fail Fail)]"
       exit 1
     fi
 
     # launching nginx
     /etc/nginx/sbin/nginx -t &>/dev/null
     if [[ $? == 0 ]];then
-      echo "NGINX Pass: [$(pass Pass)]"
+      echo "Nginx prestartup test: [$(pass OK)]"
     else
-      echo "NGINX pass: [$(fail Fail)]"
+      echo "Nginx prestartup test: [$(fail Fail)]"
       exit 1
     fi
 
     # launching v2ray
     /app/v2ray/v2ray -config /app/v2ray/config.json -test &>/dev/null
     if [[ $? == 0 ]];then
-      echo "V2RAY Pass: [$(pass Pass)]"
+      echo "V2ray prestartup test: [$(pass OK)]"
     else
-      echo "V2RAY Pass: [$(fail Fail)]"
+      echo "V2RAY prestartup test: [$(fail Fail)]"
       exit 1
     fi
+    /etc/nginx/sbin/nginx
+    nohup /app/v2ray/v2ray -config /app/v2ray/config.json &>/dev/null &
 
     echo " "
-    echo "----------Launching--------------"
-    /etc/nginx/sbin/nginx
-    if [[ $? == 0 ]];then
-      echo "Launching NGINX Pass: [$(pass Pass)]"
-    else
-      echo "Launching NGINX Pass: [$(fail Fail)]"
-      exit 1
-    fi
-
-    export V2RAY_VMESS_AEAD_FORCED=false
-    nohup /app/v2ray/v2ray -config /app/v2ray/config.json &>/dev/null &
-    if [[ $? == 0 ]];then
-      echo "Launching V2RAY Pass: [$(pass Pass)]"
-    else
-      echo "Launching V2RAY Pass: [$(fail Fail)]"
-      exit 1
-    fi
-
-      echo " "
-      echo "----------CLENT CONFIGURE------------"
-      echo "v2ray_port: $(info ${v2ray_port})"
-      echo "v2ray_alterid: $(info 64)"
-      echo "v2ray_protocol: $(info ws)"
-      echo "v2ray_security: $(info tls)"
-      echo "v2ray_addr: $(info ${v2ray_domain})"
-      echo "v2ray_uuid: $(info ${v2ray_uuid})"
-      echo "v2ray_path: $(info ${v2ray_path})"
-      echo "v2ray_encryption: $(info aes-128-gcm)"
-      echo " "
-      echo "----------CLIENT WEB LOG------------"
+    echo "----------V2ray client configuration------------"
+    echo "v2ray_port: $(info ${v2ray_port})"
+    echo "v2ray_alterid: $(info 64)"
+    echo "v2ray_protocol: $(info ws)"
+    echo "v2ray_security: $(info tls)"
+    echo "v2ray_addr: $(info ${v2ray_domain})"
+    echo "v2ray_uuid: $(info ${v2ray_uuid})"
+    echo "v2ray_path: $(info ${v2ray_path})"
+    echo "v2ray_encryption: $(info aes-128-gcm)"
+    echo " "
+    echo "----------V2ray client Accesslog------------"
 
       tail -f /tmp/access.log
 }

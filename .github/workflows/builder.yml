@@ -86,7 +86,7 @@ jobs:
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
-          /bin/bash build.sh v2ray v2ray 1.0.0-SNAPSHOT
+          /bin/bash build.sh v2ray v2ray 4.27.5
 #  build-jenkins-slave-arm64:
 #    runs-on: [self-hosted,kubernetes-arm64]
 #    steps:
