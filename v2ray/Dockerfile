@@ -4,12 +4,12 @@ ARG V2RAY_VERSION="4.27.5"
 ARG NGINX_VERSION="1.21.1"
 ARG BUILD_CPU_NUM="2"
 
-ENV v2ray_uuid '39c84eb5-6a2b-42d3-ac13-6381a4cca529'
-ENV v2ray_path '68ad'
-ENV v2ray_port '443'
-ENV v2ray_email 'demo@gmail.com'
-ENV v2ray_domain ''
-ENV V2RAY_VMESS_AEAD_FORCED false
+ENV v2ray_uuid='39c84eb5-6a2b-42d3-ac13-6381a4cca529'
+ENV v2ray_path='68ad'
+ENV v2ray_port='443'
+ENV v2ray_email='demo@gmail.com'
+ENV v2ray_domain=''
+ENV V2RAY_VMESS_AEAD_FORCED=false
 
 USER root
 WORKDIR /app
@@ -40,7 +40,7 @@ RUN wget -q https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
     && ln -s /etc/nginx/sbin/nginx /usr/sbin/
 
 # V2ray
-RUN mkdir /app/v2ray && cd $_ \
+RUN mkdir /app/v2ray && cd /app/v2ray \
     && if [ "$(uname -m)" = "x86_64" ]; then \
         export CPU_PLATFORM="64"; \
     elif [ "$(uname -m)" = "aarch64" ]; then \
@@ -49,9 +49,7 @@ RUN mkdir /app/v2ray && cd $_ \
         echo "ERROR: Unsupported architecture: $(uname -m)"; exit 1; \
     fi \
 	&& wget --no-check-certificate -q https://github.com/v2ray/v2ray-core/releases/download/v${V2RAY_VERSION}/v2ray-linux-${CPU_PLATFORM}.zip \
-    && unzip -q v2ray-linux-${CPU_PLATFORM}.zip \
-    && rm -f *.json *.sig *.dat *.systemd \
-    && chmod +x /app/v2ray/* \
+    && unzip -q v2ray-linux-${CPU_PLATFORM}.zip && rm -rf *.json *.sig *.dat *.zip systemd \
     && chmod +x /app/entrypoint.sh
 
 ADD v2ray_web.tar.gz /etc/nginx/html/
