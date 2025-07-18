@@ -41,13 +41,7 @@ RUN wget -q https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
 
 # V2ray
 RUN mkdir /app/v2ray && cd /app/v2ray \
-    && if [ "$(uname -m)" = "x86_64" ]; then \
-        export CPU_PLATFORM="64"; \
-    elif [ "$(uname -m)" = "aarch64" ]; then \
-        export CPU_PLATFORM="arm64-v8a"; \
-    else \
-        echo "ERROR: Unsupported architecture: $(uname -m)"; exit 1; \
-    fi \
+    && if [ "$(uname -m)" = "x86_64" ]; then export CPU_PLATFORM="64"; elif [ "$(uname -m)" = "aarch64" ]; then export CPU_PLATFORM="arm64-v8a"; else echo "ERROR: Unsupported architecture: $(uname -m)"; exit 1; fi \
 	&& wget --no-check-certificate -q https://github.com/v2ray/v2ray-core/releases/download/v${V2RAY_VERSION}/v2ray-linux-${CPU_PLATFORM}.zip \
     && unzip -q v2ray-linux-${CPU_PLATFORM}.zip && rm -rf *.json *.sig *.dat *.zip systemd \
     && chmod +x /app/entrypoint.sh
