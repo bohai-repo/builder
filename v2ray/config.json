@@ -4,29 +4,76 @@
       "error": "/tmp/error.log",
       "loglevel": "warning"
     },
-    "inbound": {
-      "port": 11234,
-      "listen":"127.0.0.1",
-      "protocol": "vmess",
-      "settings": {
-        "clients": [
-          {
-            "id": "v2ray_uuid",
-            "level": 1,
-            "alterId": 64,
-            "email": "v2ray_email"
-          }
+    "stats": {},
+    "api": {
+        "tag": "api",
+        "services": [
+            "StatsService"
         ]
-      },
-       "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-           "path": "/v2ray_path"
-          }
-       }
     },
-    "outbound": {
-      "protocol": "freedom",
-      "settings": {}
+    "policy": {
+        "levels": {
+            "0": {
+                "statsUserUplink": true,
+                "statsUserDownlink": true
+            }
+        },
+        "system": {
+            "statsInboundUplink": true,
+            "statsInboundDownlink": true,
+            "statsOutboundUplink": true,
+            "statsOutboundDownlink": true
+        }
+    },
+    "inbounds": [
+        {
+            "tag": "tcp",
+            "port": 11234,
+            "protocol": "vmess",
+            "listen":"127.0.0.1",
+             "streamSettings": {
+              "network": "ws",
+              "wsSettings": {
+                 "path": "/v2ray_path"
+                }
+             },
+            "settings": {
+                "clients": [
+                    {
+                        "email": "v2ray_email",
+                        "id": "v2ray_uuid",
+                        "level": 1,
+                        "alterId": 4
+                    }
+
+                ]
+            }
+        },
+        {
+            "tag": "api",
+            "listen": "0.0.0.0",
+            "port": 11235,
+            "protocol": "dokodemo-door",
+            "settings": {
+                "address": "127.0.0.1"
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "freedom",
+            "settings": {}
+        }
+    ],
+    "routing": {
+        "rules": [
+            {
+                "inboundTag": [
+                    "api"
+                ],
+                "outboundTag": "api",
+                "type": "field"
+            }
+        ]
     }
-  }
+}
