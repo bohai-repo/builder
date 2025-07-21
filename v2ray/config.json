@@ -27,7 +27,7 @@
     },
     "inbounds": [
         {
-            "tag": "tcp",
+            "tag": "v2ray_email",
             "port": 11234,
             "protocol": "vmess",
             "listen":"127.0.0.1",
@@ -45,13 +45,12 @@
                         "level": 1,
                         "alterId": 64
                     }
-
                 ]
             }
         },
         {
             "tag": "api",
-            "listen": "0.0.0.0",
+            "listen": "127.0.0.1",
             "port": 11235,
             "protocol": "dokodemo-door",
             "settings": {
