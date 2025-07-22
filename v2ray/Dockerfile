@@ -50,7 +50,6 @@ RUN wget -q https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
         /app/v2ray/*.dat \
         /app/v2ray/*.zip \
         /app/v2ray/systemd \
-        /app/v2ray/v2ctl \
 
 ADD v2ray_web.tar.gz /etc/nginx/html/
 ADD nginx.conf   /etc/nginx/conf/nginx.conf
