@@ -14,15 +14,16 @@ ENV V2RAY_VMESS_AEAD_FORCED=false
 
 USER root
 WORKDIR /app
-ADD entrypoint.sh entrypoint.sh
+
+EXPOSE 443
+EXPOSE 8443
+COPY entrypoint.sh entrypoint.sh
 
 RUN apk add --no-cache gcc libc-dev \
     make openssl-dev linux-headers \
     pcre-dev zlib-dev perl-dev \
-    curl gd-dev
-
-# Nginx
-RUN wget -q https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
+    curl gd-dev  \
+    && wget -q https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
     && wget -q 'https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1a/openssl-1.1.1a.tar.gz' \
     && tar xzf openssl-1.1.1a.tar.gz \
     && tar zxf nginx-${NGINX_VERSION}.tar.gz && cd nginx-${NGINX_VERSION} \
@@ -51,11 +52,8 @@ RUN wget -q https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
         /app/v2ray/*.zip \
         /app/v2ray/systemd \
 
-ADD v2ray_web.tar.gz /etc/nginx/html/
-ADD nginx.conf   /etc/nginx/conf/nginx.conf
-ADD config.json  /app/v2ray/config.json
-
-EXPOSE 443
-EXPOSE 8443
+ADD  web.tar.gz  /etc/nginx/html/
+COPY nginx.conf  /etc/nginx/conf/nginx.conf
+COPY config.json /app/v2ray/config.json
 
 CMD /app/entrypoint.sh
