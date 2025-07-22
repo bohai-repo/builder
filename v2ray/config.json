@@ -1,6 +1,8 @@
 {
     "log" : {
-      "loglevel": "none"
+      "access": "/tmp/access.log",
+      "error": "/tmp/error.log",
+      "loglevel": "warning"
     },
     "stats": {},
     "api": {

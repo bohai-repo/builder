@@ -4,8 +4,6 @@ function main(){
     sed -i "s/v2ray_uuid/${v2ray_uuid}/g" /app/v2ray/config.json
     sed -i "s/v2ray_email/${v2ray_email}/g" /app/v2ray/config.json
     sed -i "s/v2ray_path/${v2ray_path}/g" /app/v2ray/config.json
-    echo " "
-    echo "----------start verification----------"
     if [[ ! -f /etc/nginx/ssl/ssl.cer ]] && [[ ! -f /etc/nginx/ssl/ssl.key ]];then
       echo "[ERROR] https certificate file required in /etc/nginx/ssl/{ssl.cer、ssl.key}."
       exit 1
@@ -30,7 +28,6 @@ function main(){
       nohup /app/v2ray/v2ray-exporter --v2ray-endpoint "127.0.0.1:11235" --listen "0.0.0.0:8443" &>/dev/null &
     fi
 
-    echo " "
     echo "----------client config info------------"
     echo "v2ray-core port: ${v2ray_port}"
     echo "v2ray-core alterid: 64"
@@ -40,6 +37,10 @@ function main(){
     echo "v2ray-core uuid: ${v2ray_uuid}"
     echo "v2ray-core path: ${v2ray_path}"
     echo "v2ray-core encryption: aes-128-gcm"
+    echo " "
+    echo " "
+    echo "----------client access log-----------"
+    tail -f /tmp/access.log
 }
 
 main
