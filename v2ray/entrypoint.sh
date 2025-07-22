@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 function main(){
     sed -i "s/v2ray_path/${v2ray_path}/g" /etc/nginx/conf/nginx.conf
     sed -i "s/v2ray_domain/${v2ray_domain}/g" /etc/nginx/conf/nginx.conf
