@@ -17,34 +17,34 @@ function main(){
     sed -i "s/v2ray_email/${v2ray_email}/g" /app/v2ray/config.json
     sed -i "s/v2ray_path/${v2ray_path}/g" /app/v2ray/config.json
     echo " "
-    echo "----------Start Verification----------"
+    echo "----------start verification----------"
     if [[ -f /etc/nginx/ssl/ssl.cer ]] && [[ -f /etc/nginx/ssl/ssl.key ]];then
-      echo "Nginx HTTPS certificate file: [$(pass OK)]"
+      echo "nginx HTTPS certificate file: [$(pass OK)]"
     else
-      echo "Nginx HTTPS certificate file: [$(fail Fail)]"
+      echo "nginx HTTPS certificate file: [$(fail Fail)]"
       exit 1
     fi
 
     # launching nginx
     /etc/nginx/sbin/nginx -t &>/dev/null
     if [[ $? == 0 ]];then
-      echo "Nginx prestartup test: [$(pass OK)]"
+      echo "nginx prestartup test: [$(pass OK)]"
     else
-      echo "Nginx prestartup test: [$(fail Fail)]"
+      echo "nginx prestartup test: [$(fail Fail)]"
       exit 1
     fi
 
     # launching v2ray
     /app/v2ray/v2ray -config /app/v2ray/config.json -test &>/dev/null
     if [[ $? == 0 ]];then
-      echo "V2ray prestartup test: [$(pass OK)]"
+      echo "v2ray prestartup test: [$(pass OK)]"
     else
-      echo "V2RAY prestartup test: [$(fail Fail)]"
+      echo "v2ray prestartup test: [$(fail Fail)]"
       exit 1
     fi
     /etc/nginx/sbin/nginx
     nohup /app/v2ray/v2ray -config /app/v2ray/config.json &>/dev/null &
-    nohup /app/v2ray/v2ray-exporter --v2ray-endpoint "127.0.0.1:11235" --listen 8443 &>/dev/null &
+    nohup /app/v2ray/v2ray-exporter --v2ray-endpoint "127.0.0.1:11235" --listen "0.0.0.0:8443" &>/dev/null &
     echo " "
     echo "----------client config------------"
     echo "v2ray_port: $(info ${v2ray_port})"

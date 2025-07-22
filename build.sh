@@ -42,7 +42,7 @@ function launch() {
         echo "app ${build_app} does not exist.";exit 1
     fi
   fi
-  docker build . -t ${build_repo}/${alias_app}:${build_version} --squash
+  docker build . -t ${build_repo}/${alias_app}:${build_version}
   if [[ $? == 0 ]];then
     docker push ${build_repo}/${alias_app}:${build_version}
     # 构建残留清理
