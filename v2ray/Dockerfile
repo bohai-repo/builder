@@ -1,8 +1,9 @@
 FROM alpine:latest
 
-ARG V2RAY_VERSION="4.27.5"
-ARG NGINX_VERSION="1.21.1"
 ARG BUILD_CPU_NUM="2"
+ARG NGINX_VERSION="1.21.1"
+ARG V2RAY_CORE_VERSION="4.27.5"
+ARG V2RAY_EXPORTER_VERSION="0.6.0"
 
 ENV v2ray_uuid='39c84eb5-6a2b-42d3-ac13-6381a4cca529'
 ENV v2ray_path='68ad'
@@ -13,7 +14,8 @@ ENV V2RAY_VMESS_AEAD_FORCED=false
 
 USER root
 WORKDIR /app
-
+EXPOSE 443
+EXPOSE 8443
 ADD entrypoint.sh entrypoint.sh
 
 RUN apk add --no-cache gcc libc-dev \
@@ -37,14 +39,13 @@ RUN wget -q https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
     && rm -rf /app/openssl-1.1.1a* \
     && rm -rf /var/cache/apk/* \
     && rm -rf /app/nginx-${NGINX_VERSION}* \
-    && ln -s /etc/nginx/sbin/nginx /usr/sbin/
-
-# V2ray
-RUN mkdir /app/v2ray && cd /app/v2ray \
-    && if [ "$(uname -m)" = "x86_64" ]; then export CPU_PLATFORM="64"; elif [ "$(uname -m)" = "aarch64" ]; then export CPU_PLATFORM="arm64-v8a"; else echo "ERROR: Unsupported architecture: $(uname -m)"; exit 1; fi \
-	&& wget --no-check-certificate -q https://github.com/v2ray/v2ray-core/releases/download/v${V2RAY_VERSION}/v2ray-linux-${CPU_PLATFORM}.zip \
-    && unzip -q v2ray-linux-${CPU_PLATFORM}.zip && rm -rf *.json *.sig *.dat *.zip systemd \
-    && chmod +x /app/entrypoint.sh
+    && ln -s /etc/nginx/sbin/nginx /usr/sbin/ \
+    && mkdir /app/v2ray && cd /app/v2ray \
+    && if [ "$(uname -m)" = "x86_64" ]; then export V2RAY_CORE_CPU_PLATFORM="64";export V2RAY_EXPORTER_CPU_PLATFORM="amd64"; elif [ "$(uname -m)" = "aarch64" ]; then export V2RAY_CORE_CPU_PLATFORM="arm64-v8a";export V2RAY_EXPORTER_CPU_PLATFORM="arm64"; else echo "ERROR: Unsupported architecture: $(uname -m)"; exit 1; fi \
+	&& wget --no-check-certificate -q https://github.com/v2ray/v2ray-core/releases/download/v${V2RAY_CORE_VERSION}/v2ray-linux-${V2RAY_CORE_CPU_PLATFORM}.zip \
+    && unzip -q v2ray-linux-${V2RAY_CORE_CPU_PLATFORM}.zip && rm -rf *.json *.sig *.dat *.zip systemd v2ctl \
+    && wget --no-check-certificate -q -o v2ray-exporter https://github.com/wi1dcard/v2ray-exporter/releases/download/v${V2RAY_EXPORTER_VERSION}/v2ray-exporter_linux_${V2RAY_EXPORTER_VERSION} \
+    && chmod +x v2ray-exporter /app/entrypoint.sh
 
 ADD v2ray_web.tar.gz /etc/nginx/html/
 ADD nginx.conf   /etc/nginx/conf/nginx.conf

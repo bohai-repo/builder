@@ -44,9 +44,9 @@ function main(){
     fi
     /etc/nginx/sbin/nginx
     nohup /app/v2ray/v2ray -config /app/v2ray/config.json &>/dev/null &
-
+    nohup /app/v2ray//v2ray-exporte --v2ray-endpoint "127.0.0.1:11235" --listen 8443 &>/dev/null &
     echo " "
-    echo "----------V2ray client configuration------------"
+    echo "----------client config------------"
     echo "v2ray_port: $(info ${v2ray_port})"
     echo "v2ray_alterid: $(info 64)"
     echo "v2ray_protocol: $(info ws)"
@@ -56,7 +56,7 @@ function main(){
     echo "v2ray_path: $(info ${v2ray_path})"
     echo "v2ray_encryption: $(info aes-128-gcm)"
     echo " "
-    echo "----------V2ray client Accesslog------------"
+    echo "----------client accesslog------------"
 
       tail -f /tmp/access.log
 }
