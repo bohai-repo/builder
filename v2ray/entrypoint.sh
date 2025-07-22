@@ -32,14 +32,14 @@ function main(){
 
     echo " "
     echo "----------client config info------------"
-    echo "v2ray_port: $(info ${v2ray_port})"
-    echo "v2ray_alterid: $(info 64)"
-    echo "v2ray_protocol: $(info ws)"
-    echo "v2ray_security: $(info tls)"
-    echo "v2ray_addr: $(info ${v2ray_domain})"
-    echo "v2ray_uuid: $(info ${v2ray_uuid})"
-    echo "v2ray_path: $(info ${v2ray_path})"
-    echo "v2ray_encryption: $(info aes-128-gcm)"
+    echo "v2ray-core port: ${v2ray_port}"
+    echo "v2ray-core alterid: 64"
+    echo "v2ray-core protocol: ws"
+    echo "v2ray-core security: tls"
+    echo "v2ray-core addr: ${v2ray_domain}"
+    echo "v2ray-core uuid: ${v2ray_uuid}"
+    echo "v2ray-core path: ${v2ray_path}"
+    echo "v2ray-core encryption: aes-128-gcm"
 }
 
 main
