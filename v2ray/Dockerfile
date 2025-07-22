@@ -38,11 +38,19 @@ RUN wget -q https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
     && if [ "$(uname -m)" = "x86_64" ]; then export V2RAY_CORE_CPU_PLATFORM="64";export V2RAY_EXPORTER_CPU_PLATFORM="amd64"; elif [ "$(uname -m)" = "aarch64" ]; then export V2RAY_CORE_CPU_PLATFORM="arm64-v8a";export V2RAY_EXPORTER_CPU_PLATFORM="arm64"; else echo "ERROR: Unsupported architecture: $(uname -m)"; exit 1; fi \
 	&& wget --no-check-certificate -q https://github.com/v2ray/v2ray-core/releases/download/v${V2RAY_CORE_VERSION}/v2ray-linux-${V2RAY_CORE_CPU_PLATFORM}.zip \
     && unzip -q v2ray-linux-${V2RAY_CORE_CPU_PLATFORM}.zip \
-    && wget --no-check-certificate -q -o v2ray-exporter https://github.com/wi1dcard/v2ray-exporter/releases/download/v${V2RAY_EXPORTER_VERSION}/v2ray-exporter_linux_${V2RAY_EXPORTER_CPU_PLATFORM} \
+    && wget --no-check-certificate -q -O v2ray-exporter https://github.com/wi1dcard/v2ray-exporter/releases/download/v${V2RAY_EXPORTER_VERSION}/v2ray-exporter_linux_${V2RAY_EXPORTER_CPU_PLATFORM} \
     && chmod +x v2ray-exporter /app/entrypoint.sh \
     && rm -rf \
-        /etc/nginx/html/* /app/openssl-1.1.1a* /var/cache/apk/* \
-        /app/nginx-${NGINX_VERSION}* /app/v2ray/{*.json,*.sig,*.dat,*.zip,systemd,v2ctl}
+        /etc/nginx/html/* \
+        /app/openssl-1.1.1a* \
+        /var/cache/apk/* \
+        /app/nginx-${NGINX_VERSION}* \
+        /app/v2ray/vpoint* \
+        /app/v2ray/*.sig \
+        /app/v2ray/*.dat \
+        /app/v2ray/*.zip \
+        /app/v2ray/systemd \
+        /app/v2ray/v2ctl \
 
 ADD v2ray_web.tar.gz /etc/nginx/html/
 ADD nginx.conf   /etc/nginx/conf/nginx.conf

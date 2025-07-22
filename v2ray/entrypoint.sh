@@ -44,7 +44,7 @@ function main(){
     fi
     /etc/nginx/sbin/nginx
     nohup /app/v2ray/v2ray -config /app/v2ray/config.json &>/dev/null &
-    nohup /app/v2ray//v2ray-exporte --v2ray-endpoint "127.0.0.1:11235" --listen 8443 &>/dev/null &
+    nohup /app/v2ray/v2ray-exporter --v2ray-endpoint "127.0.0.1:11235" --listen 8443 &>/dev/null &
     echo " "
     echo "----------client config------------"
     echo "v2ray_port: $(info ${v2ray_port})"
