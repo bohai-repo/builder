@@ -1,14 +1,4 @@
-function pass(){
-    echo -e "\033[32m\033[01m$1\033[0m"
-}
-
-function fail(){
-    echo -e "\033[31m\033[01m$1\033[0m"
-}
-
-function info(){
-    echo -e "\033[34m\033[01m$1\033[0m"
-}
+#!/usr/bin/env bash
 
 function main(){
     sed -i "s/v2ray_path/${v2ray_path}/g" /etc/nginx/conf/nginx.conf
@@ -18,35 +8,32 @@ function main(){
     sed -i "s/v2ray_path/${v2ray_path}/g" /app/v2ray/config.json
     echo " "
     echo "----------start verification----------"
-    if [[ -f /etc/nginx/ssl/ssl.cer ]] && [[ -f /etc/nginx/ssl/ssl.key ]];then
-      echo "nginx HTTPS certificate file: [$(pass OK)]"
-    else
-      echo "nginx HTTPS certificate file: [$(fail Fail)]"
+    if [[ ! -f /etc/nginx/ssl/ssl.cer ]] && [[ ! -f /etc/nginx/ssl/ssl.key ]];then
+      echo "[ERROR] https certificate file required in /etc/nginx/ssl/{ssl.cer、ssl.key}."
       exit 1
     fi
 
     # launching nginx
     /etc/nginx/sbin/nginx -t &>/dev/null
-    if [[ $? == 0 ]];then
-      echo "nginx prestartup test: [$(pass OK)]"
-    else
-      echo "nginx prestartup test: [$(fail Fail)]"
+    if [[ $? != 0 ]];then
+      echo "[ERROR] nginx failed to start, check if the passed env is correct."
       exit 1
+    else
+      /etc/nginx/sbin/nginx
     fi
 
     # launching v2ray
     /app/v2ray/v2ray -config /app/v2ray/config.json -test &>/dev/null
-    if [[ $? == 0 ]];then
-      echo "v2ray prestartup test: [$(pass OK)]"
-    else
-      echo "v2ray prestartup test: [$(fail Fail)]"
+    if [[ $? != 0 ]];then
+      echo "[ERROR] v2ray-core failed to start, check if the passed env is correct."
       exit 1
+    else
+      nohup /app/v2ray/v2ray -config /app/v2ray/config.json &>/dev/null &
+      nohup /app/v2ray/v2ray-exporter --v2ray-endpoint "127.0.0.1:11235" --listen "0.0.0.0:8443" &>/dev/null &
     fi
-    /etc/nginx/sbin/nginx
-    nohup /app/v2ray/v2ray -config /app/v2ray/config.json &>/dev/null &
-    nohup /app/v2ray/v2ray-exporter --v2ray-endpoint "127.0.0.1:11235" --listen "0.0.0.0:8443" &>/dev/null &
+
     echo " "
-    echo "----------client config------------"
+    echo "----------client config info------------"
     echo "v2ray_port: $(info ${v2ray_port})"
     echo "v2ray_alterid: $(info 64)"
     echo "v2ray_protocol: $(info ws)"
@@ -55,10 +42,6 @@ function main(){
     echo "v2ray_uuid: $(info ${v2ray_uuid})"
     echo "v2ray_path: $(info ${v2ray_path})"
     echo "v2ray_encryption: $(info aes-128-gcm)"
-    echo " "
-    echo "----------client accesslog------------"
-
-      tail -f /tmp/access.log
 }
 
 main
