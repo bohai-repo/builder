@@ -16,7 +16,7 @@ USER root
 WORKDIR /app
 ADD entrypoint.sh entrypoint.sh
 
-RUN apk add --no-cache --virtual .build-deps gcc libc-dev \
+RUN apk add --no-cache gcc libc-dev \
     make openssl-dev linux-headers \
     pcre-dev zlib-dev perl-dev \
     curl gd-dev
@@ -40,7 +40,6 @@ RUN wget -q https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
     && unzip -q v2ray-linux-${V2RAY_CORE_CPU_PLATFORM}.zip \
     && wget --no-check-certificate -q -o v2ray-exporter https://github.com/wi1dcard/v2ray-exporter/releases/download/v${V2RAY_EXPORTER_VERSION}/v2ray-exporter_linux_${V2RAY_EXPORTER_CPU_PLATFORM} \
     && chmod +x v2ray-exporter /app/entrypoint.sh \
-    && apk del .build-deps \
     && rm -rf \
         /etc/nginx/html/* /app/openssl-1.1.1a* /var/cache/apk/* \
         /app/nginx-${NGINX_VERSION}* /app/v2ray/{*.json,*.sig,*.dat,*.zip,systemd,v2ctl}
