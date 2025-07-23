@@ -27,7 +27,7 @@
     },
     "inbounds": [
         {
-            "tag": "v2ray_email",
+            "tag": "v2ray_user",
             "port": 11234,
             "protocol": "vmess",
             "listen":"127.0.0.1",
@@ -40,7 +40,7 @@
             "settings": {
                 "clients": [
                     {
-                        "email": "v2ray_email",
+                        "email": "v2ray_user",
                         "id": "v2ray_uuid",
                         "level": 1,
                         "alterId": 64

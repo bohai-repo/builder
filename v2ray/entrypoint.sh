@@ -1,8 +1,19 @@
+function config_generation() {
+  # get client protocol
+  protocol=$1
+  server_location=$(curl -4sk myip.ipip.net|awk '{print $4}')
+
+  if [[ ${protocol} == 'vmess' ]]; then
+    vmess_info=$(jq -n -c --arg v2ray_domain "$v2ray_domain" --arg server_location "$server_location" --arg v2ray_user "$v2ray_user" --arg v2ray_port "$v2ray_port" --arg v2ray_uuid "$v2ray_uuid" --arg v2ray_path "$v2ray_path" '{v: 2,ps: "\($server_location)-容器节点-\($v2ray_user)",add: $v2ray_domain,port: $v2ray_port,id: $v2ray_uuid,aid: 64,net: "ws","type":"none",host: "",path: $v2ray_path,tls: "tls"}')
+    echo "vmess://$(echo -n ${vmess_info} | base64 -w 0)"
+  fi
+}
+
 function main(){
     sed -i "s/v2ray_path/${v2ray_path}/g" /etc/nginx/conf/nginx.conf
     sed -i "s/v2ray_domain/${v2ray_domain}/g" /etc/nginx/conf/nginx.conf
     sed -i "s/v2ray_uuid/${v2ray_uuid}/g" /app/v2ray/config.json
-    sed -i "s/v2ray_email/${v2ray_email}/g" /app/v2ray/config.json
+    sed -i "s/v2ray_user/${v2ray_user}/g" /app/v2ray/config.json
     sed -i "s/v2ray_path/${v2ray_path}/g" /app/v2ray/config.json
     if [[ ! -f /etc/nginx/ssl/ssl.cer ]] && [[ ! -f /etc/nginx/ssl/ssl.key ]];then
       echo "[ERROR] https certificate file required in /etc/nginx/ssl/{ssl.cer、ssl.key}."
@@ -37,6 +48,10 @@ function main(){
     echo "v2ray-core uuid: ${v2ray_uuid}"
     echo "v2ray-core path: ${v2ray_path}"
     echo "v2ray-core encryption: aes-128-gcm"
+    echo " "
+    echo " "
+    echo "----------vmess url info------------"
+    echo "$(config_generation  vmess)"
     echo " "
     echo " "
     echo "----------client access log-----------"
