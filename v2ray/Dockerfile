@@ -35,7 +35,6 @@ RUN apk add --no-cache gcc libc-dev \
        --with-http_sub_module --with-stream --with-stream_ssl_module \
     && make -j${BUILD_CPU_NUM} && make -j${BUILD_CPU_NUM} install \
     && ln -s /etc/nginx/sbin/nginx /usr/sbin/ \
-    && mkdir -p /etc/nginx/html/ \
     && mkdir /app/v2ray && cd /app/v2ray \
     && if [ "$(uname -m)" = "x86_64" ]; then export V2RAY_CORE_CPU_PLATFORM="64";export V2RAY_EXPORTER_CPU_PLATFORM="amd64"; elif [ "$(uname -m)" = "aarch64" ]; then export V2RAY_CORE_CPU_PLATFORM="arm64-v8a";export V2RAY_EXPORTER_CPU_PLATFORM="arm64"; else echo "ERROR: Unsupported architecture: $(uname -m)"; exit 1; fi \
 	&& wget --no-check-certificate -q https://github.com/v2ray/v2ray-core/releases/download/v${V2RAY_CORE_VERSION}/v2ray-linux-${V2RAY_CORE_CPU_PLATFORM}.zip \
