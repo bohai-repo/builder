@@ -42,6 +42,7 @@ RUN apk add --no-cache gcc libc-dev \
     && wget --no-check-certificate -q -O v2ray-exporter https://github.com/wi1dcard/v2ray-exporter/releases/download/v${V2RAY_EXPORTER_VERSION}/v2ray-exporter_linux_${V2RAY_EXPORTER_CPU_PLATFORM} \
     && chmod +x v2ray-exporter /app/entrypoint.sh \
     && rm -rf \
+        /etc/nginx/html/* \
         /app/openssl-1.1.1a* \
         /var/cache/apk/* \
         /app/nginx-${NGINX_VERSION}* \
