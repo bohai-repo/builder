@@ -17,7 +17,11 @@ WORKDIR /app
 
 EXPOSE 443
 EXPOSE 8443
+
 COPY entrypoint.sh entrypoint.sh
+COPY index.html  /etc/nginx/html/index.html
+COPY nginx.conf  /etc/nginx/conf/nginx.conf
+COPY config.json /app/v2ray/config.json
 
 RUN apk add --no-cache gcc libc-dev \
     make openssl-dev linux-headers \
@@ -51,9 +55,5 @@ RUN apk add --no-cache gcc libc-dev \
         /app/v2ray/*.dat \
         /app/v2ray/*.zip \
         /app/v2ray/systemd \
-
-ADD index.html  /etc/nginx/html/index.html
-COPY nginx.conf  /etc/nginx/conf/nginx.conf
-COPY config.json /app/v2ray/config.json
 
 CMD /app/entrypoint.sh
