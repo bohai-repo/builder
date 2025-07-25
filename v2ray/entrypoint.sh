@@ -15,6 +15,11 @@ function main(){
     sed -i "s/v2ray_uuid/${v2ray_uuid}/g" /app/v2ray/config.json
     sed -i "s/v2ray_user/${v2ray_user}/g" /app/v2ray/config.json
     sed -i "s/v2ray_path/${v2ray_path}/g" /app/v2ray/config.json
+
+    sed -i "s/timestamp/$(date +%s)/g" /etc/nginx/html/index.html
+    sed -i "s/v2ray_domain/${v2ray_domain}:${v2ray_port}/g" /etc/nginx/html/index.html
+    sed -i "s/v2ray_hostname/$(hostname)/g" /etc/nginx/html/index.html
+
     if [[ ! -f /etc/nginx/ssl/ssl.cer ]] && [[ ! -f /etc/nginx/ssl/ssl.key ]];then
       echo "[ERROR] https certificate file required in /etc/nginx/ssl/{ssl.cer、ssl.key}."
       exit 1

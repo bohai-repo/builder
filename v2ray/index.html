@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: #f6f6f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .content-container {
+            background: #ffffff;
+            padding: 45px 60px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(65, 105, 225, 0.1);
+            border: 1px solid #d6eaff;
+            width: 450px;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .content-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(65, 105, 225, 0.15);
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #07151f;
+            margin-top: 0;
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 2px solid #e0efff;
+            padding-bottom: 15px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 10px;
+            font-size: 1.1em;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .info-row:nth-child(odd) {
+            background-color: #f7fbff;
+        }
+
+        /* 信息标签 */
+        .info-label {
+            font-weight: 700;
+            color: #333;
+        }
+
+        .info-value {
+            font-weight: 400;
+            color: #005a9c;
+            background-color: #eaf6ff;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-family: monospace;
+        }
+
+        #uptime-value {
+            font-weight: 700;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="content-container">
+        <h1>节点信息</h1>
+        <div class="info-row">
+            <span class="info-label">节点地址：</span>
+            <span class="info-value">v2ray_domain</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">节点标识：</span>
+            <span class="info-value">v2ray_hostname</span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">节点已运行：</span>
+            <span class="info-value" id="uptime-value">正在计算...</span>
+        </div>
+    </div>
+
+    <script>
+        const startTimeSeconds = timestamp;
+
+        const startTime = startTimeSeconds * 1000;
+
+        const uptimeElement = document.getElementById('uptime-value');
+
+        function updateUptime() {
+            const now = new Date().getTime();
+            const diff = now - startTime;
+
+            if (diff < 0) {
+                uptimeElement.textContent = '0 天 0 时 0 分 0 秒';
+                return;
+            }
+
+            let seconds = Math.floor(diff / 1000);
+            let minutes = Math.floor(seconds / 60);
+            let hours = Math.floor(minutes / 60);
+            const days = Math.floor(hours / 24);
+
+            seconds %= 60;
+            minutes %= 60;
+            hours %= 24;
+
+            const formattedUptime =
+                `${days} 天 ` +
+                `${String(hours).padStart(2, '0')} 时 ` +
+                `${String(minutes).padStart(2, '0')} 分 ` +
+                `${String(seconds).padStart(2, '0')} 秒`;
+
+            uptimeElement.textContent = formattedUptime;
+        }
+
+        updateUptime();
+        setInterval(updateUptime, 1000);
+
+    </script>
+
+</body>
+</html>
