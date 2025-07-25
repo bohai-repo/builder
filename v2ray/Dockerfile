@@ -52,7 +52,7 @@ RUN apk add --no-cache gcc libc-dev \
         /app/v2ray/*.zip \
         /app/v2ray/systemd \
 
-COPY index.html  /etc/nginx/html/index.html
+ADD index.html  /etc/nginx/html/index.html
 COPY nginx.conf  /etc/nginx/conf/nginx.conf
 COPY config.json /app/v2ray/config.json
 
