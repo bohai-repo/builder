@@ -53,6 +53,8 @@ RUN apk add --no-cache gcc libc-dev \
         /app/v2ray/*.sig \
         /app/v2ray/*.dat \
         /app/v2ray/*.zip \
-        /app/v2ray/systemd \
+        /app/v2ray/systemd
+
+COPY config.json /app/v2ray/config.json
 
 CMD /app/entrypoint.sh
