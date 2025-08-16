@@ -2,6 +2,7 @@ FROM alpine:latest
 
 ARG BUILD_CPU_NUM="2"
 ARG NGINX_VERSION="1.29.1"
+ARG NGINX_ACME_VERSION="0.1.1"
 ARG V2RAY_CORE_VERSION="4.27.5"
 ARG V2RAY_EXPORTER_VERSION="0.6.0"
 
@@ -27,7 +28,9 @@ RUN apk add --no-cache gcc libc-dev \
     pcre-dev zlib-dev perl-dev \
     curl gd-dev jq \
     && wget -q https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
+    && wget -q https://github.com/nginx/nginx-acme/releases/download/v${NGINX_ACME_VERSION}/nginx-acme-${NGINX_ACME_VERSION}.tar.gz \
     && wget -q 'https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1a/openssl-1.1.1a.tar.gz' \
+    && tar xzf nginx-acme-${NGINX_ACME_VERSION}.tar.gz \
     && tar xzf openssl-1.1.1a.tar.gz \
     && tar zxf nginx-${NGINX_VERSION}.tar.gz && cd nginx-${NGINX_VERSION} \
     && ./configure --prefix=/etc/nginx \
@@ -36,6 +39,7 @@ RUN apk add --no-cache gcc libc-dev \
        --with-http_v2_module --with-http_ssl_module \
        --with-http_gzip_static_module --with-http_stub_status_module \
        --with-http_sub_module --with-stream --with-stream_ssl_module \
+       --with-compat --add-dynamic-module=../nginx-acme-${NGINX_ACME_VERSION} \
     && make -j${BUILD_CPU_NUM} && make -j${BUILD_CPU_NUM} install \
     && ln -s /etc/nginx/sbin/nginx /usr/sbin/ \
     && mkdir /app/v2ray && cd /app/v2ray \

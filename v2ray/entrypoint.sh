@@ -26,18 +26,22 @@ function main(){
     fi
 
     # launching nginx
-    /etc/nginx/sbin/nginx -t &>/dev/null
+    /etc/nginx/sbin/nginx -t &>/tmp/start_detection.log
     if [[ $? != 0 ]];then
-      echo "[ERROR] nginx failed to start, check if the passed env is correct."
+      echo "[ERROR] nginx failed to start,please review the startup log and attempt to repair it."
+      echo ""
+      cat /tmp/start_detection.log
       exit 1
     else
       /etc/nginx/sbin/nginx
     fi
 
     # launching v2ray
-    /app/v2ray/v2ray -config /app/v2ray/config.json -test &>/dev/null
+    /app/v2ray/v2ray -config /app/v2ray/config.json -test &>/tmp/start_detection.log
     if [[ $? != 0 ]];then
-      echo "[ERROR] v2ray-core failed to start, check if the passed env is correct."
+      echo "[ERROR] v2ray-core failed to start,please review the startup log and attempt to repair it."
+      echo ""
+      cat /tmp/start_detection.log
       exit 1
     else
       nohup /app/v2ray/v2ray -config /app/v2ray/config.json &>/dev/null &
