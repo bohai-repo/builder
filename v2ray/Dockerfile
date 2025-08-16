@@ -1,6 +1,6 @@
 FROM alpine:latest as openssl-builder
 ARG OPENSSL_VERSION="1.1.1w"
-RUN apk add --no-cache perl linux-headers
+RUN apk add --no-cache perl linux-headers make
 WORKDIR /build
 RUN wget -q https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz \
     && tar xzf openssl-${OPENSSL_VERSION}.tar.gz \
@@ -16,7 +16,7 @@ COPY --from=openssl-builder /opt/openssl /opt/openssl
 
 RUN apk add --no-cache \
     build-base pcre2-dev zlib-dev linux-headers \
-    curl gd-dev jq perl-dev
+    curl gd-dev jq perl-dev make
 
 WORKDIR /build
 RUN wget -q https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
