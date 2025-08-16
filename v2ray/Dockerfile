@@ -23,19 +23,20 @@ COPY entrypoint.sh entrypoint.sh
 COPY index.html  /etc/nginx/html/index.html
 COPY nginx.conf  /etc/nginx/conf/nginx.conf
 
-RUN apk add --no-cache gcc libc-dev \
+RUN apk add --no-cache \
+    gcc libc-dev pcre2 pcre2-dev \
     make openssl-dev linux-headers \
     pcre-dev zlib-dev perl-dev \
     curl gd-dev jq rust cargo \
-    pcre2 pcre2-dev \
+    clang clang-dev llvm-dev \
     && wget -q https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
     && wget -q https://github.com/nginx/nginx-acme/releases/download/v${NGINX_ACME_VERSION}/nginx-acme-${NGINX_ACME_VERSION}.tar.gz \
-    && wget -q 'https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1a/openssl-1.1.1a.tar.gz' \
+    && wget -q 'https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1a/openssl-1.1.1w.tar.gz' \
     && tar xzf nginx-acme-${NGINX_ACME_VERSION}.tar.gz \
-    && tar xzf openssl-1.1.1a.tar.gz \
+    && tar xzf openssl-1.1.1w.tar.gz \
     && tar zxf nginx-${NGINX_VERSION}.tar.gz && cd nginx-${NGINX_VERSION} \
     && ./configure --prefix=/etc/nginx \
-       --with-openssl=../openssl-1.1.1a \
+       --with-openssl=../openssl-1.1.1w \
        --with-openssl-opt='enable-tls1_3' \
        --with-http_v2_module --with-http_ssl_module \
        --with-http_gzip_static_module --with-http_stub_status_module \
@@ -50,7 +51,7 @@ RUN apk add --no-cache gcc libc-dev \
     && wget --no-check-certificate -q -O v2ray-exporter https://github.com/wi1dcard/v2ray-exporter/releases/download/v${V2RAY_EXPORTER_VERSION}/v2ray-exporter_linux_${V2RAY_EXPORTER_CPU_PLATFORM} \
     && chmod +x v2ray-exporter /app/entrypoint.sh \
     && rm -rf \
-        /app/openssl-1.1.1a* \
+        /app/openssl-1.1.1w* \
         /var/cache/apk/* \
         /app/nginx-${NGINX_VERSION}* \
         /app/v2ray/vpoint* \
