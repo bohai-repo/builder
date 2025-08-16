@@ -43,7 +43,7 @@ docker run -itd --name=v2ray \
 -e v2ray_domain='<you domain>' \
 -e v2ray_uuid='<UUID value>' \
 -e v2ray_path='<PATH value>' \
--e v2ray_user='<user name>' \
+-e v2ray_mail='<user name>' \
 -v /app/v2ray/ssl/ssl.cer:/etc/nginx/ssl/ssl.cer \
 -v /app/v2ray/ssl/ssl.key:/etc/nginx/ssl/ssl.key \
 v2ray:latest
@@ -74,7 +74,7 @@ docker run -itd --name=v2ray \
 -e v2ray_domain='v2ray.demo.com'  \
 -e v2ray_uuid='d7af9bc2-67ac-4ca2-8320-93343bcb8086' \
 -e v2ray_path='693f'       \
--e v2ray_user='admin@demo.com'  \
+-e v2ray_mail='admin@demo.com'  \
 -v /app/v2ray/ssl/:/etc/nginx/ssl  \
 v2ray:latest
 ```

@@ -4,16 +4,17 @@ function config_generation() {
   server_location=$(curl -4sk myip.ipip.net|awk '{print $4}')
 
   if [[ ${protocol} == 'vmess' ]]; then
-    vmess_info=$(jq -n -c --arg v2ray_domain "$v2ray_domain" --arg server_location "$server_location" --arg v2ray_user "$v2ray_user" --arg v2ray_port "$v2ray_port" --arg v2ray_uuid "$v2ray_uuid" --arg v2ray_path "$v2ray_path" '{v: 2,ps: "\($server_location)-容器节点-\($v2ray_user)",add: $v2ray_domain,port: $v2ray_port,id: $v2ray_uuid,aid: 64,net: "ws","type":"none",host: "",path: $v2ray_path,tls: "tls"}')
+    vmess_info=$(jq -n -c --arg v2ray_domain "$v2ray_domain" --arg server_location "$server_location" --arg v2ray_mail "$v2ray_mail" --arg v2ray_port "$v2ray_port" --arg v2ray_uuid "$v2ray_uuid" --arg v2ray_path "$v2ray_path" '{v: 2,ps: "\($server_location)-容器节点-\($v2ray_mail)",add: $v2ray_domain,port: $v2ray_port,id: $v2ray_uuid,aid: 64,net: "ws","type":"none",host: "",path: $v2ray_path,tls: "tls"}')
     echo "vmess://$(echo -n ${vmess_info} | base64 -w 0)"
   fi
 }
 
 function main(){
     sed -i "s/v2ray_path/${v2ray_path}/g" /etc/nginx/conf/nginx.conf
+    sed -i "s/v2ray_mail/${v2ray_mail}/g" /etc/nginx/conf/nginx.conf
     sed -i "s/v2ray_domain/${v2ray_domain}/g" /etc/nginx/conf/nginx.conf
     sed -i "s/v2ray_uuid/${v2ray_uuid}/g" /app/v2ray/config.json
-    sed -i "s/v2ray_user/${v2ray_user}/g" /app/v2ray/config.json
+    sed -i "s/v2ray_mail/${v2ray_mail}/g" /app/v2ray/config.json
     sed -i "s/v2ray_path/${v2ray_path}/g" /app/v2ray/config.json
 
     sed -i "s/timestamp/$(date +%s)/g" /etc/nginx/html/index.html
