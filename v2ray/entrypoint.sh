@@ -21,11 +21,6 @@ function main(){
     sed -i "s/v2ray_domain/${v2ray_domain}:${v2ray_port}/g" /etc/nginx/html/index.html
     sed -i "s/v2ray_hostname/$(hostname)/g" /etc/nginx/html/index.html
 
-    if [[ ! -f /etc/nginx/ssl/ssl.cer ]] && [[ ! -f /etc/nginx/ssl/ssl.key ]];then
-      echo "[ERROR] https certificate file required in /etc/nginx/ssl/{ssl.cer、ssl.key}."
-      exit 1
-    fi
-
     # launching nginx
     /etc/nginx/sbin/nginx -t &>/tmp/start_detection.log
     if [[ $? != 0 ]];then
