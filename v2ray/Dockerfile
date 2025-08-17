@@ -43,7 +43,7 @@ RUN apk upgrade --update-cache --available \
        --with-http_v2_module --with-http_ssl_module \
        --with-http_gzip_static_module --with-http_stub_status_module \
        --with-http_sub_module --with-stream --with-stream_ssl_module \
-       --with-compat --add-module=../nginx-acme-${NGINX_ACME_VERSION} \
+       --with-compat --add-dynamic-module=../nginx-acme-${NGINX_ACME_VERSION} \
     && make -j$(nproc) && make -j$(nproc) install \
     && ln -s /etc/nginx/sbin/nginx /usr/sbin/ \
     && mkdir /app/v2ray && cd /app/v2ray \
