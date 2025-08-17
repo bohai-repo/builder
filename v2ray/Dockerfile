@@ -29,6 +29,7 @@ RUN apk add --no-cache \
     pcre-dev zlib-dev perl-dev \
     curl gd-dev jq rust cargo \
     clang clang-dev llvm-dev \
+    openssl-dev \
     && wget -q https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
     && wget -q https://github.com/nginx/nginx-acme/releases/download/v${NGINX_ACME_VERSION}/nginx-acme-${NGINX_ACME_VERSION}.tar.gz \
     && wget -q 'https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1w/openssl-1.1.1w.tar.gz' \
