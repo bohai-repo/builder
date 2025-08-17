@@ -44,6 +44,7 @@ RUN apk upgrade --update-cache --available \
        --with-http_gzip_static_module --with-http_stub_status_module \
        --with-http_sub_module --with-stream --with-stream_ssl_module \
        --with-compat --add-module=../nginx-acme-${NGINX_ACME_VERSION} \
+    && make -j$(nproc) && make -j$(nproc) install \
     && ln -s /etc/nginx/sbin/nginx /usr/sbin/ \
     && mkdir /app/v2ray && cd /app/v2ray \
     && if [ "$(uname -m)" = "x86_64" ]; then export V2RAY_CORE_CPU_PLATFORM="64";export V2RAY_EXPORTER_CPU_PLATFORM="amd64"; elif [ "$(uname -m)" = "aarch64" ]; then export V2RAY_CORE_CPU_PLATFORM="arm64-v8a";export V2RAY_EXPORTER_CPU_PLATFORM="arm64"; else echo "ERROR: Unsupported architecture: $(uname -m)"; exit 1; fi \
