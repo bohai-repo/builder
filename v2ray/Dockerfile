@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:edge
 
 ARG BUILD_CPU_NUM="2"
 ARG NGINX_VERSION="1.29.1"
