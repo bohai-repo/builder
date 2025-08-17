@@ -48,7 +48,7 @@ RUN apk upgrade --update-cache --available \
     && cd ../ \
     && tar xzf nginx-acme-${NGINX_ACME_VERSION}.tar.gz && cd nginx-acme-${NGINX_ACME_VERSION} \
     && export NGINX_BUILD_DIR=$(realpath ../nginx-${NGINX_VERSION}/objs) \
-    && cargo build --release && ldd  target/release/libnginx_acme.so \
+    && cargo build --release \
     && mkdir -p /etc/nginx/modules/ \
     && cp -rf target/release/libnginx_acme.so /etc/nginx/modules/ngx_http_acme_module.so \
     && ln -s /etc/nginx/sbin/nginx /usr/sbin/ \
