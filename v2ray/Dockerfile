@@ -46,8 +46,8 @@ RUN apk add --no-cache \
     && echo "start build nginx-acme" \
     && cd ../ \
     && tar xzf nginx-acme-${NGINX_ACME_VERSION}.tar.gz && cd nginx-acme-${NGINX_ACME_VERSION} \
-    && export NGINX_BUILD_DIR="../nginx-${NGINX_VERSION}" \
-    && cargo build --release \
+    && export NGINX_BUILD_DIR=$(realpath ../nginx-${NGINX_VERSION}/objs) \
+    && cargo build --release && ls -la \
     && cp -rf target/release/libnginx_acme.so /etc/nginx/modules/ngx_http_acme_module.so \
     && ln -s /etc/nginx/sbin/nginx /usr/sbin/ \
     && mkdir /app/v2ray && cd /app/v2ray \
