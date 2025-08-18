@@ -43,8 +43,13 @@ RUN apk upgrade --update-cache --available \
        --with-http_v2_module --with-http_ssl_module \
        --with-http_gzip_static_module --with-http_stub_status_module \
        --with-http_sub_module --with-stream --with-stream_ssl_module \
-       --with-compat --add-dynamic-module=../nginx-acme-${NGINX_ACME_VERSION} \
     && make -j$(nproc) && make -j$(nproc) install \
+    && echo "start build nginx-acme" \
+    && cd ../ \
+    && tar xzf nginx-acme-${NGINX_ACME_VERSION}.tar.gz && cd nginx-acme-${NGINX_ACME_VERSION} \
+    && export NGINX_BUILD_DIR=$(realpath ../nginx-${NGINX_VERSION}/objs) \
+    && cargo build --release && mkdir -p /etc/nginx/modules/ \
+    && cp -rf target/release/libnginx_acme.so /etc/nginx/modules/ngx_http_acme_module.so \
     && ln -s /etc/nginx/sbin/nginx /usr/sbin/ \
     && mkdir /app/v2ray && cd /app/v2ray \
     && if [ "$(uname -m)" = "x86_64" ]; then export V2RAY_CORE_CPU_PLATFORM="64";export V2RAY_EXPORTER_CPU_PLATFORM="amd64"; elif [ "$(uname -m)" = "aarch64" ]; then export V2RAY_CORE_CPU_PLATFORM="arm64-v8a";export V2RAY_EXPORTER_CPU_PLATFORM="arm64"; else echo "ERROR: Unsupported architecture: $(uname -m)"; exit 1; fi \
