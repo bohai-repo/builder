@@ -36,14 +36,14 @@ def send_email():
 
     msg = MIMEText(body)
     msg['Subject'] = subject
-    msg['From'] = "notify@init.ac"
+    msg['From'] = "monitor@init.ac"
     msg['To'] = to
 
     # 发送邮件
     smtp_server = 'smtp.exmail.qq.com'
     smtp_port = 465
-    smtp_username = 'notify@init.ac'
-    smtp_password = 'q464PnNYsYsS8HUa'
+    smtp_username = 'monitor@init.ac'
+    smtp_password = 'F677iw3yz3mGor9Q'
     smtp_conn = smtplib.SMTP_SSL(smtp_server, smtp_port)
     smtp_conn.login(smtp_username, smtp_password)
     smtp_conn.sendmail(smtp_username, [to], msg.as_string())
