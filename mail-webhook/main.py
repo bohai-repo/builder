@@ -4,29 +4,29 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-def verify_request(request):
-    api_key = 'admin'
-    expected_url = f'https://webhook-mail.init.ac/mail/{api_key}'
-    if request.url != expected_url:
-        return False
-    if request.method != 'POST':
-        return False
-    if not request.is_json:
-        return False
-    payload = request.json
-    required_fields = ['to', 'subject', 'body']
-    if not all(field in payload for field in required_fields):
-        return False
-    return True
+# def verify_request(request):
+#     api_key = 'admin'
+#     expected_url = f'https://webhook-mail.init.ac/mail{api_key}'
+#     if request.url != expected_url:
+#         return False
+#     if request.method != 'POST':
+#         return False
+#     if not request.is_json:
+#         return False
+#     payload = request.json
+#     required_fields = ['to', 'subject', 'body']
+#     if not all(field in payload for field in required_fields):
+#         return False
+#     return True
 
 @app.route('/health', methods=['GET'])
 def health():
     return '{"health":"true"}', 200
 
-@app.route('/mail/<string:api_key>', methods=['POST'])
-def send_email(api_key):
-    if not verify_request(request):
-        return '{"success":"false","message":"Unauthorized"}', 401
+@app.route('/mail/', methods=['POST'])
+def send_email():
+    # if not verify_request(request):
+    #     return '{"success":"false","message":"Unauthorized"}', 401
 
     payload = request.json
 
