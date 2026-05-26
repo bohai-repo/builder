@@ -1,7 +1,6 @@
 FROM alpine:edge
 
 ARG NGINX_VERSION="1.29.1"
-ARG NGINX_ACME_VERSION="0.1.1"
 ARG V2RAY_CORE_VERSION="4.27.5"
 ARG V2RAY_EXPORTER_VERSION="0.6.0"
 
@@ -31,10 +30,8 @@ RUN apk upgrade --update-cache --available \
     clang clang-dev llvm-dev \
     openssl openssl-dev \
     && wget -q https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
-    && wget -q https://github.com/nginx/nginx-acme/releases/download/v${NGINX_ACME_VERSION}/nginx-acme-${NGINX_ACME_VERSION}.tar.gz \
     && wget -q 'https://github.com/openssl/openssl/releases/download/OpenSSL_1_1_1w/openssl-1.1.1w.tar.gz' \
     && echo "start build nginx" \
-    && tar xzf nginx-acme-${NGINX_ACME_VERSION}.tar.gz \
     && tar xzf openssl-1.1.1w.tar.gz \
     && tar zxf nginx-${NGINX_VERSION}.tar.gz && cd nginx-${NGINX_VERSION} \
     && ./configure --prefix=/etc/nginx \
@@ -44,12 +41,6 @@ RUN apk upgrade --update-cache --available \
        --with-http_gzip_static_module --with-http_stub_status_module \
        --with-http_sub_module --with-stream --with-stream_ssl_module \
     && make -j$(nproc) && make -j$(nproc) install \
-    && echo "start build nginx-acme" \
-    && cd ../ \
-    && tar xzf nginx-acme-${NGINX_ACME_VERSION}.tar.gz && cd nginx-acme-${NGINX_ACME_VERSION} \
-    && export NGINX_BUILD_DIR=$(realpath ../nginx-${NGINX_VERSION}/objs) \
-    && cargo build --release && mkdir -p /etc/nginx/modules/ \
-    && cp -rf target/release/libnginx_acme.so /etc/nginx/modules/ngx_http_acme_module.so \
     && ln -s /etc/nginx/sbin/nginx /usr/sbin/ \
     && mkdir /app/v2ray && cd /app/v2ray \
     && if [ "$(uname -m)" = "x86_64" ]; then export V2RAY_CORE_CPU_PLATFORM="64";export V2RAY_EXPORTER_CPU_PLATFORM="amd64"; elif [ "$(uname -m)" = "aarch64" ]; then export V2RAY_CORE_CPU_PLATFORM="arm64-v8a";export V2RAY_EXPORTER_CPU_PLATFORM="arm64"; else echo "ERROR: Unsupported architecture: $(uname -m)"; exit 1; fi \
@@ -63,7 +54,6 @@ RUN apk upgrade --update-cache --available \
         /app/openssl-1.1.1w* \
         /var/cache/apk/* \
         /app/nginx-${NGINX_VERSION}* \
-        /app/nginx-acme-${NGINX_ACME_VERSION}* \
         /app/v2ray/vpoint* \
         /app/v2ray/*.sig \
         /app/v2ray/*.dat \

@@ -53,10 +53,6 @@ def insert_message(task_title, title, link, summary):
         try:
             cursor.execute("INSERT INTO webhook_message_push (task_title, title, link, summary) VALUES (?, ?, ?, ?)",
                            (task_title, title, link, summary))
-            conn.commit()
-        except sqlite3.IntegrityError:
-            pass
-
 def summarize_text(text,link):
     if not text:
         pass
@@ -79,6 +75,10 @@ def summarize_text(text,link):
 
     except (OpenAIError, ValueError) as e:
         logger.error(f"分析内容: {link} 出错,错误原因: {e}")
+
+            conn.commit()
+        except sqlite3.IntegrityError:
+            pass
 
 @app.route('/', methods=['GET'])
 def api_ui():
