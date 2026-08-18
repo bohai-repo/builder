@@ -1,3 +1,7 @@
 #!/bin/sh
 
-docker pull vllm/vllm-openai:v0.25.0-cu129-ubuntu2404
+build_name='vllm/vllm-openai'
+
+docker pull ${build_name}:${build_version}
+
+echo "FROM ${build_name}:${build_version}" > Dockerfile

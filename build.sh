@@ -15,15 +15,15 @@ function notice() {
   mail_title="来自Github Actions构建的 ${alias_app} ${build_result}通知"
   mail_body="构建应用: ${build_app} for $(uname -m)\n\n发布名称: ${alias_app}\n\n构建版本: ${build_repo}/${alias_app}:${build_version}"
 
-  for mail_users in ${NOTICE_MAIL};do
-    curl -s -X POST -H "Content-Type:application/json" -d '{"to":"'"${mail_users}"'","subject":"'"${mail_title}"'","body":"'"${mail_body}"'"}' https://webhook-mail.init.ac/api/${NOTICE_PATH}
-  done
+  # for mail_users in ${NOTICE_MAIL};do
+  #   curl -s -X POST -H "Content-Type:application/json" -d '{"to":"'"${mail_users}"'","subject":"'"${mail_title}"'","body":"'"${mail_body}"'"}' https://webhook-mail.init.ac/api/${NOTICE_PATH}
+  # done
   
-  if [[ ${NOTICE_WECHAT} ]];then
-    message_title=$(printf "来自Github Actions构建的 %s %s通知" "$alias_app" "$build_result")
-    message_body=$(printf "\n\n\n构建应用: %s for %s\n\n发布名称: %s\n\n构建版本: %s/%s:%s" "$build_app" "$(uname -m)" "$alias_app" "$build_repo" "$alias_app" "$build_version")
-    curl -s -G "https://webhook-wrest.init.ac/api" --data-urlencode "receiver=47719964397@chatroom" --data-urlencode "msg=${message_title} ${message_body}"
-  fi 
+  # if [[ ${NOTICE_WECHAT} ]];then
+  #   message_title=$(printf "来自Github Actions构建的 %s %s通知" "$alias_app" "$build_result")
+  #   message_body=$(printf "\n\n\n构建应用: %s for %s\n\n发布名称: %s\n\n构建版本: %s/%s:%s" "$build_app" "$(uname -m)" "$alias_app" "$build_repo" "$alias_app" "$build_version")
+  #   curl -s -G "https://webhook-wrest.init.ac/api" --data-urlencode "receiver=47719964397@chatroom" --data-urlencode "msg=${message_title} ${message_body}"
+  # fi 
 }
 
 function launch() {
