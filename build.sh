@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-build_app=$1
-alias_app=$2
-build_version=$3
-build_repo=${build_repo_addr}/${build_repo_name}
+export build_app=$1
+export alias_app=$2
+export build_version=$3
+export build_repo=${build_repo_addr}/${build_repo_name}
 
 function notice() {
 
