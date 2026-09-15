@@ -14,6 +14,7 @@ jobs:
           # 通知配置
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          export NOTICE_WECHAT=false        
           # 推送仓库空间
           export build_repo_name='bohai_repo'
           # 推送镜像地址
@@ -46,6 +47,7 @@ jobs:
           export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          export NOTICE_WECHAT=false        
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr} 
           /bin/bash build.sh github-runner github-runner 2.304.0
   build-actions-runner-armd64:
@@ -59,6 +61,7 @@ jobs:
           export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          export NOTICE_WECHAT=false        
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh github-runner github-runner 2.304.0-arm64
   build-consul-deregister-amd64:
@@ -72,6 +75,7 @@ jobs:
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          export NOTICE_WECHAT=false        
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh consul-deregister consul-deregister 1.0.0-SNAPSHOT
   build-v2ray-amd64:
@@ -120,6 +124,7 @@ jobs:
           export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          export NOTICE_WECHAT=false        
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh jenkins-slave jenkins-slave-amd64 1.0.0-SNAPSHOT
   build-route-exporter-amd64:
@@ -133,6 +138,7 @@ jobs:
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          export NOTICE_WECHAT=false        
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh route-exporter route-exporter 1.0.0-SNAPSHOT
 #  build-php73-arm64:
@@ -159,6 +165,7 @@ jobs:
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          export NOTICE_WECHAT=false        
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh php73 php-amd 7.3
   build-openresty-amd64:
@@ -172,6 +179,7 @@ jobs:
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          export NOTICE_WECHAT=false        
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh openresty openresty 1.25.3
 #  build-openresty-arm64:
@@ -198,6 +206,7 @@ jobs:
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          export NOTICE_WECHAT=false        
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh wrest-webhook-python wrest-webhook-python 1.1.2-SNAPSHOT
   build-mail-webhook-amd64:
@@ -235,6 +244,7 @@ jobs:
           export build_repo_addr='registry.ap-northeast-1.aliyuncs.com'
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
+          export NOTICE_WECHAT=false        
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh remote-download-service remote-download-service 1.0.0-ARM64
   build-rss-manager-amd64:
@@ -248,7 +258,7 @@ jobs:
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
-          export NOTICE_WECHAT=true          
+          export NOTICE_WECHAT=false          
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
           /bin/bash build.sh rss-manager rss-manager 1.0.0-SNAPSHOT
   build-shell-builder-amd64:
@@ -342,6 +352,6 @@ jobs:
           export build_repo_addr='registry.cn-hangzhou.aliyuncs.com'
           export NOTICE_PATH=${{ secrets.NOTICE_PATH }}
           export NOTICE_MAIL=${{ secrets.NOTICE_MAIL }}
-          export NOTICE_WECHAT=false          
+          export NOTICE_WECHAT=false               
           docker login --username=${{ secrets.ALIYUN_USERNAME }} --password=${{ secrets.ALIYUN_PASSWORD }} ${build_repo_addr}
-          /bin/bash build.sh vllm-openai vllm-openai v0.25.0-cu129-ubuntu2404
+          /bin/bash build.sh vllm-openai vllm-openai v0.25.0-cu129-ubuntu2404 
