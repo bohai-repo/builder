@@ -7,6 +7,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 # 通用基础工具 + Node 24（官方二进制包）
 ARG NODE_VERSION=24.11.1
+ARG DSH_VERSION=0.2.1-rc.2
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
       bash \
@@ -41,7 +43,6 @@ RUN apt-get update \
 
 WORKDIR /root
 
-ARG DSH_VERSION=0.1.2-rc.1
 RUN npm install --global @deepseek-ai/dsh@${DSH_VERSION} --omit=dev \
     && npm cache clean --force
 
