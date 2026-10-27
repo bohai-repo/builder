@@ -95,7 +95,7 @@ deepseek-harness-web/
 
 - 运行时**仅首次**（`$DSH_HOME/profiles/web` 不存在）从镜像拷入烤好的 profile；之后面板 / 运行时改动会留在卷上。
 - 改 `plugins.txt` 重建镜像后，若不手动清 `./home/.dsh/profiles`，容器会继续用旧 profile，与镜像不一致。
-- 部分依赖（如 `protobufjs`）会触发 pnpm 的 `ERR_PNPM_IGNORED_BUILDS`。bake 种子 `pnpm-workspace.yaml` 已用 `allowBuilds: <pkg>: true` 静默审批；再遇到同类错误，把包名加进该 map 即可（勿在构建里跑交互式 `pnpm approve-builds`）。
+- 部分依赖（如带原生编译脚本的 SSH 相关包）可能触发 pnpm 的 `ERR_PNPM_IGNORED_BUILDS`；需在 bake 用的 `pnpm-workspace.yaml` 里预先允许对应包的 install 脚本（例如 `onlyBuiltDependencies` / `allowBuilds`，或 `dangerouslyAllowAllBuilds`）。
 
 ## 认证说明
 

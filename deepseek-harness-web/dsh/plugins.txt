@@ -2,9 +2,9 @@
 # 示例：
 # dsh-plugin-wallpaper-engine
 # github:owner/repo#main
-ds-bot@^0.2.3
 dsh-vault
+dsh-messager
+ds-bot@^0.2.3
 dsh-jenkins-panel
-dsh-message-gateway
 @gm-hz/agent-dag-workflow
 github:fishquito7/dsh-skill-mcp-panel
