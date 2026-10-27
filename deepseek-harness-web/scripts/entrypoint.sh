@@ -22,26 +22,6 @@ rm -rf "$DSH_HOME/profiles"
 mkdir -p "$DSH_HOME/profiles"
 cp -a /opt/dsh-web/profile-web "$DSH_HOME/profiles/web"
 
-# 保险：若运行中被改回 live，启动前再写成 startup。
-ensure_patch_reload_startup() {
-  pkg="$DSH_HOME/profiles/web/package.json"
-  [ -f "$pkg" ] || return 0
-  node -e '
-const fs = require("fs");
-const p = process.argv[1];
-const j = JSON.parse(fs.readFileSync(p, "utf8"));
-j.dsh = j.dsh || {};
-j.dsh.profile = j.dsh.profile || {};
-if (j.dsh.profile.patchReload !== "startup") {
-  j.dsh.profile.patchReload = "startup";
-  fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
-  console.log("entrypoint: patchReload -> startup (" + p + ")");
-}
-' "$pkg"
-}
-
-ensure_patch_reload_startup
-
 # 官方 DeepSeek 路由：仅在未使用自定义 BASE_URL 时生效。
 if [ -z "${BASE_URL:-}" ] && [ -n "${API_KEY:-}" ] && [ -z "${DEEPSEEK_API_KEY:-}" ]; then
   export DEEPSEEK_API_KEY="$API_KEY"
@@ -64,7 +44,11 @@ mkdir -p "$ws_path"
 cmd_args_tmp=$(mktemp)
 printf '%s\n' "$@" > "$cmd_args_tmp"
 
-set -- dsh --profile web --no-open
+# dsh 0.2+ 拒绝 0.0.0.0：用 --host 绑容器出网地址（可用 DSH_WEB_HOST 覆盖）。
+BIND_HOST="${DSH_WEB_HOST:-$(hostname -i 2>/dev/null | awk '{print $1}')}"
+BIND_HOST="${BIND_HOST:-127.0.0.1}"
+
+set -- dsh --profile web --no-open --host "$BIND_HOST"
 
 # 域名访问：浏览器 Host 必须在信任列表（逗号分隔的 host 或 host:port）。
 if [ -n "${TRUSTED_HOST:-}" ]; then
@@ -97,7 +81,6 @@ stop_now() {
 
 trap stop_now TERM INT
 while [ "$stopping" -eq 0 ]; do
-  ensure_patch_reload_startup
   "$@" &
   dsh_pid=$!
   if wait "$dsh_pid"; then

@@ -66,16 +66,8 @@ if [ -f "$PLUGINS_FILE" ]; then
 fi
 
 # add 之后仍强制 patchReload=startup（避免被模板改回 live）
-node -e '
-const fs = require("fs");
-const p = process.argv[1];
-const j = JSON.parse(fs.readFileSync(p, "utf8"));
-j.dsh = j.dsh || {};
-j.dsh.profile = j.dsh.profile || {};
-j.dsh.profile.patchReload = "startup";
-fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
-console.log("bake-profile-web: patchReload=startup -> " + p);
-' "$PROFILE_DIR/package.json"
+sed -i 's/"patchReload"[[:space:]]*:[[:space:]]*"[^"]*"/"patchReload": "startup"/g' "$PROFILE_DIR/package.json"
+echo "bake-profile-web: patchReload=startup -> $PROFILE_DIR/package.json"
 
 rm -rf "$OUT"
 mkdir -p "$(dirname "$OUT")"
