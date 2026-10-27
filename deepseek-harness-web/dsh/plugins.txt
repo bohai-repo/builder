@@ -5,4 +5,6 @@
 ds-bot@^0.2.3
 dsh-vault
 dsh-jenkins-panel
+dsh-message-gateway
+@gm-hz/agent-dag-workflow
 github:fishquito7/dsh-skill-mcp-panel
