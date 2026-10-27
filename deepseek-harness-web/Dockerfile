@@ -80,9 +80,10 @@ RUN apt-get update \
 
 WORKDIR /root
 
-# 带上全局 node_modules（build 阶段已删掉 pnpm）和 dsh 入口
+# 带上全局 node_modules（build 阶段已删掉 pnpm）；dsh 必须是软链，
+# 否则 COPY 会把入口落成普通文件，Node 从 /usr/local/bin 解析不到 @deepseek-ai/*
 COPY --from=build /usr/local/lib/node_modules /usr/local/lib/node_modules
-COPY --from=build /usr/local/bin/dsh /usr/local/bin/dsh
+RUN ln -sfn /usr/local/lib/node_modules/@deepseek-ai/dsh/lib/bin.js /usr/local/bin/dsh
 COPY --from=build /opt/dsh-web/profile-web /opt/dsh-web/profile-web
 
 COPY dsh/cordis.patch.yml /opt/dsh-web/cordis.patch.yml
