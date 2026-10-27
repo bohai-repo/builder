@@ -6,6 +6,5 @@ dsh-vault
 dsh-messager
 ds-bot@^0.2.3
 dsh-jenkins-panel
-github:0qwq0/dsh-ui-auth
 @gm-hz/agent-dag-workflow
 github:fishquito7/dsh-skill-mcp-panel
