@@ -11,6 +11,11 @@ mkdir -p "$DSH_HOME" /root
 rm -rf "$DSH_HOME/cordis.patch.yml"
 cp /opt/dsh-web/cordis.patch.yml "$DSH_HOME/cordis.patch.yml"
 
+# dsh 0.2+：webserver.host 必填且不能是 0.0.0.0；替换模板占位符。
+BIND_HOST="${DSH_WEB_HOST:-$(hostname -i 2>/dev/null | awk '{print $1}')}"
+BIND_HOST="${BIND_HOST:-127.0.0.1}"
+sed -i "s/__BIND_HOST__/$BIND_HOST/g" "$DSH_HOME/cordis.patch.yml"
+
 # 收紧已有敏感文件权限（dsh 拒绝 0644 的 credentials）。
 chmod 600 "$DSH_HOME/.credentials.yaml" "$DSH_HOME/.env" 2>/dev/null || true
 
@@ -43,10 +48,6 @@ mkdir -p "$ws_path"
 # 再原样追加，避免 eval 二次解析（空格、引号、元字符等）。
 cmd_args_tmp=$(mktemp)
 printf '%s\n' "$@" > "$cmd_args_tmp"
-
-# dsh 0.2+ 拒绝 0.0.0.0：用 --host 绑容器出网地址（可用 DSH_WEB_HOST 覆盖）。
-BIND_HOST="${DSH_WEB_HOST:-$(hostname -i 2>/dev/null | awk '{print $1}')}"
-BIND_HOST="${BIND_HOST:-127.0.0.1}"
 
 set -- dsh --profile web --no-open --host "$BIND_HOST"
 

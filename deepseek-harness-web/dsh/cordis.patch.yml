@@ -1,5 +1,6 @@
 - id: webserver
   config:
+    host: __BIND_HOST__
     port: 3080
     compression: gzip
     compressionLevel: 1
