@@ -24,12 +24,18 @@ cat > "$PROFILE_DIR/package.json" <<'JSON'
 }
 JSON
 
+# pnpm 10+/11：未审批的 lifecycle scripts 会报 ERR_PNPM_IGNORED_BUILDS。
+# 在种子 workspace 里预先 allowBuilds，等价于非交互的 approve-builds。
 cat > "$PROFILE_DIR/pnpm-workspace.yaml" <<'YAML'
 packages:
   - .
 
 nodeLinker: hoisted
 autoInstallPeers: false
+
+# 静默允许这些包跑 install/postinstall（按需追加包名）
+allowBuilds:
+  protobufjs: true
 YAML
 
 add_plugin() {
