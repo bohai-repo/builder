@@ -19,13 +19,14 @@ sed -i "s/__BIND_HOST__/$BIND_HOST/g" "$DSH_HOME/cordis.patch.yml"
 # 收紧已有敏感文件权限（dsh 拒绝 0644 的 credentials）。
 chmod 600 "$DSH_HOME/.credentials.yaml" "$DSH_HOME/.env" 2>/dev/null || true
 
-# .dsh/profiles 是 dsh 管理的运行时（插件包 + 动态 #include），
-# 每次启动由镜像重建；持久化的旧副本可能与镜像内置服务冲突
-# （例如陈旧的 #subprocess-node → "service subprocess has been registered"）。
-# 启动前清空后从镜像内烤好的 profile-web 还原；.dsh/sessions 保留。
-rm -rf "$DSH_HOME/profiles"
+# .dsh/profiles 是 dsh 管理的运行时（插件包 + 动态 #include）。
+# 仅首次（尚无 profiles/web）时从镜像烤好的 profile-web 拷入；
+# 之后保留卷上改动（面板加插件、MCP 等）。升级镜像 / 改 plugins.txt 后
+# 需人工同步，例如：rm -rf ./home/.dsh/profiles && docker compose restart
 mkdir -p "$DSH_HOME/profiles"
-cp -a /opt/dsh-web/profile-web "$DSH_HOME/profiles/web"
+if [ ! -d "$DSH_HOME/profiles/web" ]; then
+  cp -a /opt/dsh-web/profile-web "$DSH_HOME/profiles/web"
+fi
 
 # 官方 DeepSeek 路由：仅在未使用自定义 BASE_URL 时生效。
 if [ -z "${BASE_URL:-}" ] && [ -n "${API_KEY:-}" ] && [ -z "${DEEPSEEK_API_KEY:-}" ]; then
