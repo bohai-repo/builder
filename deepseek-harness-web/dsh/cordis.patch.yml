@@ -5,3 +5,11 @@
     compression: gzip
     compressionLevel: 1
     compressionThresholdBytes: 1024
+- insert:
+    - id: multi-tenant
+      name: 'dsh-multi-tenant'
+      config:
+        gateway:
+          enabled: true
+          host: '0.0.0.0'
+          port: 3090
