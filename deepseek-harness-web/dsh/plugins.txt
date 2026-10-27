@@ -2,4 +2,7 @@
 # 示例：
 # dsh-plugin-wallpaper-engine
 # github:owner/repo#main
+ds-bot
 dsh-vault
+dsh-ssh-ops
+github:fishquito7/dsh-skill-mcp-panel
