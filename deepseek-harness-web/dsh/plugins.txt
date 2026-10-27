@@ -9,4 +9,4 @@ dsh-jenkins-panel
 @gm-hz/agent-dag-workflow
 github:fishquito7/dsh-skill-mcp-panel
 #dsh-web-startup-auth
-dsh-multi-tenant
+github:dusbin/dsh-multi-tenant
