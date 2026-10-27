@@ -4,5 +4,5 @@
 # github:owner/repo#main
 ds-bot
 dsh-vault
-dsh-ssh-ops
+dsh-jenkins-panel
 github:fishquito7/dsh-skill-mcp-panel
