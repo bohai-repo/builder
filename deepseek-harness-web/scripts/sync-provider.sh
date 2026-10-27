@@ -1,7 +1,7 @@
 #!/bin/sh
-# Merge a managed custom OpenAI-compatible provider into $DSH_HOME/settings.yaml.
-# Env: BASE_URL, MODEL (required when BASE_URL is set; comma-separated list),
-# API_KEY (referenced as apiKeyEnv). The first model id becomes the default.
+# 将托管的自定义 OpenAI 兼容 provider 合并写入 $DSH_HOME/settings.yaml。
+# 环境变量：BASE_URL、MODEL（设置 BASE_URL 时必填；逗号分隔多个 id）、
+# API_KEY（在配置里以 apiKeyEnv 引用）。第一个 model id 作为默认模型。
 set -eu
 
 settings="${DSH_HOME:?DSH_HOME required}/settings.yaml"
@@ -25,10 +25,9 @@ strip_managed() {
   [ -s "$settings" ] || rm -f "$settings"
 }
 
-# Remove hand-written top-level sections that dsh-web-managed owns, so the
-# managed block written below is the only declaration of those keys. A second
-# `llm-pi-ai` (e.g. one added through the web UI) would be a duplicate YAML
-# map key and dsh rejects the whole document.
+# 删除由 dsh-web-managed 接管的手写顶层段，保证下方托管块是唯一声明。
+# 若再出现第二个 llm-pi-ai（例如 Web UI 加的），会形成重复 YAML 键，
+# dsh 会拒绝整份文档。
 strip_keys() {
   if [ ! -f "$settings" ]; then
     return 0
@@ -49,8 +48,8 @@ strip_keys() {
 }
 
 if [ -z "${BASE_URL:-}" ]; then
-  # No custom route: clear the managed block and any leftover llm-pi-ai /
-  # agent-default-model keys so dsh falls back to its defaults cleanly.
+  # 无自定义路由：清掉托管块及残留的 llm-pi-ai / agent-default-model，
+  # 让 dsh 干净回退到默认配置。
   strip_managed
   strip_keys
   exit 0
@@ -72,8 +71,8 @@ strip_keys
 
 base_q=$(yaml_quote "$BASE_URL")
 
-# Split MODEL on commas via IFS word-splitting (sh-portable), trimming each id
-# and dropping empty segments; the first non-empty id becomes the default.
+# 用 IFS 按逗号拆分 MODEL（兼容 sh），去掉空白与空段；
+# 第一个非空 id 作为默认模型。
 models_block=
 first_model=
 old_ifs=$IFS
@@ -87,11 +86,10 @@ for id in $MODEL; do
   fi
   models_block="${models_block}
         - id: $(yaml_quote "$id")
-          # Selectable thinking strength — all seven pi-ai levels. "off" sends
-          # no reasoning field and is the provider default (see reasoning: off
-          # below); the rest map to OpenAI-compatible wire spellings. Declaring
-          # reasoningEfforts opts this model into the selectable-thinking UI,
-          # so compat.supportsReasoningEffort is set.
+          # 可选思考强度——pi-ai 全部七档。"off" 不发送 reasoning 字段，
+          # 即 provider 默认（见下方 reasoning: off）；其余映射为 OpenAI 兼容写法。
+          # 声明 reasoningEfforts 会启用可选思考 UI，并设置
+          # compat.supportsReasoningEffort。
           reasoningEfforts:
             off: null
             minimal: minimal_effort
@@ -126,12 +124,11 @@ llm-pi-ai:
       apiKeyEnv: API_KEY
       api: openai-completions
       baseURL: $base_q
-      # Provider-wide default thinking strength for every model below (off = closed).
+      # 该 provider 下所有模型的默认思考强度（off = 关闭）。
       reasoning: off
-      # All models under this gateway declare image support. This is a claim
-      # about the endpoint, not a check: a model that actually refuses images
-      # will be rejected by the provider mid-turn. Narrow per-model with the
-      # model's 'input' field once the true vision set is known.
+      # 本网关下模型均声明支持图片。这是对端点的声明而非探测：
+      # 实际拒图的模型会在对话中被 provider 拒绝。确认真实视觉能力后，
+      # 可用模型级 input 字段收窄。
       defaultInput: [text, image]
       models:$models_block
 agent-default-model:

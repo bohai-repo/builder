@@ -1,24 +1,22 @@
 #!/bin/sh
-# Restart dsh inside the container without restarting the container.
+# 在容器内重启 dsh，无需重启整个容器。
 #
-# The entrypoint (PID 1) keeps dsh alive in a restart loop: when the dsh child
-# exits, the loop starts it again after a short pause. So restarting dsh is
-# just "terminate the dsh child gracefully" — the entrypoint does the respawn.
+# entrypoint（PID 1）用循环保活 dsh：子进程退出后稍等再拉起。
+# 因此重启 dsh 只需优雅结束当前 dsh 子进程，由 entrypoint 负责拉起。
 #
-# Usage:
-#   dsh-restart                  terminate dsh (SIGTERM); entrypoint respawns it
-#   dsh-restart --clean          also wipe $DSH_HOME/profiles first, so dsh
-#                                rebuilds its plugin runtime from the image.
-#                                Use after installing a plugin that broke boot,
-#                                or when profiles are stale/corrupt.
+# 用法：
+#   dsh-restart                  向 dsh 发 SIGTERM；entrypoint 会重新拉起
+#   dsh-restart --clean          先清空 $DSH_HOME/profiles，再重启，
+#                                让 dsh 从镜像重建插件运行时。
+#                                用于插件装坏导致无法启动，或 profiles 陈旧/损坏。
 #
-# SIGTERM lets dsh flush state and, in S3 mode, the sync daemon still runs
-# (it is a sibling of the entrypoint, not a child of dsh). No container restart.
+# SIGTERM 让 dsh 刷盘收尾；entrypoint 的重启循环会再次拉起它。
+# 无需重启容器。
 set -eu
 
 DSH_HOME="${DSH_HOME:-/root/.dsh}"
 
-# dsh runs as: dsh --profile web ... (the argv the entrypoint builds).
+# dsh 进程形如：dsh --profile web ...（entrypoint 拼出的 argv）
 dsh_pattern='dsh --profile web'
 
 clean=0
@@ -45,7 +43,7 @@ fi
 echo "dsh-restart: sending SIGTERM to dsh (pid $pid)..."
 kill -TERM "$pid"
 
-# The entrypoint waits ~2s then respawns dsh. Wait for a new dsh process.
+# entrypoint 约等 2s 后会重新拉起 dsh；这里等待新进程出现。
 new_pid=""
 for i in $(seq 1 30); do
   sleep 1

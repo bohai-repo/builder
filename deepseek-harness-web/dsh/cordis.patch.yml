@@ -5,5 +5,3 @@
     compression: gzip
     compressionLevel: 1
     compressionThresholdBytes: 1024
-- id: hmr
-  disabled: false

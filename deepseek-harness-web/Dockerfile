@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     DSH_HOME=/root/.dsh \
     DSH_TELEMETRY_DISABLED=1
 
-# General-purpose base tools + Node 24 (official tarball).
+# 通用基础工具 + Node 24（官方二进制包）
 ARG NODE_VERSION=24.11.1
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -39,13 +39,6 @@ RUN apt-get update \
     && node -v && npm -v \
     && rm -rf /var/lib/apt/lists/*
 
-# AWS SDK for the Node S3 sync daemon (s3-sync.mjs). KS3 works with these
-# @aws-sdk/client-s3 client params; rclone's generic S3 driver does not.
-ARG AWS_SDK_S3_VERSION=3.1107.0
-RUN mkdir -p /opt/dsh-web \
-    && npm install --prefix /opt/dsh-web @aws-sdk/client-s3@${AWS_SDK_S3_VERSION} --omit=dev \
-    && rm -rf /opt/dsh-web/node_modules/.cache
-
 WORKDIR /root
 
 ARG DSH_VERSION=0.1.2-rc.1
@@ -53,14 +46,12 @@ RUN npm install --global @deepseek-ai/dsh@${DSH_VERSION} --omit=dev \
     && npm cache clean --force
 
 COPY dsh/cordis.patch.yml /opt/dsh-web/cordis.patch.yml
-COPY scripts/entrypoint.sh scripts/dsh-restart scripts/sync-provider.sh scripts/sync-workspace.sh scripts/s3-sync.mjs /opt/dsh-web/
-RUN chmod +x /opt/dsh-web/entrypoint.sh /opt/dsh-web/dsh-restart /opt/dsh-web/sync-provider.sh /opt/dsh-web/sync-workspace.sh \
+COPY scripts/entrypoint.sh scripts/dsh-restart scripts/sync-provider.sh /opt/dsh-web/
+RUN chmod +x /opt/dsh-web/entrypoint.sh /opt/dsh-web/dsh-restart /opt/dsh-web/sync-provider.sh \
     && mkdir -p /root/.dsh /root \
     && ln -s /opt/dsh-web/dsh-restart /usr/local/bin/dsh-restart
 
 EXPOSE 3080
-HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
-  CMD curl -fsS http://127.0.0.1:3080/ >/dev/null || exit 1
 
 ENTRYPOINT ["/opt/dsh-web/entrypoint.sh"]
 CMD ["--port", "3080"]
