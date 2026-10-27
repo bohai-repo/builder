@@ -3,6 +3,7 @@
 # dsh-plugin-wallpaper-engine
 # github:owner/repo#main
 dsh-vault
+dsh-ui-auth
 dsh-messager
 ds-bot@^0.2.3
 dsh-jenkins-panel
