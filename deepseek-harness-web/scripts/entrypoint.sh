@@ -6,6 +6,9 @@ set -eu
 umask 077
 
 mkdir -p "$DSH_HOME" /root
+# 持久化卷上若误把 cordis.patch.yml 建成目录，cp 会拷进目录内，
+# dsh 读该路径仍报 EISDIR；先删再拷，保证目标一定是文件。
+rm -rf "$DSH_HOME/cordis.patch.yml"
 cp /opt/dsh-web/cordis.patch.yml "$DSH_HOME/cordis.patch.yml"
 
 # 收紧已有敏感文件权限（dsh 拒绝 0644 的 credentials）。
@@ -14,34 +17,30 @@ chmod 600 "$DSH_HOME/.credentials.yaml" "$DSH_HOME/.env" 2>/dev/null || true
 # .dsh/profiles 是 dsh 管理的运行时（插件包 + 动态 #include），
 # 每次启动由镜像重建；持久化的旧副本可能与镜像内置服务冲突
 # （例如陈旧的 #subprocess-node → "service subprocess has been registered"）。
-# 启动前清空以保证干净启动；.dsh/sessions（聊天记录）保留。
+# 启动前清空后从镜像内烤好的 profile-web 还原；.dsh/sessions 保留。
 rm -rf "$DSH_HOME/profiles"
+mkdir -p "$DSH_HOME/profiles"
+cp -a /opt/dsh-web/profile-web "$DSH_HOME/profiles/web"
 
-# 将 web profile 的 patchReload 从 live 改为 startup，避免依赖 Cordis HMR 导致启动失败。
+# 保险：若运行中被改回 live，启动前再写成 startup。
 ensure_patch_reload_startup() {
-  pkg_dir="$DSH_HOME/profiles/web"
-  pkg="$pkg_dir/package.json"
-  mkdir -p "$pkg_dir"
-  if [ ! -f "$pkg" ]; then
-    cat > "$pkg" <<'JSON'
-{
-  "name": "dsh-profile-web",
-  "private": true,
-  "dependencies": {},
-  "dsh": {
-    "profile": {
-      "bundles": ["@deepseek-ai/dsh-base", "@deepseek-ai/dsh-web-app"],
-      "patchReload": "startup"
-    }
-  }
+  pkg="$DSH_HOME/profiles/web/package.json"
+  [ -f "$pkg" ] || return 0
+  node -e '
+const fs = require("fs");
+const p = process.argv[1];
+const j = JSON.parse(fs.readFileSync(p, "utf8"));
+j.dsh = j.dsh || {};
+j.dsh.profile = j.dsh.profile || {};
+if (j.dsh.profile.patchReload !== "startup") {
+  j.dsh.profile.patchReload = "startup";
+  fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
+  console.log("entrypoint: patchReload -> startup (" + p + ")");
 }
-JSON
-    return 0
-  fi
+' "$pkg"
 }
 
 ensure_patch_reload_startup
-
 
 # 官方 DeepSeek 路由：仅在未使用自定义 BASE_URL 时生效。
 if [ -z "${BASE_URL:-}" ] && [ -n "${API_KEY:-}" ] && [ -z "${DEEPSEEK_API_KEY:-}" ]; then

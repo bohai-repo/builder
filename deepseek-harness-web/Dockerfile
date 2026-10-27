@@ -39,6 +39,8 @@ RUN apt-get update \
     && curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${NODE_ARCH}.tar.xz" \
          | tar -xJ -C /usr/local --strip-components=1 \
     && node -v && npm -v \
+    && npm install -g pnpm \
+    && pnpm -v \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root
@@ -46,10 +48,14 @@ WORKDIR /root
 RUN npm install --global @deepseek-ai/dsh@${DSH_VERSION} --omit=dev \
     && npm cache clean --force
 
+# cordis patch + 插件清单；构建时 bake 进 /opt/dsh-web/profile-web
 COPY dsh/cordis.patch.yml /opt/dsh-web/cordis.patch.yml
-COPY scripts/entrypoint.sh scripts/dsh-restart scripts/sync-provider.sh /opt/dsh-web/
-RUN chmod +x /opt/dsh-web/entrypoint.sh /opt/dsh-web/dsh-restart /opt/dsh-web/sync-provider.sh \
+COPY dsh/plugins.txt /opt/dsh-web/plugins.txt
+COPY scripts/entrypoint.sh scripts/dsh-restart scripts/sync-provider.sh scripts/bake-profile-web.sh /opt/dsh-web/
+RUN chmod +x /opt/dsh-web/entrypoint.sh /opt/dsh-web/dsh-restart \
+      /opt/dsh-web/sync-provider.sh /opt/dsh-web/bake-profile-web.sh \
     && mkdir -p /root/.dsh /root \
+    && /opt/dsh-web/bake-profile-web.sh \
     && ln -s /opt/dsh-web/dsh-restart /usr/local/bin/dsh-restart
 
 EXPOSE 3080

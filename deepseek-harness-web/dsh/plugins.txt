@@ -1,0 +1,5 @@
+# 构建时烤进镜像的 web profile 插件（每行一个，pnpm/dsh 可识别的源）
+# 示例：
+# dsh-plugin-wallpaper-engine
+# github:owner/repo#main
+dsh-vault
