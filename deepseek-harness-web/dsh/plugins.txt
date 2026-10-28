@@ -8,5 +8,4 @@ ds-bot@^0.2.3
 dsh-jenkins-panel
 @gm-hz/agent-dag-workflow
 github:fishquito7/dsh-skill-mcp-panel
-#dsh-web-startup-auth
-github:dusbin/dsh-multi-tenant
+dsh-web-startup-auth
