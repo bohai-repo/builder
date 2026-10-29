@@ -9,4 +9,4 @@ dsh-jenkins-panel
 @gm-hz/agent-dag-workflow
 github:fishquito7/dsh-skill-mcp-panel
 dsh-web-startup-auth
-github:yaobohai/dsh-ops-argocd
+github:yaobohai/dsh-argocd
