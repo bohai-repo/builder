@@ -4,7 +4,7 @@
 # github:owner/repo#main
 dsh-vault
 dsh-messager
-ds-bot@^0.2.3
+ds-bot@^0.2.5
 dsh-jenkins-panel
 @gm-hz/agent-dag-workflow
 github:fishquito7/dsh-skill-mcp-panel
