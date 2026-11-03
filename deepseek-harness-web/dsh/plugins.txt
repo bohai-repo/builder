@@ -4,9 +4,10 @@
 # github:owner/repo#main
 dsh-vault
 dsh-messager
-ds-bot@^0.2.5
+ds-bot@^0.2.6
 dsh-jenkins-panel
 @gm-hz/agent-dag-workflow
 github:fishquito7/dsh-skill-mcp-panel
 dsh-web-startup-auth
 github:yaobohai/dsh-argocd
+@xmanrui/dsh-im

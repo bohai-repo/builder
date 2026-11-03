@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     npm_config_update_notifier=false
 
 ARG NODE_VERSION=24.11.1
-ARG DSH_VERSION=0.2.1-rc.2
+ARG DSH_VERSION=0.2.1-rc.5
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
